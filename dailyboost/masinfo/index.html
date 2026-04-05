@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Más información | DailyBoost Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--teal:#00d4aa;--teal2:#00b894;--cyan:#00f5d4;--dark:#040d0b;--glass:rgba(0,212,170,0.07);--glass-b:rgba(0,212,170,0.18);--text:#e8fff9;--muted:#4d8a7a}
+    body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:rgba(4,13,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-b)}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--teal2),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .t1{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;letter-spacing:1px;background:linear-gradient(90deg,var(--teal),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+    .t2{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;display:block}
+    .nav-back{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
+    .nav-back:hover{color:var(--text)}
+    main{max-width:800px;margin:0 auto;padding:100px 24px 80px}
+    .page-header{text-align:center;margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid var(--glass-b)}
+    .page-tag{display:inline-block;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:5px 14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:20px}
+    h1{font-family:'Syne',sans-serif;font-size:clamp(36px,6vw,60px);font-weight:800;letter-spacing:-1px;background:linear-gradient(180deg,#e8fff9,var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;margin-bottom:12px}
+    h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);margin:40px 0 16px}
+    p{font-size:14px;line-height:1.8;color:rgba(232,255,249,.6);margin-bottom:12px}
+    strong{color:var(--text)}
+    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0}
+    .spec{background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:20px}
+    .spec-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+    .spec-val{font-size:15px;font-weight:600;color:var(--text)}
+    .btn-teal{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal2),var(--teal));color:#000;padding:16px 32px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;margin-top:32px}
+    footer{border-top:1px solid var(--glass-b);padding:28px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:60px}
+    .foot-links{display:flex;gap:18px;flex-wrap:wrap}
+    .foot-links a{font-size:12px;color:var(--muted);text-decoration:none}
+    .foot-copy{font-size:12px;color:rgba(77,138,122,.4)}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/dailyboost" class="nav-back">← DailyBoost</a>
+    <a href="/dailyboost" class="nav-logo">
+      <div class="nav-logo-icon">⚡</div>
+      <div class="nav-logo-text"><span class="t1">DailyBoost Widget</span><span class="t2">by joeDEV</span></div>
+    </a>
+    <a href="/" class="nav-back">joeDEV →</a>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <div class="page-tag">Info</div>
+      <h1>Más información</h1>
+    </div>
+
+    <h2>¿Qué es DailyBoost Widget?</h2>
+    <p>DailyBoost Widget es una app Android que muestra <strong>frases motivacionales inteligentes</strong> directamente en la pantalla de inicio de tu dispositivo. Diseñada para que empieces cada día con energía positiva, sin tener que abrir ninguna app.</p>
+
+    <h2>Especificaciones técnicas</h2>
+    <div class="spec-grid">
+      <div class="spec"><div class="spec-label">Sistema operativo</div><div class="spec-val">Android 7.0+</div></div>
+      <div class="spec"><div class="spec-label">Tamaño de la app</div><div class="spec-val">~15 MB</div></div>
+      <div class="spec"><div class="spec-label">Idiomas</div><div class="spec-val">ES · EN · PT · BY</div></div>
+      <div class="spec"><div class="spec-label">Precio</div><div class="spec-val">Gratis</div></div>
+      <div class="spec"><div class="spec-label">Versión actual</div><div class="spec-val">2.0 (2026)</div></div>
+      <div class="spec"><div class="spec-label">Desarrollador</div><div class="spec-val">joeDEV · Argentina</div></div>
+    </div>
+
+    <h2>Tamaños de widget disponibles</h2>
+    <p>DailyBoost Widget está disponible en múltiples tamaños para adaptarse a cualquier pantalla de inicio:</p>
+    <div class="spec-grid">
+      <div class="spec"><div class="spec-label">Pequeño</div><div class="spec-val">2×1</div></div>
+      <div class="spec"><div class="spec-label">Mediano</div><div class="spec-val">4×1</div></div>
+      <div class="spec"><div class="spec-label">Grande</div><div class="spec-val">4×2</div></div>
+    </div>
+
+    <h2>Categorías de frases</h2>
+    <p>Más de 500 frases organizadas en categorías que podés elegir según tu estado de ánimo: <strong>Motivación general, Disciplina, Éxito, Mindfulness, Productividad, Creatividad</strong> y más.</p>
+
+    <h2>¿Cómo instalar el widget?</h2>
+    <p>1. Descargá la app desde Google Play.<br>
+    2. Abrí la app y configurá tus preferencias.<br>
+    3. Mantené presionada la pantalla de inicio de tu celu.<br>
+    4. Seleccioná "Widgets" → buscá "DailyBoost".<br>
+    5. Arrastralo a donde quieras. ¡Listo!</p>
+
+    <a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="btn-teal" target="_blank" rel="noopener">▶ Descargar en Google Play</a>
+  </main>
+
+  <footer>
+    <span style="font-size:12px;color:var(--muted)">DailyBoost Widget · by joeDEV</span>
+    <div class="foot-links">
+      <a href="/dailyboost">Inicio</a>
+      <a href="/dailyboost/privacidad">Privacidad</a>
+      <a href="mailto:joepedev@gmail.com">Contacto</a>
+    </div>
+    <div class="foot-copy">© 2026 joeDEV</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DailyBoost Widget ⚡ | Tu motivación diaria en Android</title>
+  <meta name="description" content="DailyBoost Widget: frases motivacionales inteligentes en tu pantalla Android. Diseño negro-turquesa. Descargá gratis."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--teal:#00d4aa;--teal2:#00b894;--cyan:#00f5d4;--dark:#040d0b;--dark2:#071410;--glass:rgba(0,212,170,0.07);--glass-b:rgba(0,212,170,0.18);--text:#e8fff9;--muted:#4d8a7a}
+    html{scroll-behavior:smooth}
+    body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.3}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:rgba(4,13,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-b)}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--teal2),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 16px rgba(0,212,170,.4)}
+    .nav-logo-text .t1{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;letter-spacing:1px;background:linear-gradient(90deg,var(--teal),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+    .nav-logo-text .t2{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;display:block}
+    .nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+    .nav-links a{text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
+    .nav-links a:hover{color:var(--text)}
+    .nav-cta{background:linear-gradient(135deg,var(--teal2),var(--teal))!important;color:#000!important;padding:9px 20px;border-radius:8px;font-weight:700!important;box-shadow:0 4px 20px rgba(0,212,170,.3)}
+    .nav-back{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
+    .nav-back:hover{color:var(--text)}
+
+    /* HERO */
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;overflow:hidden;z-index:2}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 100%,rgba(0,212,170,.15) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 20%,rgba(0,245,212,.06) 0%,transparent 60%),var(--dark)}
+    .hero-content{position:relative;z-index:2;max-width:720px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:6px 16px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:28px;animation:fadeUp .8s ease both}
+    .pulse{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.6)}50%{box-shadow:0 0 0 6px rgba(0,212,170,0)}}
+    h1{font-family:'Syne',sans-serif;font-size:clamp(56px,10vw,100px);font-weight:800;line-height:.95;letter-spacing:-2px;background:linear-gradient(180deg,#e8fff9 0%,var(--teal) 60%,var(--teal2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;animation:fadeUp .8s .1s ease both}
+    .hero-sub{font-size:clamp(15px,2vw,19px);color:var(--muted);margin-bottom:18px;animation:fadeUp .8s .2s ease both}
+    .hero-desc{font-size:15px;line-height:1.7;color:rgba(232,255,249,.55);max-width:480px;margin:0 auto 40px;animation:fadeUp .8s .3s ease both}
+    .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .4s ease both}
+    .btn-teal{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal2),var(--teal));color:#000;padding:16px 32px;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:.5px;box-shadow:0 8px 32px rgba(0,212,170,.3);transition:transform .2s,box-shadow .2s}
+    .btn-teal:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,212,170,.45)}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);color:var(--text);padding:16px 28px;border-radius:12px;font-size:15px;text-decoration:none;transition:background .2s}
+    .btn-ghost:hover{background:rgba(0,212,170,.12)}
+
+    /* QUOTE WIDGET PREVIEW */
+    .widget-preview{display:flex;justify-content:center;margin:56px 0 0;animation:fadeUp .8s .5s ease both}
+    .widget-card{background:linear-gradient(135deg,#0d1f1b,#071a16);border:1px solid var(--glass-b);border-radius:20px;padding:28px 32px;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,212,170,.1),0 4px 16px rgba(0,0,0,.4)}
+    .widget-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+    .widget-quote{font-size:18px;line-height:1.5;color:var(--text);font-weight:500;margin-bottom:12px}
+    .widget-quote em{color:var(--teal);font-style:normal}
+    .widget-author{font-size:11px;color:var(--muted);letter-spacing:1px}
+    .widget-bar{height:3px;background:linear-gradient(90deg,var(--teal2),var(--cyan));border-radius:2px;margin-top:16px}
+
+    /* SECTIONS */
+    section{position:relative;z-index:2;padding:80px 24px}
+    .sec-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:12px}
+    .sec-title{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-1px;text-align:center;margin-bottom:52px;line-height:1.1}
+
+    /* FEATURES */
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:960px;margin:0 auto}
+    .feat-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:18px;padding:28px 24px;transition:transform .3s,border-color .3s}
+    .feat-card:hover{transform:translateY(-4px);border-color:rgba(0,212,170,.4)}
+    .feat-icon{font-size:30px;margin-bottom:14px;display:block}
+    .feat-card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;color:var(--cyan)}
+    .feat-card p{font-size:13px;line-height:1.6;color:rgba(232,255,249,.5)}
+
+    /* GALLERY */
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:800px;margin:0 auto}
+    .gallery-item{aspect-ratio:1;border-radius:14px;background:linear-gradient(135deg,rgba(0,212,170,.1),rgba(0,212,170,.04));border:1px solid var(--glass-b);display:flex;align-items:center;justify-content:center;font-size:36px;transition:transform .2s}
+    .gallery-item:hover{transform:scale(1.02)}
+
+    /* CTA */
+    .cta-sec{text-align:center;padding:80px 24px 100px}
+    .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(0,212,170,.15) 0%,transparent 70%);pointer-events:none}
+    .cta-sec h2{font-family:'Syne',sans-serif;font-size:clamp(40px,7vw,72px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:16px}
+    .cta-sec p{color:var(--muted);font-size:16px;margin-bottom:32px}
+
+    footer{border-top:1px solid var(--glass-b);padding:32px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;position:relative;z-index:2}
+    .foot-links{display:flex;gap:20px;flex-wrap:wrap}
+    .foot-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+    .foot-links a:hover{color:var(--teal)}
+    .foot-copy{font-size:12px;color:rgba(77,138,122,.4)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:600px){nav{padding:0 18px}.nav-links{display:none}.gallery{grid-template-columns:repeat(2,1fr)}footer{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-back">← joeDEV</a>
+    <a href="/dailyboost" class="nav-logo">
+      <div class="nav-logo-icon">⚡</div>
+      <div class="nav-logo-text"><span class="t1">DailyBoost Widget</span><span class="t2">by joeDEV</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Características</a></li>
+      <li><a href="/dailyboost/masinfo">Más info</a></li>
+      <li><a href="/dailyboost/privacidad">Privacidad</a></li>
+      <li><a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="nav-cta" target="_blank" rel="noopener">↓ Descargar</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="eyebrow"><span class="pulse"></span> Widget Android · Motivación diaria</div>
+      <h1>Impulsa<br>tu día</h1>
+      <p class="hero-sub">Frases inteligentes en tu pantalla, cada mañana.</p>
+      <p class="hero-desc">DailyBoost Widget te mantiene enfocado y motivado con frases personalizadas y un diseño negro-turquesa que eleva tu rutina.</p>
+      <div class="hero-btns">
+        <a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="btn-teal" target="_blank" rel="noopener">▶ Descargar en Google Play</a>
+        <a href="#features" class="btn-ghost">Más info →</a>
+      </div>
+      <div class="widget-preview">
+        <div class="widget-card">
+          <div class="widget-label">⚡ DailyBoost Widget</div>
+          <div class="widget-quote">"El éxito es la suma de <em>pequeños esfuerzos</em> repetidos día tras día."</div>
+          <div class="widget-author">— Robert Collier</div>
+          <div class="widget-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <p class="sec-label">Características</p>
+    <h2 class="sec-title">Todo lo que necesitás</h2>
+    <div class="feat-grid">
+      <div class="feat-card"><span class="feat-icon">💬</span><h3>Frases motivacionales</h3><p>Cientos de frases inspiradoras que renuevan tu energía cada día. Siempre algo nuevo.</p></div>
+      <div class="feat-card"><span class="feat-icon">🎨</span><h3>Diseño elegante</h3><p>Interfaz moderna con degradados negro-turquesa que se integra perfecto en cualquier pantalla.</p></div>
+      <div class="feat-card"><span class="feat-icon">⚡</span><h3>Fácil de configurar</h3><p>Instalá el widget en segundos. Sin complicaciones, sin configuraciones complejas.</p></div>
+      <div class="feat-card"><span class="feat-icon">🌍</span><h3>Multiidioma</h3><p>Disponible en Español, Inglés, Portugués y más. Para usuarios de todo el mundo.</p></div>
+      <div class="feat-card"><span class="feat-icon">🔋</span><h3>Consumo mínimo</h3><p>Optimizado para no afectar la batería de tu dispositivo. Corre en segundo plano de forma eficiente.</p></div>
+      <div class="feat-card"><span class="feat-icon">📱</span><h3>Múltiples tamaños</h3><p>Widgets en diferentes tamaños para adaptarse a tu pantalla de inicio perfectamente.</p></div>
+    </div>
+  </section>
+
+  <section style="background:rgba(0,212,170,.03);border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b)">
+    <p class="sec-label">Vista previa</p>
+    <h2 class="sec-title">Así se ve en tu celu</h2>
+    <div class="gallery">
+      <div class="gallery-item">📱</div>
+      <div class="gallery-item">⚡</div>
+      <div class="gallery-item">🌅</div>
+      <div class="gallery-item">💡</div>
+      <div class="gallery-item">🎯</div>
+      <div class="gallery-item">✨</div>
+    </div>
+  </section>
+
+  <section class="cta-sec" style="position:relative;overflow:hidden">
+    <div class="cta-glow"></div>
+    <h2>Empezá hoy.</h2>
+    <p>Tu mejor versión empieza con una frase.</p>
+    <a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="btn-teal" style="font-size:17px;padding:18px 40px" target="_blank" rel="noopener">▶ Descargar DailyBoost — Es gratis</a>
+  </section>
+
+  <footer>
+    <a href="/dailyboost" class="nav-logo">
+      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:14px">⚡</div>
+      <div class="nav-logo-text"><span class="t1" style="font-size:13px">DailyBoost Widget</span><span class="t2">by joeDEV</span></div>
+    </a>
+    <div class="foot-links">
+      <a href="/dailyboost/privacidad">Política de Privacidad</a>
+      <a href="/dailyboost/masinfo">Más información</a>
+      <a href="mailto:joepedev@gmail.com">Contacto</a>
+      <a href="/">joeDEV</a>
+    </div>
+    <div class="foot-copy">© 2026 joeDEV · joepedev.com</div>
+  </footer>
+</body>
+</html>
