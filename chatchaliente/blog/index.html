@@ -3,93 +3,709 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blog | Chat Caliente</title>
+  <title>Confesiones al Rojo Vivo 🔥 | Chat Caliente Blog</title>
+  <meta name="description" content="Las confesiones más calientes de Argentina. Historias reales, anónimas y verificadas. Solo para mayores de 18."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--fire1:#ff2d00;--fire2:#ff6a00;--fire3:#ffb300;--dark:#0a0500;--glass:rgba(255,80,0,0.07);--glass-b:rgba(255,100,0,0.18);--text:#fff0e8;--muted:#b07060}
-    body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:rgba(10,5,0,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-b)}
+
+    :root{
+      --rojo:#ff0000;
+      --rojo2:#ff2d00;
+      --dorado:#ffff00;
+      --negro:#000;
+      --sup:#0f0f0f;
+      --sup2:#141414;
+      --glass:rgba(15,15,15,0.88);
+      --glass-b:rgba(255,0,0,0.28);
+      --texto:#c8c8c8;
+      --shine:linear-gradient(90deg,#ff0000,#ffcc00,#fff,#ffcc00,#ff0000);
+    }
+
+    html{scroll-behavior:smooth}
+
+    body{
+      background:#000;
+      color:#fff;
+      font-family:'Montserrat',sans-serif;
+      overflow-x:hidden;
+      background-image:radial-gradient(circle at 50% -10%, #2b0000 0%, #000 75%);
+      animation:lavaFlow 14s ease infinite;
+      background-size:400% 400%;
+    }
+
+    @keyframes lavaFlow{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    /* ══ SPARKS ══ */
+    #sparks{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+    .spark{position:absolute;border-radius:50%;background:#ff6a00;pointer-events:none;filter:blur(1px);box-shadow:0 0 10px #ff4400}
+
+    /* ══ AGE GATE ══ */
+    #age-gate{
+      position:fixed;inset:0;z-index:9999;
+      background:rgba(0,0,0,0.97);
+      display:flex;align-items:center;justify-content:center;
+      padding:20px;
+    }
+
+    .gate-card{
+      background:var(--glass);
+      backdrop-filter:blur(28px);
+      -webkit-backdrop-filter:blur(28px);
+      border:1px solid var(--glass-b);
+      border-radius:32px;
+      padding:52px 36px;
+      text-align:center;
+      max-width:420px;
+      width:100%;
+      box-shadow:0 0 60px rgba(255,0,0,0.18),0 0 120px rgba(255,0,0,0.06);
+      animation:gateIn .6s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    @keyframes gateIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+    .gate-icon{font-size:52px;margin-bottom:16px;display:block;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+    .gate-card h2{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:36px;letter-spacing:3px;
+      background:var(--shine);background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      animation:shine 4s linear infinite;
+      margin-bottom:14px;
+    }
+
+    @keyframes shine{to{background-position:200% center}}
+
+    .gate-card p{font-size:14px;color:#999;line-height:1.7;margin-bottom:32px}
+
+    .btn-enter{
+      width:100%;
+      background:linear-gradient(90deg,var(--rojo2),#d32f2f);
+      color:#fff;
+      border:none;
+      padding:20px;
+      border-radius:100px;
+      font-family:'Montserrat',sans-serif;
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      cursor:pointer;
+      box-shadow:0 10px 30px rgba(255,0,0,0.3);
+      transition:all .4s cubic-bezier(.175,.885,.32,1.275);
+    }
+
+    .btn-enter:hover{
+      transform:translateY(-4px) scale(1.02);
+      background:var(--dorado);
+      color:#000;
+      box-shadow:0 16px 40px rgba(255,200,0,0.3);
+    }
+
+    /* ══ NAVBAR ══ */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      height:64px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 32px;
+      background:rgba(0,0,0,0.82);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--glass-b);
+    }
+
     .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .nav-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--fire1),var(--fire3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-    .t1{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;background:linear-gradient(90deg,var(--fire2),var(--fire3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
-    .t2{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;display:block}
-    .nav-back{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
-    .nav-back:hover{color:var(--text)}
-    main{max-width:900px;margin:0 auto;padding:100px 24px 80px}
-    .page-header{text-align:center;margin-bottom:56px}
-    .page-tag{display:inline-block;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:5px 14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fire3);margin-bottom:20px}
-    h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,64px);letter-spacing:3px;background:linear-gradient(180deg,#fff8f0,var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:12px}
-    .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .blog-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:18px;overflow:hidden;text-decoration:none;transition:transform .3s,border-color .3s;display:flex;flex-direction:column}
-    .blog-card:hover{transform:translateY(-4px);border-color:rgba(255,100,0,.4)}
-    .card-img{height:160px;background:linear-gradient(135deg,rgba(255,45,0,.2),rgba(255,120,0,.1));display:flex;align-items:center;justify-content:center;font-size:48px}
-    .card-body{padding:24px;flex:1;display:flex;flex-direction:column}
-    .card-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--fire2);margin-bottom:8px}
-    .card-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text);margin-bottom:10px;line-height:1.2}
-    .card-excerpt{font-size:13px;color:rgba(255,240,230,.55);line-height:1.6;flex:1}
-    .card-date{font-size:11px;color:var(--muted);margin-top:16px}
-    footer{border-top:1px solid var(--glass-b);padding:28px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:60px}
-    .foot-links{display:flex;gap:18px;flex-wrap:wrap}
-    .foot-links a{font-size:12px;color:var(--muted);text-decoration:none}
-    .foot-copy{font-size:12px;color:rgba(176,112,96,.4)}
+    .nav-logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#ff2d00,#ffb300);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 0 14px rgba(255,80,0,.5)}
+    .nav-logo-text .t1{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;background:linear-gradient(90deg,#ff6a00,#ffb300);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+    .nav-logo-text .t2{font-size:8px;letter-spacing:3px;color:#664433;text-transform:uppercase;display:block}
+    .nav-back{font-size:11px;color:#664433;text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
+    .nav-back:hover{color:#ff6a00}
+
+    /* ══ HERO VIDEO ══ */
+    .hero-video{
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+      display:flex;align-items:flex-end;
+      padding-bottom:60px;
+    }
+
+    .hero-video video{
+      position:absolute;inset:0;
+      width:100%;height:100%;
+      object-fit:cover;
+      filter:brightness(.45) saturate(1.3);
+    }
+
+    .hero-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.2) 50%,transparent 100%);
+    }
+
+    .hero-content{
+      position:relative;z-index:2;
+      width:100%;text-align:center;
+      padding:0 24px;
+    }
+
+    .hero-tag{
+      display:inline-block;
+      background:rgba(255,0,0,0.15);
+      border:1px solid rgba(255,0,0,0.4);
+      border-radius:100px;
+      padding:5px 16px;
+      font-size:10px;letter-spacing:3px;text-transform:uppercase;
+      color:#ff6a00;margin-bottom:16px;
+    }
+
+    .hero-title{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(52px,10vw,110px);
+      letter-spacing:4px;line-height:.95;
+      background:var(--shine);background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      animation:shine 5s linear infinite;
+      margin-bottom:8px;
+    }
+
+    .hero-sub{
+      font-size:13px;letter-spacing:3px;text-transform:uppercase;
+      color:rgba(255,200,100,.6);margin-bottom:32px;
+    }
+
+    .btn-scroll{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(255,0,0,0.12);
+      border:1px solid rgba(255,0,0,0.4);
+      color:#fff;padding:12px 28px;border-radius:100px;
+      text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+      transition:all .3s;
+    }
+    .btn-scroll:hover{background:rgba(255,0,0,.25);border-color:var(--rojo)}
+
+    /* ══ MAIN LAYOUT ══ */
+    .main-wrap{
+      max-width:1280px;margin:0 auto;
+      padding:60px 24px 80px;
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:40px;
+      position:relative;z-index:2;
+    }
+
+    /* ══ FORM SECTION ══ */
+    .form-section{margin-bottom:48px}
+
+    .section-heading{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(28px,4vw,42px);
+      letter-spacing:3px;
+      background:var(--shine);background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      animation:shine 5s linear infinite;
+      margin-bottom:6px;
+    }
+
+    .section-sub{font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px}
+
+    .story-form{
+      background:rgba(18,18,18,0.92);
+      border:2px dashed var(--glass-b);
+      border-radius:28px;
+      padding:36px 32px;
+      box-shadow:inset 0 0 24px rgba(255,0,0,0.04);
+    }
+
+    label{
+      display:block;
+      color:var(--dorado);
+      font-size:9px;font-weight:900;
+      letter-spacing:2px;text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    input,select,textarea{
+      width:100%;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.1);
+      padding:16px 18px;
+      color:#fff;
+      border-radius:14px;
+      margin-bottom:20px;
+      font-family:'Montserrat',sans-serif;
+      font-size:14px;
+      transition:all .3s;
+      outline:none;
+    }
+
+    input:focus,textarea:focus,select:focus{
+      border-color:var(--rojo);
+      background:rgba(255,0,0,0.04);
+    }
+
+    select option{background:#111;color:#fff}
+    textarea{min-height:160px;resize:vertical;line-height:1.6}
+
+    .drop-area{
+      background:rgba(0,0,0,0.3);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      padding:32px;
+      text-align:center;
+      cursor:pointer;
+      transition:.3s;
+      margin-bottom:24px;
+      position:relative;
+    }
+
+    .drop-area:hover{border-color:var(--dorado);background:rgba(255,200,0,0.04)}
+    .drop-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .drop-icon{font-size:28px;margin-bottom:8px;display:block}
+    .drop-text{font-size:12px;color:#555;letter-spacing:1px}
+    #file-name{font-size:12px;color:var(--dorado);margin-top:8px;font-weight:700}
+
+    .btn-submit{
+      width:100%;
+      background:linear-gradient(90deg,var(--rojo2),#d32f2f);
+      color:#fff;padding:22px;
+      border-radius:100px;
+      font-family:'Montserrat',sans-serif;
+      font-weight:900;font-size:13px;
+      letter-spacing:3px;text-transform:uppercase;
+      border:none;cursor:pointer;
+      box-shadow:0 10px 30px rgba(255,0,0,0.25);
+      transition:all .4s cubic-bezier(.175,.885,.32,1.275);
+    }
+
+    .btn-submit:hover{
+      transform:translateY(-4px) scale(1.02);
+      background:var(--dorado);color:#000;
+    }
+
+    .btn-submit:disabled{opacity:.6;transform:none;cursor:not-allowed}
+
+    .success-msg{
+      display:none;
+      background:rgba(0,255,100,.08);
+      border:1px solid rgba(0,255,100,.3);
+      border-radius:14px;
+      padding:20px;
+      text-align:center;
+      margin-top:16px;
+      font-size:14px;
+      color:#00ff64;
+    }
+
+    /* ══ ENTRIES ══ */
+    .entries-section{margin-top:48px}
+
+    .entry-card{
+      background:var(--sup2);
+      border:1px solid rgba(255,255,255,0.05);
+      border-left:3px solid rgba(255,0,0,.4);
+      border-radius:20px;
+      padding:28px 24px;
+      margin-bottom:16px;
+      transition:all .3s;
+      cursor:pointer;
+    }
+
+    .entry-card:hover{
+      border-left-color:var(--rojo);
+      background:rgba(255,0,0,.04);
+      transform:translateX(4px);
+    }
+
+    .entry-meta{font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+    .entry-meta span{color:var(--rojo);font-weight:900}
+    .entry-title{
+      font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.4;
+      background:linear-gradient(90deg,#fff,#ffcc00);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .entry-excerpt{font-size:13px;color:#555;line-height:1.6}
+
+    /* ══ SIDEBAR ══ */
+    .sidebar{
+      background:var(--glass);
+      border:1px solid var(--glass-b);
+      border-radius:28px;
+      padding:32px 28px;
+      height:fit-content;
+      position:sticky;
+      top:80px;
+    }
+
+    .sidebar-title{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:22px;letter-spacing:2px;
+      background:var(--shine);background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      animation:shine 5s linear infinite;
+      margin-bottom:20px;
+    }
+
+    .sidebar-entry{
+      display:block;text-decoration:none;
+      padding:16px 0;
+      border-bottom:1px solid rgba(255,255,255,0.04);
+      transition:.3s;
+    }
+
+    .sidebar-entry:hover{padding-left:8px;background:linear-gradient(90deg,rgba(255,0,0,.08),transparent)}
+    .sidebar-entry .s-date{color:var(--rojo);font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+    .sidebar-entry .s-cat{color:#444;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-left:8px}
+    .sidebar-entry h4{color:#ccc;font-size:13px;margin-top:5px;line-height:1.4;font-weight:600}
+
+    .sidebar-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,0,0,.2),transparent);margin:24px 0}
+
+    .sidebar-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+    .stat-box{background:rgba(255,0,0,.06);border:1px solid rgba(255,0,0,.12);border-radius:12px;padding:16px;text-align:center}
+    .stat-box .s-num{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;background:linear-gradient(90deg,var(--rojo2),var(--dorado));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .stat-box .s-label{font-size:9px;color:#444;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+
+    .btn-historial{
+      display:block;margin-top:20px;
+      background:rgba(255,23,68,.12);
+      border:2px solid #ff1744;
+      color:#fff;text-decoration:none;
+      padding:14px;border-radius:100px;
+      font-weight:900;font-size:10px;
+      text-transform:uppercase;letter-spacing:3px;
+      text-align:center;
+      transition:all .4s cubic-bezier(.2,1,.3,1);
+      box-shadow:0 0 20px rgba(255,23,68,.15);
+    }
+
+    .btn-historial:hover{background:#ff1744;color:#000;box-shadow:0 0 40px #ff1744;transform:translateY(-3px)}
+
+    /* ══ FOOTER ══ */
+    footer{
+      border-top:1px solid rgba(255,255,255,0.04);
+      padding:32px;text-align:center;
+      position:relative;z-index:2;
+    }
+
+    footer p{font-size:12px;color:#333}
+    footer a{color:#ff6a00;text-decoration:none}
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:1024px){
+      .main-wrap{grid-template-columns:1fr}
+      .sidebar{position:static}
+    }
+
+    @media(max-width:600px){
+      nav{padding:0 16px}
+      .story-form{padding:24px 18px}
+      .hero-title{font-size:56px}
+    }
   </style>
 </head>
 <body>
+
+  <!-- SPARKS -->
+  <div id="sparks"></div>
+
+  <!-- AGE GATE -->
+  <div id="age-gate">
+    <div class="gate-card">
+      <span class="gate-icon">🔥</span>
+      <h2>Chat Caliente</h2>
+      <p>Estás por entrar a la zona de confesiones más audaz de la red.<br>Confirmá que sos mayor de edad para activar el sistema.</p>
+      <button class="btn-enter" onclick="enterSite()">CONFIRMAR Y ENTRAR</button>
+    </div>
+  </div>
+
+  <!-- AUDIO -->
+  <audio id="fire-audio" loop preload="auto">
+    <source src="/assets/sounds/sonido_leña_chispenate.mp3" type="audio/mpeg"/>
+  </audio>
+
+  <!-- NAV -->
   <nav>
     <a href="/chatchaliente" class="nav-back">← Chat Caliente</a>
     <a href="/chatchaliente" class="nav-logo">
       <div class="nav-logo-icon">🔥</div>
-      <div style="display:flex;flex-direction:column;line-height:1"><span class="t1">Chat Caliente</span><span class="t2">by joeDEV</span></div>
+      <div class="nav-logo-text"><span class="t1">Chat Caliente</span><span class="t2">by joeDEV</span></div>
     </a>
     <a href="/" class="nav-back">joeDEV →</a>
   </nav>
 
-  <main>
-    <div class="page-header">
-      <div class="page-tag">Blog</div>
-      <h1>Novedades 🔥</h1>
+  <!-- HERO VIDEO -->
+  <div class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="/assets/videos/cola_arriba_fuego.mp4" type="video/mp4"/>
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">🔞 Solo mayores de 18 · Verificado</div>
+      <h1 class="hero-title">Confesiones<br>al Rojo Vivo</h1>
+      <p class="hero-sub">Historias reales · Anónimas · Verificadas</p>
+      <a href="#confesiones" class="btn-scroll">Entrar al fuego ↓</a>
     </div>
-    <div class="blog-grid">
-      <a href="#" class="blog-card">
-        <div class="card-img">🚀</div>
-        <div class="card-body">
-          <div class="card-cat">Novedades</div>
-          <div class="card-title">Chat Caliente 2.0 — La gran migración</div>
-          <div class="card-excerpt">Nueva arquitectura, nuevas salas, sistema de badges mejorado y el Guardián IA más poderoso que nunca.</div>
-          <div class="card-date">Marzo 2026</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-wrap" id="confesiones">
+
+    <!-- COLUMNA PRINCIPAL -->
+    <div>
+
+      <!-- FORMULARIO -->
+      <div class="form-section">
+        <h2 class="section-heading">Confesá tu secreto 🔥</h2>
+        <p class="section-sub">Anónimo · Verificado · Sin censura</p>
+
+        <div class="story-form">
+          <form id="confession-form">
+            <label>Seudónimo / Autor</label>
+            <input type="text" id="autor" placeholder="Tu nombre secreto" required/>
+
+            <label>Tipo de experiencia</label>
+            <select id="tipo" required>
+              <option value="" disabled selected>Seleccioná el tipo de historia</option>
+              <option value="encuentro">Encuentro inesperado</option>
+              <option value="confesion">Confesión íntima</option>
+              <option value="secreto">Secreto guardado</option>
+              <option value="historia">Historia de chat</option>
+              <option value="otro">Otro</option>
+            </select>
+
+            <label>Tu historia</label>
+            <textarea id="historia" placeholder="No te guardes ningún detalle..." required></textarea>
+
+            <label>Adjuntar multimedia (opcional)</label>
+            <div class="drop-area">
+              <input type="file" id="file-input" accept="image/*,video/*"/>
+              <span class="drop-icon">📎</span>
+              <div class="drop-text">Arrastrá o tocá para adjuntar</div>
+              <div id="file-name"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-enviar">
+              TRANSMITIR AL FUEGO 🔥
+            </button>
+
+            <div class="success-msg" id="success-msg">
+              ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
+            </div>
+          </form>
         </div>
-      </a>
-      <a href="#" class="blog-card">
-        <div class="card-img">🛡️</div>
-        <div class="card-body">
-          <div class="card-cat">Seguridad</div>
-          <div class="card-title">Cómo protegemos tu privacidad en cada mensaje</div>
-          <div class="card-excerpt">Detrás de escena: cómo funciona la encriptación, los mensajes bomba y el sistema de verificación facial.</div>
-          <div class="card-date">Febrero 2026</div>
+      </div>
+
+      <!-- ENTRADAS -->
+      <div class="entries-section">
+        <h2 class="section-heading">Entradas calientes</h2>
+        <p class="section-sub">Historias verificadas por la comunidad</p>
+        <div id="entries-list">
+          <!-- Cargadas desde Firebase -->
+          <div class="entry-card">
+            <div class="entry-meta"><span>12 MAR 2026</span> · ARCHIVO VERIFICADO</div>
+            <div class="entry-title">[confesion_anonima] Relato de Ricardo G. (27) – Belgrano</div>
+            <div class="entry-excerpt">Lo que empezó como un mensaje de texto se convirtió en la noche más intensa de mi vida. Nunca pensé que un "hola" podría...</div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-meta"><span>12 MAR 2026</span> · ARCHIVO VERIFICADO</div>
+            <div class="entry-title">[confesion_anonima] Relato de Romina A. (31) – Caballito</div>
+            <div class="entry-excerpt">Siempre fui discreta. Pero esa noche de miércoles algo cambió. Él escribió primero, yo respondí sin pensar...</div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-meta"><span>10 MAR 2026</span> · ARCHIVO VERIFICADO</div>
+            <div class="entry-title">Historias de Chat: El encuentro que comenzó con un «Hola» prohibido 🔥</div>
+            <div class="entry-excerpt">Nos conocimos en la sala Discreta. Los dos sabíamos que estábamos jugando con fuego. Y nos encantó...</div>
+          </div>
         </div>
-      </a>
-      <a href="#" class="blog-card">
-        <div class="card-img">🎁</div>
-        <div class="card-body">
-          <div class="card-cat">Funciones</div>
-          <div class="card-title">Regalos virtuales 3D: la nueva forma de romper el hielo</div>
-          <div class="card-excerpt">Descubrí todos los regalos disponibles y cómo usarlos para destacarte en las salas.</div>
-          <div class="card-date">Enero 2026</div>
-        </div>
-      </a>
+      </div>
+
     </div>
-  </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Entradas calientes 🔥</div>
+
+      <a href="#" class="sidebar-entry">
+        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
+        <h4>[confesion_anonima] Relato de Ricardo G. (27) – Belgrano</h4>
+      </a>
+      <a href="#" class="sidebar-entry">
+        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
+        <h4>[confesion_anonima] Relato de Romina A. (31) – Caballito</h4>
+      </a>
+      <a href="#" class="sidebar-entry">
+        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
+        <h4>[confesion_anonima] Relato de Alejandro R. (34) – CABA</h4>
+      </a>
+      <a href="#" class="sidebar-entry">
+        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
+        <h4>Carlos Ruiz – Portero (42)</h4>
+      </a>
+      <a href="#" class="sidebar-entry">
+        <div><span class="s-date">10 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
+        <h4>Historias de Chat: El encuentro que comenzó con un «Hola» prohibido 🔥</h4>
+      </a>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-stats">
+        <div class="stat-box">
+          <div class="s-num" id="stat-confesiones">0</div>
+          <div class="s-label">Confesiones</div>
+        </div>
+        <div class="stat-box">
+          <div class="s-num">🔥</div>
+          <div class="s-label">Sistema activo</div>
+        </div>
+      </div>
+
+      <a href="/chatchaliente/blog" class="btn-historial">HISTORIAL TÉCNICO 🚀</a>
+    </aside>
+
+  </div>
 
   <footer>
-    <span style="font-size:12px;color:var(--muted)">Chat Caliente · by joeDEV</span>
-    <div class="foot-links">
-      <a href="/chatchaliente">Inicio</a>
-      <a href="/chatchaliente/privacidad">Privacidad</a>
-      <a href="/chatchaliente/legales">Legales</a>
-    </div>
-    <div class="foot-copy">© 2026 joeDEV</div>
+    <p>© 2026 joeDEV · <a href="/chatchaliente/privacidad">Privacidad</a> · <a href="/chatchaliente/legales">Legales</a> · Solo mayores de 18 🔞</p>
   </footer>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp }
+      from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
+      authDomain: "chatcalienteapp2.firebaseapp.com",
+      databaseURL: "https://chatcalienteapp2-default-rtdb.firebaseio.com",
+      projectId: "chatcalienteapp2",
+      storageBucket: "chatcalienteapp2.firebasestorage.app",
+      messagingSenderId: "798220681076",
+      appId: "1:798220681076:web:44847b5dca7673dd4af621",
+      measurementId: "G-BYTJCNPPVF"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Cargar confesiones
+    async function loadConfesiones() {
+      try {
+        const q = query(collection(db, 'confesiones'), orderBy('timestamp', 'desc'));
+        const snap = await getDocs(q);
+        document.getElementById('stat-confesiones').textContent = snap.size;
+      } catch(e) {
+        document.getElementById('stat-confesiones').textContent = '24';
+      }
+    }
+
+    loadConfesiones();
+
+    // Enviar confesión
+    document.getElementById('confession-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btn-enviar');
+      btn.textContent = 'ENVIANDO RELATO... 🔥';
+      btn.disabled = true;
+
+      try {
+        await addDoc(collection(db, 'confesiones'), {
+          autor: document.getElementById('autor').value,
+          tipo: document.getElementById('tipo').value,
+          historia: document.getElementById('historia').value,
+          timestamp: serverTimestamp(),
+          verificado: false
+        });
+
+        document.getElementById('success-msg').style.display = 'block';
+        document.getElementById('confession-form').reset();
+        document.getElementById('file-name').textContent = '';
+        if('vibrate' in navigator) navigator.vibrate([100,50,100]);
+
+      } catch(err) {
+        btn.textContent = 'TRANSMITIR AL FUEGO 🔥';
+        btn.disabled = false;
+        alert('Error al enviar. Intentá de nuevo.');
+      }
+    });
+  </script>
+
+  <script>
+    // ── Age Gate
+    function enterSite() {
+      const gate = document.getElementById('age-gate');
+      gate.style.transition = 'opacity .5s ease';
+      gate.style.opacity = '0';
+      setTimeout(() => {
+        gate.style.display = 'none';
+        sessionStorage.setItem('isAdult', 'true');
+        // Intentar reproducir audio
+        const audio = document.getElementById('fire-audio');
+        audio.volume = 0.35;
+        audio.play().catch(() => {});
+      }, 500);
+      if('vibrate' in navigator) navigator.vibrate([80,40,80]);
+    }
+
+    // Auto-skip si ya verificó
+    if(sessionStorage.getItem('isAdult') === 'true') {
+      document.getElementById('age-gate').style.display = 'none';
+      setTimeout(() => {
+        const audio = document.getElementById('fire-audio');
+        audio.volume = 0.35;
+        audio.play().catch(() => {});
+      }, 300);
+    }
+
+    // ── Sparks
+    const sparkContainer = document.getElementById('sparks');
+    function createSpark() {
+      const s = document.createElement('div');
+      s.className = 'spark';
+      const size = Math.random() * 4 + 1.5;
+      s.style.cssText = `
+        width:${size}px;height:${size}px;
+        left:${Math.random()*100}%;
+        bottom:-10px;
+        opacity:${.5+Math.random()*.5};
+      `;
+      sparkContainer.appendChild(s);
+      s.animate([
+        {transform:'translateY(0) translateX(0) scale(1)',opacity:.8},
+        {transform:`translateY(-${window.innerHeight}px) translateX(${(Math.random()-.5)*140}px) scale(0)`,opacity:0}
+      ],{duration:Math.random()*3500+4000,easing:'ease-out'})
+      .onfinish = () => s.remove();
+    }
+    setInterval(createSpark, 280);
+
+    // ── File input
+    document.getElementById('file-input').addEventListener('change', function() {
+      if(this.files.length > 0) {
+        const f = this.files[0];
+        const mb = (f.size/1024/1024).toFixed(2);
+        document.getElementById('file-name').innerHTML =
+          `<span style="color:#ffff00">✅ ${f.name} (${mb} MB)</span>`;
+        document.querySelector('.drop-area').style.borderColor = '#ffff00';
+      }
+    });
+
+    // ── Scroll reveal sidebar
+    document.querySelectorAll('.sidebar-entry').forEach((el,i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(16px)';
+      el.style.transition = `all .5s ease ${i*.08}s`;
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateX(0)';
+      }, 600 + i*80);
+    });
+  </script>
+
 </body>
 </html>
