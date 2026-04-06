@@ -1,1 +1,2 @@
-connect-src 'self' https://flat-mountain-1ee3.joepedev.workers.dev https://chatcalienteapp2-default-rtdb.firebaseio.com https://*.googleapis.com;
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://www.googletagmanager.com https://www.gstatic.com https://*.firebaseio.com; connect-src 'self' https://flat-mountain-1ee3.joepedev.workers.dev https://*.googleapis.com https://*.firebaseio.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; img-src 'self' data: https://*.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;
