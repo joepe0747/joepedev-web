@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Confesiones al Rojo Vivo 🔥 | Chat Caliente Blog</title>
   <meta name="description" content="Las confesiones más calientes de Argentina. Historias reales, anónimas y verificadas. Solo para mayores de 18."/>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XGCD4YB7M3');
-</script> 
+
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XGCD4YB7M3');
+  </script>
+
+  <!-- Turnstile (sin el </script> duplicado) -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-</script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet"/>
 
@@ -471,56 +474,55 @@
 
       <!-- FORMULARIO -->
       <div class="form-section">
-  <h2 class="section-heading">Confesá tu secreto 🔥</h2>
-  <p class="section-sub">Anónimo · Verificado · Sin censura</p>
+        <h2 class="section-heading">Confesá tu secreto 🔥</h2>
+        <p class="section-sub">Anónimo · Verificado · Sin censura</p>
 
-  <div class="story-form">
-    <form id="confession-form">
-      <label for="autor">Seudónimo / Autor</label>
-      <input type="text" id="autor" placeholder="Tu nombre secreto" required />
+        <div class="story-form">
+          <form id="confession-form">
+            <label for="autor">Seudónimo / Autor</label>
+            <input type="text" id="autor" placeholder="Tu nombre secreto" required />
 
-      <label for="tipo">Tipo de experiencia</label>
-      <select id="tipo" required>
-        <option value="" disabled selected>Seleccioná el tipo de historia</option>
-        <option value="encuentro">Encuentro inesperado</option>
-        <option value="confesion">Confesión íntima</option>
-        <option value="secreto">Secreto guardado</option>
-        <option value="historia">Historia de chat</option>
-        <option value="otro">Otro</option>
-      </select>
+            <label for="tipo">Tipo de experiencia</label>
+            <select id="tipo" required>
+              <option value="" disabled selected>Seleccioná el tipo de historia</option>
+              <option value="encuentro">Encuentro inesperado</option>
+              <option value="confesion">Confesión íntima</option>
+              <option value="secreto">Secreto guardado</option>
+              <option value="historia">Historia de chat</option>
+              <option value="otro">Otro</option>
+            </select>
 
-      <label for="historia">Tu historia</label>
-      <textarea id="historia" placeholder="No te guardes ningún detalle..." required></textarea>
+            <label for="historia">Tu historia</label>
+            <textarea id="historia" placeholder="No te guardes ningún detalle..." required></textarea>
 
-      <label>Adjuntar multimedia (opcional)</label>
-      <div class="drop-area">
-        <input type="file" id="file-input" accept="image/*,video/*"/>
-        <span class="drop-icon">📎</span>
-        <div class="drop-text">Arrastrá o tocá para adjuntar</div>
-        <div id="file-name"></div>
+            <label>Adjuntar multimedia (opcional)</label>
+            <div class="drop-area">
+              <input type="file" id="file-input" accept="image/*,video/*"/>
+              <span class="drop-icon">📎</span>
+              <div class="drop-text">Arrastrá o tocá para adjuntar</div>
+              <div id="file-name"></div>
+            </div>
+
+            <div style="display:flex;justify-content:center;margin-bottom:20px;">
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4" data-theme="dark"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-enviar">
+              TRANSMITIR AL FUEGO 🔥
+            </button>
+
+            <div class="success-msg" id="success-msg">
+              ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
+            </div>
+          </form>
+        </div>
       </div>
-
-      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4" data-theme="dark"></div>
-      </div>
-
-      <button type="submit" class="btn-submit" id="btn-enviar">
-        TRANSMITIR AL FUEGO 🔥
-      </button>
-
-      <div class="success-msg" id="success-msg">
-        ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
-      </div>
-    </form>
-  </div>
-</div>
 
       <!-- ENTRADAS -->
       <div class="entries-section">
         <h2 class="section-heading">Entradas calientes</h2>
         <p class="section-sub">Historias verificadas por la comunidad</p>
         <div id="entries-list">
-          <!-- Cargadas desde Firebase -->
           <div class="entry-card">
             <div class="entry-meta"><span>12 MAR 2026</span> · ARCHIVO VERIFICADO</div>
             <div class="entry-title">[confesion_anonima] Relato de Ricardo G. (27) – Belgrano</div>
@@ -588,68 +590,81 @@
     <p>© 2026 joeDEV · <a href="/chatchaliente/privacidad">Privacidad</a> · <a href="/chatchaliente/legales">Legales</a> · Solo mayores de 18 🔞</p>
   </footer>
 
-  <!-- FIREBASE -->
+  <!-- FIREBASE solo para el contador del sidebar -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp }
-      from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-    const firebaseConfig = {
+    const app = initializeApp({
       apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
       authDomain: "chatcalienteapp2.firebaseapp.com",
       databaseURL: "https://chatcalienteapp2-default-rtdb.firebaseio.com",
       projectId: "chatcalienteapp2",
       storageBucket: "chatcalienteapp2.firebasestorage.app",
       messagingSenderId: "798220681076",
-      appId: "1:798220681076:web:44847b5dca7673dd4af621",
-      measurementId: "G-BYTJCNPPVF"
-    };
+      appId: "1:798220681076:web:44847b5dca7673dd4af621"
+    });
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const db = getDatabase(app);
 
-    // Cargar confesiones
-    async function loadConfesiones() {
-      try {
-        const q = query(collection(db, 'confesiones'), orderBy('timestamp', 'desc'));
-        const snap = await getDocs(q);
-        document.getElementById('stat-confesiones').textContent = snap.size;
-      } catch(e) {
-        document.getElementById('stat-confesiones').textContent = '24';
-      }
-    }
+    get(ref(db, 'confesiones')).then(snap => {
+      document.getElementById('stat-confesiones').textContent =
+        snap.exists() ? Object.keys(snap.val()).length : '0';
+    }).catch(() => {
+      document.getElementById('stat-confesiones').textContent = '24';
+    });
+  </script>
 
-    loadConfesiones();
+  <!-- FORMULARIO → Cloudflare Worker (valida Turnstile + guarda en Firebase) -->
+  <script>
+    const WORKER_URL = "https://flat-mountain-1ee3.joepedev.workers.dev";
 
-    // Enviar confesión
-    document.getElementById('confession-form').addEventListener('submit', async (e) => {
+    document.getElementById("confession-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('btn-enviar');
-      btn.textContent = 'ENVIANDO RELATO... 🔥';
+
+      const btn       = document.getElementById("btn-enviar");
+      const successEl = document.getElementById("success-msg");
+
+      const token = window.turnstile?.getResponse();
+      if (!token) {
+        alert("Por favor completá el captcha antes de enviar.");
+        return;
+      }
+
+      btn.textContent = "ENVIANDO RELATO... 🔥";
       btn.disabled = true;
 
       try {
-        await addDoc(collection(db, 'confesiones'), {
-          autor: document.getElementById('autor').value,
-          tipo: document.getElementById('tipo').value,
-          historia: document.getElementById('historia').value,
-          timestamp: serverTimestamp(),
-          verificado: false
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            autor:          document.getElementById("autor").value.trim(),
+            tipo:           document.getElementById("tipo").value,
+            historia:       document.getElementById("historia").value.trim(),
+            turnstileToken: token,
+          }),
         });
 
-        document.getElementById('success-msg').style.display = 'block';
-        document.getElementById('confession-form').reset();
-        document.getElementById('file-name').textContent = '';
-        if('vibrate' in navigator) navigator.vibrate([100,50,100]);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error ?? "Error desconocido");
 
-      } catch(err) {
-        btn.textContent = 'TRANSMITIR AL FUEGO 🔥';
+        successEl.style.display = "block";
+        document.getElementById("confession-form").reset();
+        document.getElementById("file-name").textContent = "";
+        window.turnstile?.reset();
+        if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
+
+      } catch (err) {
+        alert(`Error: ${err.message}. Intentá de nuevo.`);
+        window.turnstile?.reset();
+        btn.textContent = "TRANSMITIR AL FUEGO 🔥";
         btn.disabled = false;
-        alert('Error al enviar. Intentá de nuevo.');
       }
     });
   </script>
 
+  <!-- AGE GATE + SPARKS + UI -->
   <script>
     // ── Age Gate
     function enterSite() {
@@ -659,16 +674,14 @@
       setTimeout(() => {
         gate.style.display = 'none';
         sessionStorage.setItem('isAdult', 'true');
-        // Intentar reproducir audio
         const audio = document.getElementById('fire-audio');
         audio.volume = 0.35;
         audio.play().catch(() => {});
       }, 500);
-      if('vibrate' in navigator) navigator.vibrate([80,40,80]);
+      if ('vibrate' in navigator) navigator.vibrate([80, 40, 80]);
     }
 
-    // Auto-skip si ya verificó
-    if(sessionStorage.getItem('isAdult') === 'true') {
+    if (sessionStorage.getItem('isAdult') === 'true') {
       document.getElementById('age-gate').style.display = 'none';
       setTimeout(() => {
         const audio = document.getElementById('fire-audio');
@@ -700,7 +713,7 @@
 
     // ── File input
     document.getElementById('file-input').addEventListener('change', function() {
-      if(this.files.length > 0) {
+      if (this.files.length > 0) {
         const f = this.files[0];
         const mb = (f.size/1024/1024).toFixed(2);
         document.getElementById('file-name').innerHTML =
@@ -710,7 +723,7 @@
     });
 
     // ── Scroll reveal sidebar
-    document.querySelectorAll('.sidebar-entry').forEach((el,i) => {
+    document.querySelectorAll('.sidebar-entry').forEach((el, i) => {
       el.style.opacity = '0';
       el.style.transform = 'translateX(16px)';
       el.style.transition = `all .5s ease ${i*.08}s`;
