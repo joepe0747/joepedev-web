@@ -488,26 +488,29 @@
               <option value="otro">Otro</option>
             </select>
 
-            <label>Tu historia</label>
-            <textarea id="historia" placeholder="No te guardes ningún detalle..." required></textarea>
+            <div class="story-form">
+  <form id="confession-form">
+    <label>Adjuntar multimedia (opcional)</label>
+    <div class="drop-area">
+      <input type="file" id="file-input" accept="image/*,video/*"/>
+      <span class="drop-icon">📎</span>
+      <div class="drop-text">Arrastrá o tocá para adjuntar</div>
+      <div id="file-name"></div>
+    </div>
 
-            <label>Adjuntar multimedia (opcional)</label>
-            <div class="drop-area">
-              <input type="file" id="file-input" accept="image/*,video/*"/>
-              <span class="drop-icon">📎</span>
-              <div class="drop-text">Arrastrá o tocá para adjuntar</div>
-              <div id="file-name"></div>
-            </div>
+    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4" data-theme="dark"></div>
+    </div>
 
-            <button type="submit" class="btn-submit" id="btn-enviar">
-              TRANSMITIR AL FUEGO 🔥
-            </button>
+    <button type="submit" class="btn-submit" id="btn-enviar">
+      TRANSMITIR AL FUEGO 🔥
+    </button>
 
-            <div class="success-msg" id="success-msg">
-              ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
-            </div>
-          </form>
-        </div>
+    <div class="success-msg" id="success-msg">
+      ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
+    </div>
+  </form>
+</div>
       </div>
 
       <!-- ENTRADAS -->
