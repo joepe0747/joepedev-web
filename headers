@@ -1,2 +1,2 @@
 /*
-  Content-Security-Policy: script-src 'self' 'unsafe-eval' 'unsafe-inline' https://challenges.cloudflare.com https://www.googletagmanager.com https://www.gstatic.com https://fonts.googleapis.com; worker-src 'self' blob:;
+  Content-Security-Policy: script-src 'self' 'unsafe-eval' 'unsafe-inline' https://challenges.cloudflare.com https://www.googletagmanager.com https://www.gstatic.com https://fonts.googleapis.com; connect-src 'self' https://flat-mountain-1ee3.joepedev.workers.dev https://chatcalienteapp2-default-rtdb.firebaseio.com https://firestore.googleapis.com; worker-src 'self' blob:;
