@@ -490,6 +490,22 @@
 
             <div class="story-form">
   <form id="confession-form">
+    <label for="autor">Seudónimo / Autor</label>
+    <input type="text" id="autor" placeholder="Tu nombre secreto" required />
+
+    <label for="tipo">Tipo de experiencia</label>
+    <select id="tipo" required>
+      <option value="" disabled selected>Seleccioná el tipo de historia</option>
+      <option value="encuentro">Encuentro inesperado</option>
+      <option value="confesion">Confesión íntima</option>
+      <option value="secreto">Secreto guardado</option>
+      <option value="historia">Historia de chat</option>
+      <option value="otro">Otro</option>
+    </select>
+
+    <label for="historia">Tu historia</label>
+    <textarea id="historia" placeholder="No te guardes ningún detalle..." required></textarea>
+
     <label>Adjuntar multimedia (opcional)</label>
     <div class="drop-area">
       <input type="file" id="file-input" accept="image/*,video/*"/>
