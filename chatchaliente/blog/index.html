@@ -15,7 +15,7 @@
     gtag('config', 'G-XGCD4YB7M3');
   </script>
 
-  <!-- Turnstile (sin el </script> duplicado) -->
+  <!-- Turnstile -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -266,23 +266,8 @@
     select option{background:#111;color:#fff}
     textarea{min-height:160px;resize:vertical;line-height:1.6}
 
-    .drop-area{
-      background:rgba(0,0,0,0.3);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:16px;
-      padding:32px;
-      text-align:center;
-      cursor:pointer;
-      transition:.3s;
-      margin-bottom:24px;
-      position:relative;
-    }
-
-    .drop-area:hover{border-color:var(--dorado);background:rgba(255,200,0,0.04)}
-    .drop-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-    .drop-icon{font-size:28px;margin-bottom:8px;display:block}
-    .drop-text{font-size:12px;color:#555;letter-spacing:1px}
-    #file-name{font-size:12px;color:var(--dorado);margin-top:8px;font-weight:700}
+    /* ══ FILE INPUT — oculto hasta implementar subida real ══ */
+    .drop-area{ display:none }
 
     .btn-submit{
       width:100%;
@@ -473,95 +458,54 @@
     <div>
 
       <!-- FORMULARIO -->
-      <script>
-  const WORKER_URL = "https://flat-mountain-1ee3.joepedev.workers.dev";
+      <div class="form-section">
+        <h2 class="section-heading">Contá tu historia</h2>
+        <p class="section-sub">Anónimo · Seguro · Verificado</p>
 
-  document.getElementById("confession-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+        <div class="story-form">
+          <form id="confession-form" novalidate>
 
-    const btn       = document.getElementById("btn-enviar");
-    const successEl = document.getElementById("success-msg");
+            <!-- ✅ BLOQUE 2 — Honeypot anti-bots (oculto) -->
+            <input type="text" id="website" name="website" style="display:none" tabindex="-1" autocomplete="off">
 
-    // ✅ Honeypot (anti-bots)
-    const honeypot = document.getElementById("website");
-    if (honeypot && honeypot.value) return;
+            <label for="autor">Tu apodo</label>
+            <input type="text" id="autor" placeholder="Ej: Anónimo_BA, La_Rubia_32..." maxlength="40"/>
 
-    // ✅ Inputs
-    const autor     = document.getElementById("autor").value.trim();
-    const tipo      = document.getElementById("tipo").value;
-    const historia  = document.getElementById("historia").value.trim();
+            <label for="tipo">Categoría</label>
+            <select id="tipo">
+              <option value="">— Elegí una categoría —</option>
+              <option value="encuentro">🔥 Encuentro</option>
+              <option value="secreto">🤫 Secreto</option>
+              <option value="confesion">💋 Confesión</option>
+              <option value="fantasia">✨ Fantasía</option>
+              <option value="historia">📖 Historia larga</option>
+            </select>
 
-    // ✅ Validaciones
-    if (!autor || !tipo || !historia) {
-      alert("Completá todos los campos");
-      return;
-    }
+            <label for="historia">Tu relato</label>
+            <textarea id="historia" placeholder="Contá lo que pasó... (máximo 1000 caracteres)" maxlength="1000"></textarea>
 
-    if (historia.length > 1000) {
-      alert("La historia es demasiado larga");
-      return;
-    }
-
-    // ✅ Token Turnstile (FORMA CORRECTA)
-    const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
-
-    if (!token) {
-      alert("Por favor completá el captcha.");
-      return;
-    }
-
-    btn.textContent = "ENVIANDO RELATO... 🔥";
-    btn.disabled = true;
-
-    try {
-      const res = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          autor,
-          tipo,
-          historia,
-          turnstileToken: token,
-        }),
-      });
-
-      // ✅ Manejo seguro de respuesta
-      let data;
-      try {
-        data = await res.json();
-      } catch {
-        const text = await res.text();
-        throw new Error(text);
-      }
-
-      if (!res.ok) throw new Error(data.error || "Error desconocido");
-
-      // ✅ UI éxito
-      successEl.style.display = "block";
-      document.getElementById("confession-form").reset();
-      document.getElementById("file-name").textContent = "";
-      window.turnstile?.reset();
-
-      // ✅ REACTIVAR BOTÓN
-      btn.textContent = "TRANSMITIR AL FUEGO 🔥";
-      btn.disabled = false;
-
-      if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
-
-    } catch (err) {
-      alert(`Error: ${err.message}`);
-
-      window.turnstile?.reset();
-      btn.textContent = "TRANSMITIR AL FUEGO 🔥";
-      btn.disabled = false;
-    }
-  });
-</script>
-
-            <div class="success-msg" id="success-msg">
-              ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
+            <!-- ✅ BLOQUE 4 — Turnstile limpio -->
+            <div class="cf-turnstile"
+                 data-sitekey="0x4AAAAAAAyslEOmUkbPJOY7"
+                 data-theme="dark"
+                 style="margin-bottom:20px">
             </div>
+
+            <!-- File input oculto (sin implementar) -->
+            <div class="drop-area">
+              <input type="file" id="file-input" accept="image/*,video/*"/>
+            </div>
+            <span id="file-name"></span>
+
+            <button type="submit" class="btn-submit" id="btn-enviar">
+              TRANSMITIR AL FUEGO 🔥
+            </button>
+
           </form>
+
+          <div class="success-msg" id="success-msg">
+            ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
+          </div>
         </div>
       </div>
 
@@ -619,7 +563,9 @@
 
       <div class="sidebar-stats">
         <div class="stat-box">
-          <div class="s-num" id="stat-confesiones">0</div>
+          <!-- ✅ BLOQUE 5 — Firebase RTD no tiene confesiones aquí, mostramos fallback estático
+               TODO: migrar a Firestore cuando el contador sea real -->
+          <div class="s-num" id="stat-confesiones">24</div>
           <div class="s-label">Confesiones</div>
         </div>
         <div class="stat-box">
@@ -637,32 +583,11 @@
     <p>© 2026 joeDEV · <a href="/chatchaliente/privacidad">Privacidad</a> · <a href="/chatchaliente/legales">Legales</a> · Solo mayores de 18 🔞</p>
   </footer>
 
-  <!-- FIREBASE solo para el contador del sidebar -->
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-
-    const app = initializeApp({
-      apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
-      authDomain: "chatcalienteapp2.firebaseapp.com",
-      databaseURL: "https://chatcalienteapp2-default-rtdb.firebaseio.com",
-      projectId: "chatcalienteapp2",
-      storageBucket: "chatcalienteapp2.firebasestorage.app",
-      messagingSenderId: "798220681076",
-      appId: "1:798220681076:web:44847b5dca7673dd4af621"
-    });
-
-    const db = getDatabase(app);
-
-    get(ref(db, 'confesiones')).then(snap => {
-      document.getElementById('stat-confesiones').textContent =
-        snap.exists() ? Object.keys(snap.val()).length : '0';
-    }).catch(() => {
-      document.getElementById('stat-confesiones').textContent = '24';
-    });
-  </script>
-
-  <!-- FORMULARIO → Cloudflare Worker (valida Turnstile + guarda en Firebase) -->
+  <!-- ══════════════════════════════════════════════════
+       ✅ BLOQUE 1 — JS DEL FORM (único, definitivo)
+       Sin duplicado. Turnstile leído por querySelector.
+       Honeypot. Validaciones. Scroll suave post-envío.
+  ══════════════════════════════════════════════════ -->
   <script>
     const WORKER_URL = "https://flat-mountain-1ee3.joepedev.workers.dev";
 
@@ -672,7 +597,29 @@
       const btn       = document.getElementById("btn-enviar");
       const successEl = document.getElementById("success-msg");
 
-      const token = window.turnstile?.getResponse();
+      // ✅ Honeypot (anti-bots) — si tiene valor, es un bot
+      const honeypot = document.getElementById("website");
+      if (honeypot && honeypot.value) return;
+
+      // ✅ Inputs
+      const autor   = document.getElementById("autor").value.trim();
+      const tipo    = document.getElementById("tipo").value;
+      const historia = document.getElementById("historia").value.trim();
+
+      // ✅ Validaciones básicas
+      if (!autor || !tipo || !historia) {
+        alert("Completá todos los campos");
+        return;
+      }
+
+      if (historia.length > 1000) {
+        alert("La historia es demasiado larga (máximo 1000 caracteres)");
+        return;
+      }
+
+      // ✅ Token Turnstile — forma correcta (querySelector del hidden input)
+      const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
+
       if (!token) {
         alert("Por favor completá el captcha antes de enviar.");
         return;
@@ -686,20 +633,37 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            autor:          document.getElementById("autor").value.trim(),
-            tipo:           document.getElementById("tipo").value,
-            historia:       document.getElementById("historia").value.trim(),
+            autor,
+            tipo,
+            historia,
             turnstileToken: token,
           }),
         });
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error ?? "Error desconocido");
+        // ✅ Manejo seguro de respuesta (puede no ser JSON)
+        let data;
+        try {
+          data = await res.json();
+        } catch {
+          const text = await res.text();
+          throw new Error(text || "Respuesta inesperada del servidor");
+        }
 
+        if (!res.ok) throw new Error(data.error || "Error desconocido");
+
+        // ✅ UI éxito
         successEl.style.display = "block";
         document.getElementById("confession-form").reset();
         document.getElementById("file-name").textContent = "";
         window.turnstile?.reset();
+
+        // ✅ BLOQUE 6 — Scroll suave al mensaje de éxito
+        successEl.scrollIntoView({ behavior: "smooth" });
+
+        // ✅ Reactivar botón
+        btn.textContent = "TRANSMITIR AL FUEGO 🔥";
+        btn.disabled = false;
+
         if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
 
       } catch (err) {
@@ -757,17 +721,6 @@
       .onfinish = () => s.remove();
     }
     setInterval(createSpark, 280);
-
-    // ── File input
-    document.getElementById('file-input').addEventListener('change', function() {
-      if (this.files.length > 0) {
-        const f = this.files[0];
-        const mb = (f.size/1024/1024).toFixed(2);
-        document.getElementById('file-name').innerHTML =
-          `<span style="color:#ffff00">✅ ${f.name} (${mb} MB)</span>`;
-        document.querySelector('.drop-area').style.borderColor = '#ffff00';
-      }
-    });
 
     // ── Scroll reveal sidebar
     document.querySelectorAll('.sidebar-entry').forEach((el, i) => {
