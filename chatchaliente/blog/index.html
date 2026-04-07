@@ -473,43 +473,90 @@
     <div>
 
       <!-- FORMULARIO -->
-      <div class="form-section">
-        <h2 class="section-heading">Confesá tu secreto 🔥</h2>
-        <p class="section-sub">Anónimo · Verificado · Sin censura</p>
+      <script>
+  const WORKER_URL = "https://flat-mountain-1ee3.joepedev.workers.dev";
 
-        <div class="story-form">
-          <form id="confession-form">
-            <label for="autor">Seudónimo / Autor</label>
-            <input type="text" id="autor" placeholder="Tu nombre secreto" required />
+  document.getElementById("confession-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            <label for="tipo">Tipo de experiencia</label>
-            <select id="tipo" required>
-              <option value="" disabled selected>Seleccioná el tipo de historia</option>
-              <option value="encuentro">Encuentro inesperado</option>
-              <option value="confesion">Confesión íntima</option>
-              <option value="secreto">Secreto guardado</option>
-              <option value="historia">Historia de chat</option>
-              <option value="otro">Otro</option>
-            </select>
+    const btn       = document.getElementById("btn-enviar");
+    const successEl = document.getElementById("success-msg");
 
-            <label for="historia">Tu historia</label>
-            <textarea id="historia" placeholder="No te guardes ningún detalle..." required></textarea>
+    // ✅ Honeypot (anti-bots)
+    const honeypot = document.getElementById("website");
+    if (honeypot && honeypot.value) return;
 
-            <label>Adjuntar multimedia (opcional)</label>
-            <div class="drop-area">
-              <input type="file" id="file-input" accept="image/*,video/*"/>
-              <span class="drop-icon">📎</span>
-              <div class="drop-text">Arrastrá o tocá para adjuntar</div>
-              <div id="file-name"></div>
-            </div>
+    // ✅ Inputs
+    const autor     = document.getElementById("autor").value.trim();
+    const tipo      = document.getElementById("tipo").value;
+    const historia  = document.getElementById("historia").value.trim();
 
-            <div style="display:flex;justify-content:center;margin-bottom:20px;">
-              <div class="cf-turnstile" data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4" data-theme="dark"></div>
-            </div>
+    // ✅ Validaciones
+    if (!autor || !tipo || !historia) {
+      alert("Completá todos los campos");
+      return;
+    }
 
-            <button type="submit" class="btn-submit" id="btn-enviar">
-              TRANSMITIR AL FUEGO 🔥
-            </button>
+    if (historia.length > 1000) {
+      alert("La historia es demasiado larga");
+      return;
+    }
+
+    // ✅ Token Turnstile (FORMA CORRECTA)
+    const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
+
+    if (!token) {
+      alert("Por favor completá el captcha.");
+      return;
+    }
+
+    btn.textContent = "ENVIANDO RELATO... 🔥";
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          autor,
+          tipo,
+          historia,
+          turnstileToken: token,
+        }),
+      });
+
+      // ✅ Manejo seguro de respuesta
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        const text = await res.text();
+        throw new Error(text);
+      }
+
+      if (!res.ok) throw new Error(data.error || "Error desconocido");
+
+      // ✅ UI éxito
+      successEl.style.display = "block";
+      document.getElementById("confession-form").reset();
+      document.getElementById("file-name").textContent = "";
+      window.turnstile?.reset();
+
+      // ✅ REACTIVAR BOTÓN
+      btn.textContent = "TRANSMITIR AL FUEGO 🔥";
+      btn.disabled = false;
+
+      if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
+
+    } catch (err) {
+      alert(`Error: ${err.message}`);
+
+      window.turnstile?.reset();
+      btn.textContent = "TRANSMITIR AL FUEGO 🔥";
+      btn.disabled = false;
+    }
+  });
+</script>
 
             <div class="success-msg" id="success-msg">
               ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
