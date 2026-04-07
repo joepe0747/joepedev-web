@@ -6,7 +6,7 @@
   <title>Confesiones al Rojo Vivo 🔥 | Chat Caliente Blog</title>
   <meta name="description" content="Las confesiones más calientes de Argentina. Historias reales, anónimas y verificadas. Solo para mayores de 18."/>
 
-  <!-- Google tag -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -17,6 +17,31 @@
 
   <!-- Turnstile -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
+      authDomain: "chatcalienteapp2.firebaseapp.com",
+      databaseURL: "https://chatcalienteapp2-default-rtdb.firebaseio.com",
+      projectId: "chatcalienteapp2",
+      storageBucket: "chatcalienteapp2.firebasestorage.app",
+      messagingSenderId: "798220681076",
+      appId: "1:798220681076:web:44847b5dca7673dd4af621"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+
+    // Exponer al scope global para el form handler
+    window._fbStorage = storage;
+    window._fbRef = ref;
+    window._fbUpload = uploadBytesResumable;
+    window._fbGetUrl = getDownloadURL;
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet"/>
@@ -244,7 +269,7 @@
       margin-bottom:8px;
     }
 
-    input,select,textarea{
+    input[type=text],input[type=email],select,textarea{
       width:100%;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.1);
@@ -258,7 +283,7 @@
       outline:none;
     }
 
-    input:focus,textarea:focus,select:focus{
+    input[type=text]:focus,textarea:focus,select:focus{
       border-color:var(--rojo);
       background:rgba(255,0,0,0.04);
     }
@@ -266,8 +291,84 @@
     select option{background:#111;color:#fff}
     textarea{min-height:160px;resize:vertical;line-height:1.6}
 
-    /* ══ FILE INPUT — oculto hasta implementar subida real ══ */
-    .drop-area{ display:none }
+    /* ══ DROP AREA ══ */
+    .drop-area{
+      background:rgba(0,0,0,0.3);
+      border:2px dashed rgba(255,255,255,0.1);
+      border-radius:16px;
+      padding:32px;
+      text-align:center;
+      cursor:pointer;
+      transition:.3s;
+      margin-bottom:12px;
+      position:relative;
+    }
+
+    .drop-area:hover{border-color:var(--dorado);background:rgba(255,200,0,0.04)}
+    .drop-area.drag-over{border-color:var(--rojo);background:rgba(255,0,0,0.06)}
+    .drop-area input[type=file]{
+      position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+    }
+    .drop-icon{font-size:32px;margin-bottom:8px;display:block}
+    .drop-text{font-size:12px;color:#555;letter-spacing:1px;line-height:1.6}
+    .drop-types{font-size:10px;color:#333;margin-top:4px;letter-spacing:1px}
+
+    #file-preview{
+      display:none;
+      background:rgba(255,200,0,0.06);
+      border:1px solid rgba(255,200,0,0.2);
+      border-radius:12px;
+      padding:14px 16px;
+      margin-bottom:20px;
+      font-size:12px;
+      color:var(--dorado);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    #file-preview .preview-icon{font-size:20px}
+    #file-preview .preview-info{flex:1}
+    #file-preview .preview-name{font-weight:700;margin-bottom:2px}
+    #file-preview .preview-size{color:#666;font-size:10px}
+    #file-preview .btn-remove{
+      background:none;border:none;color:#ff4444;
+      cursor:pointer;font-size:16px;padding:4px;
+    }
+
+    /* ══ PROGRESS BAR ══ */
+    .progress-wrap{
+      display:none;
+      margin-bottom:20px;
+    }
+
+    .progress-label{
+      font-size:10px;color:#555;letter-spacing:2px;
+      text-transform:uppercase;margin-bottom:8px;
+      display:flex;justify-content:space-between;
+    }
+
+    .progress-bar-bg{
+      background:rgba(255,255,255,0.06);
+      border-radius:100px;
+      height:6px;
+      overflow:hidden;
+    }
+
+    .progress-bar-fill{
+      height:100%;
+      background:linear-gradient(90deg,var(--rojo2),var(--dorado));
+      border-radius:100px;
+      width:0%;
+      transition:width .2s ease;
+    }
+
+    /* ══ TURNSTILE ══ */
+    .turnstile-wrap{
+      margin-bottom:20px;
+      display:flex;
+      justify-content:flex-start;
+    }
 
     .btn-submit{
       width:100%;
@@ -287,19 +388,25 @@
       background:var(--dorado);color:#000;
     }
 
-    .btn-submit:disabled{opacity:.6;transform:none;cursor:not-allowed}
+    .btn-submit:disabled{
+      opacity:.6;transform:none;cursor:not-allowed;
+      background:linear-gradient(90deg,#550000,#330000);
+    }
 
     .success-msg{
       display:none;
       background:rgba(0,255,100,.08);
       border:1px solid rgba(0,255,100,.3);
       border-radius:14px;
-      padding:20px;
+      padding:24px;
       text-align:center;
       margin-top:16px;
       font-size:14px;
       color:#00ff64;
+      line-height:1.6;
     }
+
+    .success-msg .s-icon{font-size:32px;display:block;margin-bottom:8px}
 
     /* ══ ENTRIES ══ */
     .entries-section{margin-top:48px}
@@ -454,7 +561,6 @@
   <!-- MAIN -->
   <div class="main-wrap" id="confesiones">
 
-    <!-- COLUMNA PRINCIPAL -->
     <div>
 
       <!-- FORMULARIO -->
@@ -465,11 +571,14 @@
         <div class="story-form">
           <form id="confession-form" novalidate>
 
-            <!-- ✅ BLOQUE 2 — Honeypot anti-bots (oculto) -->
-            <input type="text" id="website" name="website" style="display:none" tabindex="-1" autocomplete="off">
+            <!-- Honeypot anti-bots -->
+            <input type="text" id="website" name="website"
+                   style="display:none" tabindex="-1" autocomplete="off">
 
             <label for="autor">Tu apodo</label>
-            <input type="text" id="autor" placeholder="Ej: Anónimo_BA, La_Rubia_32..." maxlength="40"/>
+            <input type="text" id="autor"
+                   placeholder="Ej: Anónimo_BA, La_Rubia_32..."
+                   maxlength="40" autocomplete="off"/>
 
             <label for="tipo">Categoría</label>
             <select id="tipo">
@@ -482,20 +591,49 @@
             </select>
 
             <label for="historia">Tu relato</label>
-            <textarea id="historia" placeholder="Contá lo que pasó... (máximo 1000 caracteres)" maxlength="1000"></textarea>
+            <textarea id="historia"
+                      placeholder="Contá lo que pasó... (máximo 1000 caracteres)"
+                      maxlength="1000"></textarea>
 
-            <!-- ✅ BLOQUE 4 — Turnstile limpio -->
-            <div class="cf-turnstile"
-                 data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4"
-                 data-theme="dark"
-                 style="margin-bottom:20px">
+            <!-- SUBIDA DE ARCHIVO -->
+            <label>Adjuntá una foto o video (opcional · máx. 20MB)</label>
+            <div class="drop-area" id="drop-area">
+              <input type="file" id="file-input"
+                     accept="image/*,video/*,text/plain"
+                     onchange="handleFileSelect(this)"/>
+              <span class="drop-icon">📎</span>
+              <div class="drop-text">Arrastrá o tocá para adjuntar</div>
+              <div class="drop-types">JPG · PNG · GIF · MP4 · MOV · TXT · máx. 20MB</div>
             </div>
 
-            <!-- File input oculto (sin implementar) -->
-            <div class="drop-area">
-              <input type="file" id="file-input" accept="image/*,video/*"/>
+            <!-- Preview del archivo seleccionado -->
+            <div id="file-preview">
+              <span class="preview-icon" id="preview-icon">📄</span>
+              <div class="preview-info">
+                <div class="preview-name" id="preview-name"></div>
+                <div class="preview-size" id="preview-size"></div>
+              </div>
+              <button type="button" class="btn-remove" onclick="removeFile()">✕</button>
             </div>
-            <span id="file-name"></span>
+
+            <!-- Barra de progreso de subida -->
+            <div class="progress-wrap" id="progress-wrap">
+              <div class="progress-label">
+                <span>Subiendo archivo...</span>
+                <span id="progress-pct">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+              </div>
+            </div>
+
+            <!-- Turnstile -->
+            <div class="turnstile-wrap">
+              <div class="cf-turnstile"
+                   data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4"
+                   data-theme="dark">
+              </div>
+            </div>
 
             <button type="submit" class="btn-submit" id="btn-enviar">
               TRANSMITIR AL FUEGO 🔥
@@ -504,7 +642,11 @@
           </form>
 
           <div class="success-msg" id="success-msg">
-            ✅ ¡Tu relato fue recibido! Será revisado y publicado pronto.
+            <span class="s-icon">🔥</span>
+            ¡Tu relato fue recibido!<br>
+            <span style="font-size:12px;color:#00cc44;margin-top:4px;display:block">
+              Será revisado y publicado pronto.
+            </span>
           </div>
         </div>
       </div>
@@ -563,8 +705,6 @@
 
       <div class="sidebar-stats">
         <div class="stat-box">
-          <!-- ✅ BLOQUE 5 — Firebase RTD no tiene confesiones aquí, mostramos fallback estático
-               TODO: migrar a Firestore cuando el contador sea real -->
           <div class="s-num" id="stat-confesiones">24</div>
           <div class="s-label">Confesiones</div>
         </div>
@@ -583,52 +723,153 @@
     <p>© 2026 joeDEV · <a href="/chatchaliente/privacidad">Privacidad</a> · <a href="/chatchaliente/legales">Legales</a> · Solo mayores de 18 🔞</p>
   </footer>
 
-  <!-- ══════════════════════════════════════════════════
-       ✅ BLOQUE 1 — JS DEL FORM (único, definitivo)
-       Sin duplicado. Turnstile leído por querySelector.
-       Honeypot. Validaciones. Scroll suave post-envío.
-  ══════════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════════════════
+       LÓGICA PRINCIPAL — file handling + form submit
+  ══════════════════════════════════════════════════════ -->
   <script>
     const WORKER_URL = "https://flat-mountain-1ee3.joepedev.workers.dev";
+    const MAX_MB = 20;
+    let selectedFile = null;
 
+    // ── File select
+    function handleFileSelect(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      if (file.size > MAX_MB * 1024 * 1024) {
+        alert(`El archivo es demasiado grande. Máximo ${MAX_MB}MB.`);
+        input.value = "";
+        return;
+      }
+
+      selectedFile = file;
+      showPreview(file);
+    }
+
+    function showPreview(file) {
+      const icon = file.type.startsWith("image/") ? "🖼️"
+                 : file.type.startsWith("video/") ? "🎬"
+                 : file.type.startsWith("text/")  ? "📝"
+                 : "📄";
+
+      document.getElementById("preview-icon").textContent = icon;
+      document.getElementById("preview-name").textContent = file.name;
+      document.getElementById("preview-size").textContent =
+        (file.size / 1024 / 1024).toFixed(2) + " MB";
+      document.getElementById("file-preview").style.display = "flex";
+      document.getElementById("drop-area").style.borderColor = "rgba(255,200,0,0.4)";
+    }
+
+    function removeFile() {
+      selectedFile = null;
+      document.getElementById("file-input").value = "";
+      document.getElementById("file-preview").style.display = "none";
+      document.getElementById("drop-area").style.borderColor = "rgba(255,255,255,0.1)";
+    }
+
+    // ── Drag & drop
+    const dropArea = document.getElementById("drop-area");
+    dropArea.addEventListener("dragover", e => {
+      e.preventDefault();
+      dropArea.classList.add("drag-over");
+    });
+    dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
+    dropArea.addEventListener("drop", e => {
+      e.preventDefault();
+      dropArea.classList.remove("drag-over");
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        document.getElementById("file-input").files = e.dataTransfer.files;
+        handleFileSelect(document.getElementById("file-input"));
+      }
+    });
+
+    // ── Subida a Firebase Storage con progreso
+    async function uploadToStorage(file) {
+      return new Promise((resolve, reject) => {
+        const storage = window._fbStorage;
+        const ref     = window._fbRef;
+        const upload  = window._fbUpload;
+        const getUrl  = window._fbGetUrl;
+
+        if (!storage) {
+          reject(new Error("Firebase Storage no inicializado"));
+          return;
+        }
+
+        const ext       = file.name.split('.').pop();
+        const fileName  = `confesiones/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+        const storageRef = ref(storage, fileName);
+        const task      = upload(storageRef, file);
+
+        // Mostrar barra de progreso
+        document.getElementById("progress-wrap").style.display = "block";
+
+        task.on("state_changed",
+          snapshot => {
+            const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            document.getElementById("progress-bar").style.width = pct + "%";
+            document.getElementById("progress-pct").textContent = pct + "%";
+          },
+          err => reject(err),
+          async () => {
+            const url = await getUrl(task.snapshot.ref);
+            document.getElementById("progress-wrap").style.display = "none";
+            resolve(url);
+          }
+        );
+      });
+    }
+
+    // ══ FORM SUBMIT ══
     document.getElementById("confession-form").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const btn       = document.getElementById("btn-enviar");
       const successEl = document.getElementById("success-msg");
 
-      // ✅ Honeypot (anti-bots) — si tiene valor, es un bot
-      const honeypot = document.getElementById("website");
-      if (honeypot && honeypot.value) return;
+      // Honeypot
+      if (document.getElementById("website")?.value) return;
 
-      // ✅ Inputs
+      // Inputs
       const autor   = document.getElementById("autor").value.trim();
       const tipo    = document.getElementById("tipo").value;
       const historia = document.getElementById("historia").value.trim();
 
-      // ✅ Validaciones básicas
+      // Validaciones
       if (!autor || !tipo || !historia) {
-        alert("Completá todos los campos");
+        alert("Completá todos los campos obligatorios.");
         return;
       }
-
       if (historia.length > 1000) {
-        alert("La historia es demasiado larga (máximo 1000 caracteres)");
+        alert("La historia es demasiado larga (máximo 1000 caracteres).");
         return;
       }
 
-      // ✅ Token Turnstile — forma correcta (querySelector del hidden input)
+      // Turnstile token
       const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
-
       if (!token) {
         alert("Por favor completá el captcha antes de enviar.");
         return;
       }
 
-      btn.textContent = "ENVIANDO RELATO... 🔥";
+      btn.textContent = "PROCESANDO... 🔥";
       btn.disabled = true;
 
       try {
+        // 1. Subir archivo si hay uno
+        let archivoUrl = null;
+        let archivoTipo = null;
+
+        if (selectedFile) {
+          btn.textContent = "SUBIENDO ARCHIVO... 📤";
+          archivoUrl  = await uploadToStorage(selectedFile);
+          archivoTipo = selectedFile.type;
+        }
+
+        // 2. Enviar al Worker
+        btn.textContent = "ENVIANDO RELATO... 🔥";
+
         const res = await fetch(WORKER_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -636,11 +877,12 @@
             autor,
             tipo,
             historia,
+            archivoUrl,
+            archivoTipo,
             turnstileToken: token,
           }),
         });
 
-        // ✅ Manejo seguro de respuesta (puede no ser JSON)
         let data;
         try {
           data = await res.json();
@@ -651,24 +893,18 @@
 
         if (!res.ok) throw new Error(data.error || "Error desconocido");
 
-        // ✅ UI éxito
+        // Éxito
         successEl.style.display = "block";
         document.getElementById("confession-form").reset();
-        document.getElementById("file-name").textContent = "";
+        removeFile();
         window.turnstile?.reset();
-
-        // ✅ BLOQUE 6 — Scroll suave al mensaje de éxito
         successEl.scrollIntoView({ behavior: "smooth" });
-
-        // ✅ Reactivar botón
-        btn.textContent = "TRANSMITIR AL FUEGO 🔥";
-        btn.disabled = false;
-
         if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
 
       } catch (err) {
         alert(`Error: ${err.message}. Intentá de nuevo.`);
         window.turnstile?.reset();
+      } finally {
         btn.textContent = "TRANSMITIR AL FUEGO 🔥";
         btn.disabled = false;
       }
@@ -677,7 +913,6 @@
 
   <!-- AGE GATE + SPARKS + UI -->
   <script>
-    // ── Age Gate
     function enterSite() {
       const gate = document.getElementById('age-gate');
       gate.style.transition = 'opacity .5s ease';
@@ -701,18 +936,13 @@
       }, 300);
     }
 
-    // ── Sparks
+    // Sparks
     const sparkContainer = document.getElementById('sparks');
     function createSpark() {
       const s = document.createElement('div');
       s.className = 'spark';
       const size = Math.random() * 4 + 1.5;
-      s.style.cssText = `
-        width:${size}px;height:${size}px;
-        left:${Math.random()*100}%;
-        bottom:-10px;
-        opacity:${.5+Math.random()*.5};
-      `;
+      s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:-10px;opacity:${.5+Math.random()*.5};`;
       sparkContainer.appendChild(s);
       s.animate([
         {transform:'translateY(0) translateX(0) scale(1)',opacity:.8},
@@ -722,7 +952,7 @@
     }
     setInterval(createSpark, 280);
 
-    // ── Scroll reveal sidebar
+    // Scroll reveal sidebar
     document.querySelectorAll('.sidebar-entry').forEach((el, i) => {
       el.style.opacity = '0';
       el.style.transform = 'translateX(16px)';
