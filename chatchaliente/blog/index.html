@@ -1008,7 +1008,6 @@
       const db = window._db;
 
       if (!db) {
-        // Si Firestore aún no inicializó, reintentar en 500ms
         setTimeout(cargarRelatosDinamicos, 500);
         return;
       }
@@ -1019,11 +1018,11 @@
         window._orderBy("fecha", "desc")
       );
 
-      // onSnapshot: tiempo real — si aprobás algo, aparece sin recargar
+      // onSnapshot: tiempo real para el búnker
       window._onSnapshot(q, (snapshot) => {
         lista.innerHTML = "";
 
-        // Actualizamos el contador del sidebar
+        // Actualizamos contador
         document.getElementById("stat-confesiones").textContent = snapshot.size;
 
         if (snapshot.empty) {
@@ -1041,12 +1040,11 @@
             ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
             : 'RECIENTE';
 
-          // Truncamos el excerpt a 160 chars para la card
-          const excerpt = data.historia
-            ? data.historia.length > 160
-              ? data.historia.slice(0, 160) + '...'
-              : data.historia
-            : '';
+          // Sincronizado con el Worker (usa data.historia)
+          const relatoCompleto = data.historia || '';
+          const excerpt = relatoCompleto.length > 160
+              ? relatoCompleto.slice(0, 160) + '...'
+              : relatoCompleto;
 
           const card = document.createElement("div");
           card.className = "entry-card";
@@ -1054,28 +1052,29 @@
             <div class="entry-meta"><span>${fecha}</span> · VERIFICADO</div>
             <div class="entry-title">${escapeHtml(data.autor || 'Anónimo')}</div>
             <div class="entry-excerpt">${escapeHtml(excerpt)}</div>
-            ${data.archivoUrl
-              ? `<a href="${data.archivoUrl}" target="_blank" rel="noopener"
-                    style="color:var(--rojo);font-size:10px;text-decoration:none;margin-top:10px;display:inline-block;">
-                    Ver adjunto 🔥
-                 </a>`
-              : ''}
+            
+            ${data.archivoUrl ? `
+              <div style="margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000;">
+                <img src="${data.archivoUrl}" 
+                     alt="Adjunto" 
+                     style="width: 100%; max-height: 350px; object-fit: contain; display: block;"
+                     onerror="this.parentElement.style.display='none'">
+                <a href="${data.archivoUrl}" target="_blank" rel="noopener"
+                   style="color:var(--rojo); font-size:10px; text-decoration:none; padding: 10px; display: block; background: rgba(18,18,18,0.8); text-align: center; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.05);">
+                   VER ADJUNTO COMPLETO 🔥
+                </a>
+              </div>
+            ` : ''}
           `;
           lista.appendChild(card);
         });
 
       }, (err) => {
-        // Error de Firestore (ej: reglas de seguridad)
         console.error("Firestore error:", err);
-        lista.innerHTML = `
-          <div class="entries-loading">
-            <span class="loading-icon">⚠️</span>
-            No se pudieron cargar los relatos.
-          </div>`;
+        lista.innerHTML = `<div class="entries-loading">⚠️ Error de conexión.</div>`;
       });
     }
 
-    // Sanitizamos para evitar XSS en el contenido del usuario
     function escapeHtml(str) {
       return String(str)
         .replace(/&/g, "&amp;")
@@ -1084,8 +1083,6 @@
         .replace(/"/g, "&quot;");
     }
 
-    // Arrancamos cuando el DOM esté listo
-    // Damos 800ms para que el módulo ES de Firebase termine de inicializar
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(cargarRelatosDinamicos, 800);
     });
