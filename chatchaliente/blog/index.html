@@ -41,6 +41,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+    import { getFirestore, collection, query, where, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
@@ -54,12 +55,21 @@
 
     const app = initializeApp(firebaseConfig);
     const storage = getStorage(app);
+    const db = getFirestore(app);
 
-    // Exponer al scope global para el form handler
+    // Storage
     window._fbStorage = storage;
     window._fbRef = ref;
     window._fbUpload = uploadBytesResumable;
     window._fbGetUrl = getDownloadURL;
+
+    // Firestore
+    window._db = db;
+    window._collection = collection;
+    window._query = query;
+    window._where = where;
+    window._orderBy = orderBy;
+    window._onSnapshot = onSnapshot;
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -455,6 +465,23 @@
     }
     .entry-excerpt{font-size:13px;color:#555;line-height:1.6}
 
+    /* ══ ENTRIES LOADING ══ */
+    .entries-loading{
+      text-align:center;
+      padding:40px 20px;
+      color:#333;
+      font-size:12px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .entries-loading .loading-icon{
+      font-size:32px;
+      display:block;
+      margin-bottom:12px;
+      animation:pulse 1.5s ease-in-out infinite;
+    }
+
     /* ══ SIDEBAR ══ */
     .sidebar{
       background:var(--glass);
@@ -669,25 +696,15 @@
         </div>
       </div>
 
-      <!-- ENTRADAS -->
+      <!-- ENTRADAS — se pueblan dinámicamente desde Firestore -->
       <div class="entries-section">
         <h2 class="section-heading">Entradas calientes</h2>
         <p class="section-sub">Historias verificadas por la comunidad</p>
         <div id="entries-list">
-          <div class="entry-card">
-            <div class="entry-meta"><span>12 MAR 2026</span> · ARCHIVO VERIFICADO</div>
-            <div class="entry-title">[confesion_anonima] Relato de Ricardo G. (27) – Belgrano</div>
-            <div class="entry-excerpt">Lo que empezó como un mensaje de texto se convirtió en la noche más intensa de mi vida. Nunca pensé que un "hola" podría...</div>
-          </div>
-          <div class="entry-card">
-            <div class="entry-meta"><span>12 MAR 2026</span> · ARCHIVO VERIFICADO</div>
-            <div class="entry-title">[confesion_anonima] Relato de Romina A. (31) – Caballito</div>
-            <div class="entry-excerpt">Siempre fui discreta. Pero esa noche de miércoles algo cambió. Él escribió primero, yo respondí sin pensar...</div>
-          </div>
-          <div class="entry-card">
-            <div class="entry-meta"><span>10 MAR 2026</span> · ARCHIVO VERIFICADO</div>
-            <div class="entry-title">Historias de Chat: El encuentro que comenzó con un «Hola» prohibido 🔥</div>
-            <div class="entry-excerpt">Nos conocimos en la sala Discreta. Los dos sabíamos que estábamos jugando con fuego. Y nos encantó...</div>
+          <!-- Estado inicial: spinner de carga -->
+          <div class="entries-loading">
+            <span class="loading-icon">🔥</span>
+            Encendiendo el fuego...
           </div>
         </div>
       </div>
@@ -723,7 +740,7 @@
 
       <div class="sidebar-stats">
         <div class="stat-box">
-          <div class="s-num" id="stat-confesiones">24</div>
+          <div class="s-num" id="stat-confesiones">—</div>
           <div class="s-label">Confesiones</div>
         </div>
         <div class="stat-box">
@@ -979,6 +996,98 @@
         el.style.opacity = '1';
         el.style.transform = 'translateX(0)';
       }, 600 + i*80);
+    });
+  </script>
+
+  <!-- ══════════════════════════════════════════════════════
+       FIRESTORE — carga dinámica de relatos verificados
+  ══════════════════════════════════════════════════════ -->
+  <script>
+    function cargarRelatosDinamicos() {
+      const lista = document.getElementById("entries-list");
+      const db = window._db;
+
+      if (!db) {
+        // Si Firestore aún no inicializó, reintentar en 500ms
+        setTimeout(cargarRelatosDinamicos, 500);
+        return;
+      }
+
+      const q = window._query(
+        window._collection(db, "confesiones"),
+        window._where("verificado", "==", true),
+        window._orderBy("fecha", "desc")
+      );
+
+      // onSnapshot: tiempo real — si aprobás algo, aparece sin recargar
+      window._onSnapshot(q, (snapshot) => {
+        lista.innerHTML = "";
+
+        // Actualizamos el contador del sidebar
+        document.getElementById("stat-confesiones").textContent = snapshot.size;
+
+        if (snapshot.empty) {
+          lista.innerHTML = `
+            <div class="entries-loading">
+              <span class="loading-icon">🔥</span>
+              Esperando que el fuego se encienda...
+            </div>`;
+          return;
+        }
+
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const fecha = data.fecha?.toDate
+            ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
+            : 'RECIENTE';
+
+          // Truncamos el excerpt a 160 chars para la card
+          const excerpt = data.historia
+            ? data.historia.length > 160
+              ? data.historia.slice(0, 160) + '...'
+              : data.historia
+            : '';
+
+          const card = document.createElement("div");
+          card.className = "entry-card";
+          card.innerHTML = `
+            <div class="entry-meta"><span>${fecha}</span> · VERIFICADO</div>
+            <div class="entry-title">${escapeHtml(data.autor || 'Anónimo')}</div>
+            <div class="entry-excerpt">${escapeHtml(excerpt)}</div>
+            ${data.archivoUrl
+              ? `<a href="${data.archivoUrl}" target="_blank" rel="noopener"
+                    style="color:var(--rojo);font-size:10px;text-decoration:none;margin-top:10px;display:inline-block;">
+                    Ver adjunto 🔥
+                 </a>`
+              : ''}
+          `;
+          lista.appendChild(card);
+        });
+
+      }, (err) => {
+        // Error de Firestore (ej: reglas de seguridad)
+        console.error("Firestore error:", err);
+        lista.innerHTML = `
+          <div class="entries-loading">
+            <span class="loading-icon">⚠️</span>
+            No se pudieron cargar los relatos.
+          </div>`;
+      });
+    }
+
+    // Sanitizamos para evitar XSS en el contenido del usuario
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // Arrancamos cuando el DOM esté listo
+    // Damos 800ms para que el módulo ES de Firebase termine de inicializar
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(cargarRelatosDinamicos, 800);
     });
   </script>
 
