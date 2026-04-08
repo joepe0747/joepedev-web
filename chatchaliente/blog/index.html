@@ -1042,9 +1042,9 @@
             : 'RECIENTE';
 
           // Truncamos el excerpt a 160 chars para la card
-          const excerpt = data.historia
+          const excerpt = data.texto
             ? data.historia.length > 160
-              ? data.historia.slice(0, 160) + '...'
+              ? data.texto.slice(0, 160)
               : data.historia
             : '';
 
@@ -1053,7 +1053,7 @@
           card.innerHTML = `
             <div class="entry-meta"><span>${fecha}</span> · VERIFICADO</div>
             <div class="entry-title">${escapeHtml(data.autor || 'Anónimo')}</div>
-            <div class="entry-excerpt">${escapeHtml(excerpt)}</div>
+            <div class="entry-excerpt">${escapeHtml(data.texto || '')}</div>
             ${data.archivoUrl
               ? `<a href="${data.archivoUrl}" target="_blank" rel="noopener"
                     style="color:var(--rojo);font-size:10px;text-decoration:none;margin-top:10px;display:inline-block;">
