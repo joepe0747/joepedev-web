@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://challenges.cloudflare.com https://static.cloudflareinsights.com; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://challenges.cloudflare.com https://static.cloudflareinsights.com; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src https://chatcalienteapp2.firebaseapp.com https://challenges.cloudflare.com; connect-src https://*.googleapis.com https://*.firebaseio.com https://*.cloudflareinsights.com;">
     
     <title>Bunker joeDEV | Admin Fuego 🔥</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,28 +11,24 @@
         body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; text-align: center; padding: 40px 20px; margin: 0; }
         .container { max-width: 600px; margin: 0 auto; background: #111; padding: 30px; border-radius: 20px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h1 { font-family: 'Bebas Neue', sans-serif; color: #ff2d00; font-size: 40px; margin-bottom: 10px; }
-        p { color: #aaa; }
         .btn { background: #fff; color: #000; border: none; padding: 15px 30px; border-radius: 100px; font-weight: 700; cursor: pointer; margin-top: 20px; transition: 0.3s; }
         .btn:hover { background: #ff2d00; color: #fff; }
-        .confesion-card { background: #1a1a1a; text-align: left; padding: 20px; border-radius: 12px; margin-top: 20px; border-left: 4px solid #ff2d00; position: relative; }
+        .confesion-card { background: #1a1a1a; text-align: left; padding: 20px; border-radius: 12px; margin-top: 20px; border-left: 4px solid #ff2d00; }
         #admin-panel { display: none; }
         .user-info { font-size: 11px; color: #444; margin-bottom: 20px; word-break: break-all; }
-        .fecha { font-size: 12px; color: #666; font-weight: bold; }
-        .status-badge { font-size: 10px; padding: 3px 8px; border-radius: 5px; background: #333; color: #ff2d00; margin-left: 10px; }
     </style>
 </head>
 <body>
 
     <div class="container" id="login-section">
-        <div style="font-size: 50px;">🔥</div>
-        <h1>BÚNKER JOEDEV</h1>
-        <p>Solo personal autorizado para moderar el fuego.</p>
+        <h1>BÚNKER JOEDEV 🔥</h1>
+        <p>Solo personal autorizado.</p>
         <button class="btn" onclick="login()">ENTRAR CON GOOGLE</button>
     </div>
 
     <div class="container" id="admin-panel">
         <div class="user-info" id="user-display"></div>
-        <h1>Relatos Pendientes</h1>
+        <h1>Relatos por Aprobar</h1>
         <div id="lista"></div>
         <br>
         <button onclick="logout()" style="background:none; border:1px solid #333; color:#555; padding:8px 15px; border-radius:50px; cursor:pointer; font-size:11px;">Cerrar Sesión</button>
@@ -60,7 +56,7 @@
             if (user) {
                 document.getElementById('login-section').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
-                document.getElementById('user-display').innerText = `Conectado como: ${user.email} | UID: ${user.uid}`;
+                document.getElementById('user-display').innerText = `Admin: ${user.email} | UID: ${user.uid}`;
                 cargarDatos();
             } else {
                 document.getElementById('login-section').style.display = 'block';
@@ -68,22 +64,17 @@
             }
         });
 
-        window.login = () => signInWithPopup(auth, provider).catch(err => alert("Error de Login: " + err.message));
+        window.login = () => signInWithPopup(auth, provider).catch(err => alert("Error: " + err.message));
         window.logout = () => signOut(auth);
 
         async function cargarDatos() {
             const lista = document.getElementById('lista');
-            lista.innerHTML = "<p>Leyendo Firestore...</p>";
+            lista.innerHTML = "Leyendo Firestore...";
             try {
-                // Traemos solo los que NO están verificados para moderar
                 const q = query(collection(db, "confesiones"), where("verificado", "==", false), orderBy("fecha", "desc"));
                 const querySnapshot = await getDocs(q);
                 lista.innerHTML = "";
-                
-                if (querySnapshot.empty) {
-                    lista.innerHTML = "<p>No hay confesiones nuevas por ahora. ¡Todo tranqui!</p>";
-                    return;
-                }
+                if (querySnapshot.empty) { lista.innerHTML = "<p>Todo al día. No hay nada nuevo.</p>"; return; }
 
                 querySnapshot.forEach((documento) => {
                     const data = documento.data();
@@ -91,29 +82,25 @@
                     const card = document.createElement('div');
                     card.className = "confesion-card";
                     card.innerHTML = `
-                        <div class="fecha">${data.fecha?.toDate().toLocaleString() || 'Recién llegado'} <span class="status-badge">PENDIENTE</span></div>
-                        <p style="margin: 10px 0; font-weight:bold; color:#ff2d00;">Autor: ${data.autor || 'Anónimo'}</p>
-                        <p style="color:#eee; font-size:14px; line-height:1.5;">${data.texto}</p>
-                        <button class="btn" style="background:#00ff64; padding:8px 15px; font-size:12px;" onclick="aprobar('${id}')">APROBAR Y PUBLICAR 🔥</button>
+                        <p style="font-size:12px; color:#666;">${data.fecha?.toDate().toLocaleString()}</p>
+                        <p><strong>${data.autor}</strong></p>
+                        <p>${data.texto}</p>
+                        <button class="btn" style="background:#00ff64; padding:8px 15px;" onclick="aprobar('${id}')">APROBAR</button>
                     `;
                     lista.appendChild(card);
                 });
             } catch (err) {
-                lista.innerHTML = `<div style="color:#ff2d00; background:#200; padding:15px; border-radius:10px;">
-                    <strong>ERROR DE ACCESO:</strong><br>Firestore te bloqueó. Asegurate de que el UID que ves arriba sea uno de los permitidos en tus Reglas de Firebase.
-                </div>`;
+                lista.innerHTML = `<p style="color:red">ERROR DE PERMISOS. Revisá tu UID en Firebase.</p>`;
                 console.error(err);
             }
         }
 
         window.aprobar = async (id) => {
-            if(!confirm("¿Estás seguro de publicar este relato?")) return;
             try {
-                const docRef = doc(db, "confesiones", id);
-                await updateDoc(docRef, { verificado: true });
-                alert("¡Publicado con éxito!");
+                await updateDoc(doc(db, "confesiones", id), { verificado: true });
+                alert("¡Relato publicado!");
                 cargarDatos();
-            } catch (err) { alert("Error al aprobar: " + err.message); }
+            } catch (err) { alert("Error: " + err.message); }
         }
     </script>
 </body>
