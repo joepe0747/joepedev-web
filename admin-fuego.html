@@ -29,7 +29,7 @@
 
     <script type="module">
         const PROJECT_ID = "chatcalienteapp2";
-        const API_BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/confesiones`;
+        const API_BASE = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/confesiones?orderBy=fecha%20desc`;
 
         async function cargarConfesiones() {
             const container = document.getElementById('lista-pendientes');
