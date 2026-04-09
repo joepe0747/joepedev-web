@@ -1022,8 +1022,10 @@
       window._onSnapshot(q, (snapshot) => {
         lista.innerHTML = "";
 
-        // Actualizamos contador
-        document.getElementById("stat-confesiones").textContent = snapshot.size;
+        // Actualizamos contador del sidebar
+        if (document.getElementById("stat-confesiones")) {
+            document.getElementById("stat-confesiones").textContent = snapshot.size;
+        }
 
         if (snapshot.empty) {
           lista.innerHTML = `
@@ -1036,16 +1038,16 @@
 
         snapshot.forEach((doc) => {
           const data = doc.data();
-          const id = doc.id; // Necesitamos el ID para el link individual
+          const id = doc.id; 
           const fecha = data.fecha?.toDate
             ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
             : 'RECIENTE';
 
           const relatoCompleto = data.historia || '';
-          
           const card = document.createElement("div");
           card.className = "entry-card";
-          // Usamos un ID único para el colapsable
+          
+          // ID único para que el botón sepa qué texto desplegar
           const collapseId = `relato-${id}`;
 
           card.innerHTML = `
@@ -1097,6 +1099,11 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(cargarRelatosDinamicos, 800);
+    });
+  </script>
 
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(cargarRelatosDinamicos, 800);
