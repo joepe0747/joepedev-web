@@ -507,12 +507,26 @@
       padding:16px 0;
       border-bottom:1px solid rgba(255,255,255,0.04);
       transition:.3s;
+      cursor:pointer;
     }
 
+    .sidebar-entry:last-of-type{border-bottom:none;}
     .sidebar-entry:hover{padding-left:8px;background:linear-gradient(90deg,rgba(255,0,0,.08),transparent)}
     .sidebar-entry .s-date{color:var(--rojo);font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
     .sidebar-entry .s-cat{color:#444;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-left:8px}
-    .sidebar-entry h4{color:#ccc;font-size:13px;margin-top:5px;line-height:1.4;font-weight:600}
+    .sidebar-entry h4{
+      color:#ccc;font-size:13px;margin-top:5px;line-height:1.4;font-weight:600;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    }
+
+    /* Skeleton mientras carga el sidebar */
+    .sidebar-skeleton{
+      height:58px;border-radius:10px;margin-bottom:4px;
+      background:linear-gradient(90deg,rgba(255,255,255,0.03) 25%,rgba(255,255,255,0.07) 50%,rgba(255,255,255,0.03) 75%);
+      background-size:200% 100%;
+      animation:shimmer 1.4s infinite;
+    }
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
     .sidebar-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,0,0,.2),transparent);margin:24px 0}
 
@@ -711,30 +725,18 @@
 
     </div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR — dinámico desde Firestore -->
     <aside class="sidebar">
       <div class="sidebar-title">Entradas calientes 🔥</div>
 
-      <a href="#" class="sidebar-entry">
-        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
-        <h4>[confesion_anonima] Relato de Ricardo G. (27) – Belgrano</h4>
-      </a>
-      <a href="#" class="sidebar-entry">
-        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
-        <h4>[confesion_anonima] Relato de Romina A. (31) – Caballito</h4>
-      </a>
-      <a href="#" class="sidebar-entry">
-        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
-        <h4>[confesion_anonima] Relato de Alejandro R. (34) – CABA</h4>
-      </a>
-      <a href="#" class="sidebar-entry">
-        <div><span class="s-date">12 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
-        <h4>Carlos Ruiz – Portero (42)</h4>
-      </a>
-      <a href="#" class="sidebar-entry">
-        <div><span class="s-date">10 MAR 2026</span><span class="s-cat">· ARCHIVO VERIFICADO</span></div>
-        <h4>Historias de Chat: El encuentro que comenzó con un «Hola» prohibido 🔥</h4>
-      </a>
+      <!-- Skeletons mientras carga; JS los reemplaza -->
+      <div id="sidebar-list">
+        <div class="sidebar-skeleton"></div>
+        <div class="sidebar-skeleton"></div>
+        <div class="sidebar-skeleton"></div>
+        <div class="sidebar-skeleton"></div>
+        <div class="sidebar-skeleton"></div>
+      </div>
 
       <div class="sidebar-divider"></div>
 
@@ -987,22 +989,22 @@
     }
     setInterval(createSpark, 280);
 
-    // Scroll reveal sidebar
-    document.querySelectorAll('.sidebar-entry').forEach((el, i) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateX(16px)';
-      el.style.transition = `all .5s ease ${i*.08}s`;
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateX(0)';
-      }, 600 + i*80);
-    });
+    // Scroll reveal — se aplica a las sidebar-entry dinámicas vía JS en cargarRelatosDinamicos
   </script>
 
   <!-- ══════════════════════════════════════════════════════
        FIRESTORE — carga dinámica de relatos verificados
+       + sidebar dinámico con las últimas 5 entradas
   ══════════════════════════════════════════════════════ -->
   <script>
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
     function cargarRelatosDinamicos() {
       const lista = document.getElementById("entries-list");
       const db = window._db;
@@ -1020,12 +1022,14 @@
 
       // onSnapshot: tiempo real para el búnker
       window._onSnapshot(q, (snapshot) => {
-        lista.innerHTML = "";
 
-        // Actualizamos contador del sidebar
+        // ── Contador
         if (document.getElementById("stat-confesiones")) {
-            document.getElementById("stat-confesiones").textContent = snapshot.size;
+          document.getElementById("stat-confesiones").textContent = snapshot.size;
         }
+
+        // ══ ENTRIES LIST (columna principal) ══
+        lista.innerHTML = "";
 
         if (snapshot.empty) {
           lista.innerHTML = `
@@ -1033,77 +1037,113 @@
               <span class="loading-icon">🔥</span>
               Esperando que el fuego se encienda...
             </div>`;
-          return;
-        }
+        } else {
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            const id = doc.id;
+            const fecha = data.fecha?.toDate
+              ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
+              : 'RECIENTE';
 
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          const id = doc.id; 
-          const fecha = data.fecha?.toDate
-            ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
-            : 'RECIENTE';
+            const relatoCompleto = data.historia || '';
+            const card = document.createElement("div");
+            card.className = "entry-card";
+            card.id = `card-${id}`;
 
-          const relatoCompleto = data.historia || '';
-          const card = document.createElement("div");
-          card.className = "entry-card";
-          
-          // ID único para que el botón sepa qué texto desplegar
-          const collapseId = `relato-${id}`;
+            // ID único para que el botón sepa qué texto desplegar
+            const collapseId = `relato-${id}`;
 
-          card.innerHTML = `
-            <div class="entry-meta"><span>${fecha}</span> · VERIFICADO</div>
-            <div class="entry-title">${escapeHtml(data.autor || 'Anónimo')}</div>
-            
-            <div id="${collapseId}" style="font-size: 13px; color: #aaa; line-height: 1.6; margin-bottom: 10px; max-height: 80px; overflow: hidden; transition: max-height 0.5s ease;">
-                ${escapeHtml(relatoCompleto)}
-            </div>
+            card.innerHTML = `
+              <div class="entry-meta"><span>${fecha}</span> · VERIFICADO</div>
+              <div class="entry-title">${escapeHtml(data.autor || 'Anónimo')}</div>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-              <button onclick="document.getElementById('${collapseId}').style.maxHeight='none'; this.style.display='none'" 
-                      style="background: none; border: 1px solid #444; color: #888; padding: 5px 12px; border-radius: 50px; font-size: 10px; cursor: pointer; text-transform: uppercase;">
-                Leer más ↓
-              </button>
-              
-              <a href="../relato.html?id=${id}" target="_blank"
-                 style="background: rgba(255,0,0,0.1); border: 1px solid var(--rojo2); color: #fff; padding: 5px 12px; border-radius: 50px; font-size: 10px; text-decoration: none; text-transform: uppercase;">
-                Pestaña nueva ↗
-              </a>
-            </div>
-            
-            ${data.archivoUrl ? `
-              <div style="margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000;">
-                <img src="${data.archivoUrl}" 
-                     alt="Adjunto" 
-                     style="width: 100%; max-height: 350px; object-fit: contain; display: block;"
-                     onerror="this.parentElement.style.display='none'">
-                <a href="${data.archivoUrl}" target="_blank" rel="noopener"
-                   style="color:var(--rojo); font-size:10px; text-decoration:none; padding: 10px; display: block; background: rgba(18,18,18,0.8); text-align: center; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.05);">
-                   VER ADJUNTO COMPLETO 🔥
+              <div id="${collapseId}" style="font-size: 13px; color: #aaa; line-height: 1.6; margin-bottom: 10px; max-height: 80px; overflow: hidden; transition: max-height 0.5s ease;">
+                  ${escapeHtml(relatoCompleto)}
+              </div>
+
+              <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button onclick="document.getElementById('${collapseId}').style.maxHeight='none'; this.style.display='none'"
+                        style="background: none; border: 1px solid #444; color: #888; padding: 5px 12px; border-radius: 50px; font-size: 10px; cursor: pointer; text-transform: uppercase;">
+                  Leer más ↓
+                </button>
+
+                <a href="../relato.html?id=${id}" target="_blank"
+                   style="background: rgba(255,0,0,0.1); border: 1px solid var(--rojo2); color: #fff; padding: 5px 12px; border-radius: 50px; font-size: 10px; text-decoration: none; text-transform: uppercase;">
+                  Pestaña nueva ↗
                 </a>
               </div>
-            ` : ''}
-          `;
-          lista.appendChild(card);
-        });
+
+              ${data.archivoUrl ? `
+                <div style="margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000;">
+                  <img src="${data.archivoUrl}"
+                       alt="Adjunto"
+                       style="width: 100%; max-height: 350px; object-fit: contain; display: block;"
+                       onerror="this.parentElement.style.display='none'">
+                  <a href="${data.archivoUrl}" target="_blank" rel="noopener"
+                     style="color:var(--rojo); font-size:10px; text-decoration:none; padding: 10px; display: block; background: rgba(18,18,18,0.8); text-align: center; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.05);">
+                     VER ADJUNTO COMPLETO 🔥
+                  </a>
+                </div>
+              ` : ''}
+            `;
+            lista.appendChild(card);
+          });
+        }
+
+        // ══ SIDEBAR — últimas 5 entradas dinámicas ══
+        const sidebarList = document.getElementById("sidebar-list");
+        sidebarList.innerHTML = "";
+
+        if (snapshot.empty) {
+          sidebarList.innerHTML = `
+            <p style="color:#333;font-size:11px;text-align:center;padding:20px 0;letter-spacing:1px;">
+              Sin entradas aún
+            </p>`;
+        } else {
+          snapshot.docs.slice(0, 5).forEach((docSnap, i) => {
+            const data = docSnap.data();
+            const id = docSnap.id;
+            const fecha = data.fecha?.toDate
+              ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
+              : 'RECIENTE';
+
+            const entry = document.createElement("div");
+            entry.className = "sidebar-entry";
+
+            // Click → scroll suave a la card correspondiente
+            entry.addEventListener("click", () => {
+              const target = document.getElementById(`card-${id}`);
+              if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            // Animación de entrada escalonada (igual que el original con sidebar-entry estáticas)
+            entry.style.opacity = '0';
+            entry.style.transform = 'translateX(16px)';
+            entry.style.transition = `all .5s ease ${i * 0.08}s`;
+
+            entry.innerHTML = `
+              <div>
+                <span class="s-date">${fecha}</span>
+                <span class="s-cat">· VERIFICADO</span>
+              </div>
+              <h4>${escapeHtml(data.autor || 'Anónimo')}</h4>
+            `;
+            sidebarList.appendChild(entry);
+
+            // Dispara la animación
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+              entry.style.opacity = '1';
+              entry.style.transform = 'translateX(0)';
+            }));
+          });
+        }
 
       }, (err) => {
         console.error("Firestore error:", err);
         lista.innerHTML = `<div class="entries-loading">⚠️ Error de conexión.</div>`;
+        document.getElementById("sidebar-list").innerHTML = "";
       });
     }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(cargarRelatosDinamicos, 800);
-    });
-  </script>
 
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(cargarRelatosDinamicos, 800);
