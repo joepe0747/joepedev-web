@@ -6,14 +6,13 @@
   <title>joeDEV · Apps Android independientes desde Argentina</title>
   <meta name="description" content="joeDEV: desarrollador indie argentino. Creador de Chat Caliente y DailyBoost Widget. Apps reales, hechas con pasión."/>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XGCD4YB7M3');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XGCD4YB7M3');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
   <style>
@@ -30,17 +29,6 @@
       --glass-b:rgba(108,99,255,0.18);
     }
     html{scroll-behavior:smooth}
-    <script>
-  fetch('https://api.countapi.xyz/hit/joepedev.com/visitas')
-    .then(r => r.json())
-    .then(data => {
-      document.getElementById('visit-count').textContent =
-        data.value.toLocaleString('es-AR');
-    })
-    .catch(() => {
-      document.getElementById('visit-counter').style.display = 'none';
-    });
-</script>
     body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
 
     /* NOISE */
@@ -105,12 +93,6 @@
     .footer-links{display:flex;gap:20px;flex-wrap:wrap}
     .footer-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
     .footer-links a:hover{color:var(--accent)}
-    <!-- CONTADOR DE VISITAS -->
-<div id="visit-counter" style="display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:5px 14px;">
-  <span class="badge-dot"></span>
-  <span style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Visitas</span>
-  <span id="visit-count" style="font-size:13px;font-weight:500;letter-spacing:1px;">—</span>
-</div>
     .footer-copy{font-size:12px;color:rgba(107,104,128,0.5)}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -126,8 +108,8 @@
 <body>
   <nav>
     <a href="/" class="nav-brand" style="display:flex;align-items:center;gap:10px;">
-  <img src="/assets/images/joedev-logo.png" alt="joeDEV" style="height:38px;width:38px;object-fit:contain;border-radius:50%;"/>joeDEV
-</a>
+      <img src="/assets/images/joedev-logo.png" alt="joeDEV" style="height:38px;width:38px;object-fit:contain;border-radius:50%;"/>joeDEV
+    </a>
     <ul class="nav-links">
       <li><a href="/chatchaliente">Chat Caliente</a></li>
       <li><a href="/dailyboost">DailyBoost</a></li>
@@ -180,14 +162,33 @@
 
   <footer>
     <a href="/" class="nav-brand" style="font-size:16px;display:flex;align-items:center;gap:8px;">
-  <img src="/assets/images/joedev-logo.png" alt="joeDEV" style="height:28px;width:28px;object-fit:contain;border-radius:50%;"/>joeDEV
-</a>
+      <img src="/assets/images/joedev-logo.png" alt="joeDEV" style="height:28px;width:28px;object-fit:contain;border-radius:50%;"/>joeDEV
+    </a>
     <div class="footer-links">
       <a href="/chatchaliente">Chat Caliente</a>
       <a href="/dailyboost">DailyBoost Widget</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
     </div>
+    <!-- CONTADOR DE VISITAS -->
+    <div id="visit-counter" style="display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:5px 14px;">
+      <span class="badge-dot"></span>
+      <span style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Visitas</span>
+      <span id="visit-count" style="font-size:13px;font-weight:500;letter-spacing:1px;">—</span>
+    </div>
     <div class="footer-copy">© 2026 joeDEV · joepedev.com</div>
   </footer>
+
+  <!-- SCRIPT CONTADOR -->
+  <script>
+    fetch('https://api.countapi.xyz/hit/joepedev.com/visitas')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('visit-count').textContent =
+          data.value.toLocaleString('es-AR');
+      })
+      .catch(() => {
+        document.getElementById('visit-counter').style.display = 'none';
+      });
+  </script>
 </body>
 </html>
