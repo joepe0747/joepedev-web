@@ -178,17 +178,35 @@
     <div class="footer-copy">© 2026 joeDEV · joepedev.com</div>
   </footer>
 
-  <!-- SCRIPT CONTADOR -->
+  <!-- FIREBASE SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <!-- CONTADOR DE VISITAS REAL -->
   <script>
-    fetch('https://api.counterapi.dev/v1/joepedev/visitas/up')
-      .then(r => r.json())
-      .then(data => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
+      authDomain: "chatcalienteapp2.firebaseapp.com",
+      databaseURL: "https://chatcalienteapp2-default-rtdb.firebaseio.com",
+      projectId: "chatcalienteapp2",
+      storageBucket: "chatcalienteapp2.firebasestorage.app",
+      messagingSenderId: "798220681076",
+      appId: "1:798220681076:web:44847b5dca7673dd4af621"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const ref = db.ref('visitas_web');
+
+    // Incrementa al entrar
+    ref.transaction(current => (current || 0) + 1, (error, committed, snapshot) => {
+      if (!error && committed) {
         document.getElementById('visit-count').textContent =
-          data.value.toLocaleString('es-AR');
-      })
-      .catch(() => {
+          snapshot.val().toLocaleString('es-AR');
+      } else {
         document.getElementById('visit-counter').style.display = 'none';
-      });
+      }
+    });
   </script>
 </body>
 </html>
