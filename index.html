@@ -179,8 +179,8 @@
   </footer>
 
   <!-- FIREBASE SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <!-- CONTADOR DE VISITAS REAL -->
   <script>
@@ -198,15 +198,18 @@
     const db = firebase.database();
     const ref = db.ref('visitas_web');
 
-    // Incrementa al entrar
-    ref.transaction(current => (current || 0) + 1, (error, committed, snapshot) => {
-      if (!error && committed) {
-        document.getElementById('visit-count').textContent =
-          snapshot.val().toLocaleString('es-AR');
-      } else {
-        document.getElementById('visit-counter').style.display = 'none';
-      }
-    });
+    // Incrementa con ServerValue (atómico, más confiable que transaction)
+    ref.set(firebase.database.ServerValue.increment(1))
+      .then(() => {
+        ref.get().then(snap => {
+          document.getElementById('visit-count').textContent =
+            snap.val().toLocaleString('es-AR');
+        });
+      })
+      .catch(err => {
+        console.error('Error contador visitas:', err);
+        document.getElementById('visit-count').textContent = '—';
+      });
   </script>
 </body>
 </html>
