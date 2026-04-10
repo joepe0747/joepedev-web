@@ -507,7 +507,18 @@
     window.addEventListener('scroll', () => {
       let current = '';
       sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+        const sectionTop = s.offsetTop;
+        if (window.scrollY >= sectionTop - 150) {
+          current = s.getAttribute('id');
+        }
       });
+      // Esto es opcional, si querés que los iconos del bottom-nav cambien de color
       bottomItems.forEach(item => {
         item.classList.remove('active');
+        if (item.getAttribute('href').includes(current) && current !== '') {
+          item.classList.add('active');
+        }
+      });
+    });
+  </script> </body>
+</html>
