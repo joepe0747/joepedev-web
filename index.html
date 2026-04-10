@@ -184,6 +184,7 @@
 
   <!-- CONTADOR DE VISITAS REAL -->
   <script>
+  window.addEventListener('load', function() {
     const firebaseConfig = {
       apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
       authDomain: "chatcalienteapp2.firebaseapp.com",
@@ -210,6 +211,7 @@
         console.error('Error contador visitas:', err);
         document.getElementById('visit-count').textContent = '—';
       });
+  });
   </script>
 </body>
 </html>
