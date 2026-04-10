@@ -5,23 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Confesiones al Rojo Vivo 🔥 | Chat Caliente Blog</title>
 
- <meta http-equiv="Content-Security-Policy" content="
+  <meta http-equiv="Content-Security-Policy" content="
     default-src 'self' https: data: blob:;
     script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://challenges.cloudflare.com https://www.gstatic.com https://static.cloudflareinsights.com;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
     font-src 'self' https://fonts.gstatic.com;
     img-src 'self' data: https:;
     frame-src 'self' https://challenges.cloudflare.com;
-    connect-src 'self' 
-    https://flat-mountain-1ee3.joemariadetomasi.workers.dev 
-    https://flat-mountain-1ee3.joepedev.workers.dev 
-    https://*.firebaseio.com 
-    https://*.googleapis.com 
-    https://firebasestorage.googleapis.com 
-    https://challenges.cloudflare.com 
-    https://www.google-analytics.com 
-    https://static.cloudflareinsights.com 
-    https://www.gstatic.com;
+    connect-src 'self'
+      https://flat-mountain-1ee3.joemariadetomasi.workers.dev
+      https://flat-mountain-1ee3.joepedev.workers.dev
+      https://*.firebaseio.com
+      https://*.googleapis.com
+      https://firebasestorage.googleapis.com
+      https://challenges.cloudflare.com
+      https://www.google-analytics.com
+      https://static.cloudflareinsights.com
+      https://www.gstatic.com
+      https://api.anthropic.com;
   ">
   <meta name="description" content="Las confesiones más calientes de Argentina. Historias reales, anónimas y verificadas. Solo para mayores de 18."/>
 
@@ -57,13 +58,10 @@
     const storage = getStorage(app);
     const db = getFirestore(app);
 
-    // Storage
     window._fbStorage = storage;
     window._fbRef = ref;
     window._fbUpload = uploadBytesResumable;
     window._fbGetUrl = getDownloadURL;
-
-    // Firestore
     window._db = db;
     window._collection = collection;
     window._query = query;
@@ -113,12 +111,15 @@
     #sparks{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
     .spark{position:absolute;border-radius:50%;background:#ff6a00;pointer-events:none;filter:blur(1px);box-shadow:0 0 10px #ff4400}
 
-    /* ══ AGE GATE ══ */
+    /* ══════════════════════════════════════════
+       AGE GATE — SISTEMA AVANZADO CON IA
+    ══════════════════════════════════════════ */
     #age-gate{
       position:fixed;inset:0;z-index:9999;
       background:rgba(0,0,0,0.97);
       display:flex;align-items:center;justify-content:center;
       padding:20px;
+      overflow-y:auto;
     }
 
     .gate-card{
@@ -129,10 +130,30 @@
       border-radius:32px;
       padding:52px 36px;
       text-align:center;
-      max-width:420px;
+      max-width:480px;
       width:100%;
       box-shadow:0 0 60px rgba(255,0,0,0.18),0 0 120px rgba(255,0,0,0.06);
       animation:gateIn .6s cubic-bezier(.16,1,.3,1) both;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Línea de escaneo animada — efecto IA */
+    .gate-card::before{
+      content:'';
+      position:absolute;
+      left:0;right:0;
+      height:2px;
+      background:linear-gradient(90deg,transparent,rgba(255,0,0,0.6),transparent);
+      animation:scanLine 3s ease-in-out infinite;
+      top:0;
+    }
+
+    @keyframes scanLine{
+      0%{top:0;opacity:0}
+      10%{opacity:1}
+      90%{opacity:1}
+      100%{top:100%;opacity:0}
     }
 
     @keyframes gateIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
@@ -153,6 +174,7 @@
 
     .gate-card p{font-size:14px;color:#999;line-height:1.7;margin-bottom:32px}
 
+    /* Botón mayor */
     .btn-enter{
       width:100%;
       background:linear-gradient(90deg,var(--rojo2),#d32f2f);
@@ -177,6 +199,187 @@
       box-shadow:0 16px 40px rgba(255,200,0,0.3);
     }
 
+    /* Botón menor */
+    .btn-minor{
+      width:100%;
+      background:transparent;
+      border:1px solid #333;
+      color:#555;
+      padding:15px;
+      border-radius:100px;
+      font-family:'Montserrat',sans-serif;
+      font-size:12px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:all .3s;
+      margin-top:12px;
+    }
+
+    .btn-minor:hover{border-color:#666;color:#888}
+
+    /* ── STEP 2: IA VERIFICACIÓN ── */
+    #gate-step-ai{display:none}
+
+    .ai-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(0,200,100,0.08);
+      border:1px solid rgba(0,200,100,0.3);
+      border-radius:100px;
+      padding:6px 16px;
+      font-size:10px;letter-spacing:2px;
+      color:#00cc64;text-transform:uppercase;
+      margin-bottom:24px;
+    }
+
+    .ai-badge-dot{
+      width:6px;height:6px;border-radius:50%;
+      background:#00cc64;
+      animation:blink 1.2s ease-in-out infinite;
+    }
+
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+    .ai-question-wrap{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:18px;
+      padding:22px 20px;
+      margin-bottom:14px;
+      text-align:left;
+    }
+
+    .ai-q-num{
+      font-size:9px;letter-spacing:2px;color:var(--rojo);
+      text-transform:uppercase;font-weight:900;margin-bottom:6px;
+    }
+
+    .ai-q-text{
+      font-size:13px;color:#ccc;line-height:1.5;margin-bottom:14px;
+    }
+
+    .ai-q-options{display:flex;flex-direction:column;gap:8px}
+
+    .ai-opt{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:10px;
+      padding:11px 16px;
+      font-size:12px;color:#aaa;
+      cursor:pointer;
+      transition:all .25s;
+      text-align:left;
+    }
+
+    .ai-opt:hover{border-color:rgba(255,0,0,0.4);background:rgba(255,0,0,0.06);color:#fff}
+    .ai-opt.selected{border-color:var(--rojo);background:rgba(255,0,0,0.12);color:#fff}
+
+    /* Barra de progreso del quiz */
+    .gate-progress{
+      display:flex;gap:6px;justify-content:center;margin-bottom:28px;
+    }
+
+    .gate-prog-dot{
+      width:8px;height:8px;border-radius:50%;
+      background:rgba(255,255,255,0.1);
+      transition:all .3s;
+    }
+
+    .gate-prog-dot.done{background:var(--rojo);box-shadow:0 0 8px rgba(255,0,0,0.5)}
+    .gate-prog-dot.active{background:#fff;box-shadow:0 0 8px rgba(255,255,255,0.4)}
+
+    .btn-ai-next{
+      width:100%;
+      background:linear-gradient(90deg,var(--rojo2),#d32f2f);
+      color:#fff;border:none;
+      padding:18px;border-radius:100px;
+      font-family:'Montserrat',sans-serif;
+      font-weight:900;font-size:13px;
+      letter-spacing:2px;text-transform:uppercase;
+      cursor:pointer;
+      box-shadow:0 8px 24px rgba(255,0,0,0.25);
+      transition:all .3s;
+      margin-top:20px;
+    }
+
+    .btn-ai-next:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,0,0,0.35)}
+    .btn-ai-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+    /* ── STEP 3: ANALIZANDO ── */
+    #gate-step-analyzing{display:none;text-align:center;padding:20px 0}
+
+    .analyzing-ring{
+      width:80px;height:80px;
+      border:3px solid rgba(255,0,0,0.15);
+      border-top-color:var(--rojo);
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      margin:0 auto 24px;
+    }
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .analyzing-text{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:22px;letter-spacing:3px;color:#fff;
+      margin-bottom:8px;
+    }
+
+    .analyzing-sub{font-size:11px;color:#444;letter-spacing:2px;text-transform:uppercase}
+
+    .analyzing-log{
+      background:rgba(0,0,0,0.5);
+      border:1px solid rgba(255,0,0,0.1);
+      border-radius:12px;
+      padding:16px;
+      margin-top:24px;
+      text-align:left;
+      font-size:10px;
+      color:#333;
+      letter-spacing:1px;
+      font-family:monospace;
+      line-height:2;
+    }
+
+    .log-line{color:#555;transition:color .3s}
+    .log-line.active{color:#00cc64}
+    .log-line.done{color:#333}
+
+    /* ── STEP 4: RESULTADO ── */
+    #gate-step-result{display:none;text-align:center;padding:10px 0}
+
+    .result-icon{font-size:60px;display:block;margin-bottom:16px;animation:resultPop .5s cubic-bezier(.175,.885,.32,1.275) both}
+    @keyframes resultPop{from{transform:scale(0)}to{transform:scale(1)}}
+
+    .result-title{
+      font-family:'Bebas Neue',sans-serif;
+      font-size:32px;letter-spacing:3px;
+      margin-bottom:12px;
+    }
+
+    .result-title.ok{
+      background:linear-gradient(90deg,#ff0000,#ffcc00);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+
+    .result-title.fail{color:#ff4444}
+
+    .result-msg{font-size:13px;color:#777;line-height:1.7;margin-bottom:28px}
+
+    .result-score{
+      display:inline-flex;gap:4px;
+      background:rgba(255,0,0,0.08);
+      border:1px solid rgba(255,0,0,0.2);
+      border-radius:100px;
+      padding:8px 20px;
+      font-size:11px;color:var(--rojo);
+      letter-spacing:2px;text-transform:uppercase;
+      margin-bottom:24px;
+    }
+
+    /* ── STEP 0: BLOQUEADO (menor detectado) ── */
+    #gate-step-blocked{display:none;text-align:center;padding:20px 0}
+
     /* ══ NAVBAR ══ */
     nav{
       position:fixed;top:0;left:0;right:0;z-index:100;
@@ -197,18 +400,13 @@
 
     /* ══ HERO VIDEO ══ */
     .hero-video{
-      position:relative;
-      height:100vh;
-      overflow:hidden;
-      display:flex;align-items:flex-end;
-      padding-bottom:60px;
+      position:relative;height:100vh;overflow:hidden;
+      display:flex;align-items:flex-end;padding-bottom:60px;
     }
 
     .hero-video video{
-      position:absolute;inset:0;
-      width:100%;height:100%;
-      object-fit:cover;
-      filter:brightness(.45) saturate(1.3);
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;filter:brightness(.45) saturate(1.3);
     }
 
     .hero-overlay{
@@ -216,18 +414,12 @@
       background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.2) 50%,transparent 100%);
     }
 
-    .hero-content{
-      position:relative;z-index:2;
-      width:100%;text-align:center;
-      padding:0 24px;
-    }
+    .hero-content{position:relative;z-index:2;width:100%;text-align:center;padding:0 24px}
 
     .hero-tag{
       display:inline-block;
-      background:rgba(255,0,0,0.15);
-      border:1px solid rgba(255,0,0,0.4);
-      border-radius:100px;
-      padding:5px 16px;
+      background:rgba(255,0,0,0.15);border:1px solid rgba(255,0,0,0.4);
+      border-radius:100px;padding:5px 16px;
       font-size:10px;letter-spacing:3px;text-transform:uppercase;
       color:#ff6a00;margin-bottom:16px;
     }
@@ -249,8 +441,7 @@
 
     .btn-scroll{
       display:inline-flex;align-items:center;gap:8px;
-      background:rgba(255,0,0,0.12);
-      border:1px solid rgba(255,0,0,0.4);
+      background:rgba(255,0,0,0.12);border:1px solid rgba(255,0,0,0.4);
       color:#fff;padding:12px 28px;border-radius:100px;
       text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;
       transition:all .3s;
@@ -261,10 +452,8 @@
     .main-wrap{
       max-width:1280px;margin:0 auto;
       padding:60px 24px 80px;
-      display:grid;
-      grid-template-columns:1fr 360px;
-      gap:40px;
-      position:relative;z-index:2;
+      display:grid;grid-template-columns:1fr 360px;
+      gap:40px;position:relative;z-index:2;
     }
 
     /* ══ FORM SECTION ══ */
@@ -272,12 +461,10 @@
 
     .section-heading{
       font-family:'Bebas Neue',sans-serif;
-      font-size:clamp(28px,4vw,42px);
-      letter-spacing:3px;
+      font-size:clamp(28px,4vw,42px);letter-spacing:3px;
       background:var(--shine);background-size:200% auto;
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      animation:shine 5s linear infinite;
-      margin-bottom:6px;
+      animation:shine 5s linear infinite;margin-bottom:6px;
     }
 
     .section-sub{font-size:12px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px}
@@ -285,36 +472,26 @@
     .story-form{
       background:rgba(18,18,18,0.92);
       border:2px dashed var(--glass-b);
-      border-radius:28px;
-      padding:36px 32px;
+      border-radius:28px;padding:36px 32px;
       box-shadow:inset 0 0 24px rgba(255,0,0,0.04);
     }
 
     label{
-      display:block;
-      color:var(--dorado);
+      display:block;color:var(--dorado);
       font-size:9px;font-weight:900;
-      letter-spacing:2px;text-transform:uppercase;
-      margin-bottom:8px;
+      letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
     }
 
     input[type=text],input[type=email],select,textarea{
-      width:100%;
-      background:rgba(255,255,255,0.04);
+      width:100%;background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.1);
-      padding:16px 18px;
-      color:#fff;
-      border-radius:14px;
-      margin-bottom:20px;
-      font-family:'Montserrat',sans-serif;
-      font-size:14px;
-      transition:all .3s;
-      outline:none;
+      padding:16px 18px;color:#fff;border-radius:14px;
+      margin-bottom:20px;font-family:'Montserrat',sans-serif;
+      font-size:14px;transition:all .3s;outline:none;
     }
 
     input[type=text]:focus,textarea:focus,select:focus{
-      border-color:var(--rojo);
-      background:rgba(255,0,0,0.04);
+      border-color:var(--rojo);background:rgba(255,0,0,0.04);
     }
 
     select option{background:#111;color:#fff}
@@ -324,13 +501,9 @@
     .drop-area{
       background:rgba(0,0,0,0.3);
       border:2px dashed rgba(255,255,255,0.1);
-      border-radius:16px;
-      padding:32px;
-      text-align:center;
-      cursor:pointer;
-      transition:.3s;
-      margin-bottom:12px;
-      position:relative;
+      border-radius:16px;padding:32px;
+      text-align:center;cursor:pointer;
+      transition:.3s;margin-bottom:12px;position:relative;
     }
 
     .drop-area:hover{border-color:var(--dorado);background:rgba(255,200,0,0.04)}
@@ -345,14 +518,10 @@
     #file-preview{
       background:rgba(255,200,0,0.06);
       border:1px solid rgba(255,200,0,0.2);
-      border-radius:12px;
-      padding:14px 16px;
-      margin-bottom:20px;
-      font-size:12px;
-      color:var(--dorado);
-      align-items:center;
-      gap:10px;
-      display:none;
+      border-radius:12px;padding:14px 16px;
+      margin-bottom:20px;font-size:12px;
+      color:var(--dorado);align-items:center;
+      gap:10px;display:none;
     }
 
     #file-preview .preview-icon{font-size:20px}
@@ -365,10 +534,7 @@
     }
 
     /* ══ PROGRESS BAR ══ */
-    .progress-wrap{
-      display:none;
-      margin-bottom:20px;
-    }
+    .progress-wrap{display:none;margin-bottom:20px}
 
     .progress-label{
       font-size:10px;color:#555;letter-spacing:2px;
@@ -376,33 +542,21 @@
       display:flex;justify-content:space-between;
     }
 
-    .progress-bar-bg{
-      background:rgba(255,255,255,0.06);
-      border-radius:100px;
-      height:6px;
-      overflow:hidden;
-    }
+    .progress-bar-bg{background:rgba(255,255,255,0.06);border-radius:100px;height:6px;overflow:hidden}
 
     .progress-bar-fill{
       height:100%;
       background:linear-gradient(90deg,var(--rojo2),var(--dorado));
-      border-radius:100px;
-      width:0%;
-      transition:width .2s ease;
+      border-radius:100px;width:0%;transition:width .2s ease;
     }
 
     /* ══ TURNSTILE ══ */
-    .turnstile-wrap{
-      margin-bottom:20px;
-      display:flex;
-      justify-content:flex-start;
-    }
+    .turnstile-wrap{margin-bottom:20px;display:flex;justify-content:flex-start}
 
     .btn-submit{
       width:100%;
       background:linear-gradient(90deg,var(--rojo2),#d32f2f);
-      color:#fff;padding:22px;
-      border-radius:100px;
+      color:#fff;padding:22px;border-radius:100px;
       font-family:'Montserrat',sans-serif;
       font-weight:900;font-size:13px;
       letter-spacing:3px;text-transform:uppercase;
@@ -411,27 +565,14 @@
       transition:all .4s cubic-bezier(.175,.885,.32,1.275);
     }
 
-    .btn-submit:hover{
-      transform:translateY(-4px) scale(1.02);
-      background:var(--dorado);color:#000;
-    }
-
-    .btn-submit:disabled{
-      opacity:.6;transform:none;cursor:not-allowed;
-      background:linear-gradient(90deg,#550000,#330000);
-    }
+    .btn-submit:hover{transform:translateY(-4px) scale(1.02);background:var(--dorado);color:#000}
+    .btn-submit:disabled{opacity:.6;transform:none;cursor:not-allowed;background:linear-gradient(90deg,#550000,#330000)}
 
     .success-msg{
       display:none;
-      background:rgba(0,255,100,.08);
-      border:1px solid rgba(0,255,100,.3);
-      border-radius:14px;
-      padding:24px;
-      text-align:center;
-      margin-top:16px;
-      font-size:14px;
-      color:#00ff64;
-      line-height:1.6;
+      background:rgba(0,255,100,.08);border:1px solid rgba(0,255,100,.3);
+      border-radius:14px;padding:24px;text-align:center;
+      margin-top:16px;font-size:14px;color:#00ff64;line-height:1.6;
     }
 
     .success-msg .s-icon{font-size:32px;display:block;margin-bottom:8px}
@@ -443,11 +584,8 @@
       background:var(--sup2);
       border:1px solid rgba(255,255,255,0.05);
       border-left:3px solid rgba(255,0,0,.4);
-      border-radius:20px;
-      padding:28px 24px;
-      margin-bottom:16px;
-      transition:all .3s;
-      cursor:pointer;
+      border-radius:20px;padding:28px 24px;
+      margin-bottom:16px;transition:all .3s;cursor:pointer;
     }
 
     .entry-card:hover{
@@ -467,50 +605,36 @@
 
     /* ══ ENTRIES LOADING ══ */
     .entries-loading{
-      text-align:center;
-      padding:40px 20px;
-      color:#333;
-      font-size:12px;
-      letter-spacing:2px;
-      text-transform:uppercase;
+      text-align:center;padding:40px 20px;
+      color:#333;font-size:12px;letter-spacing:2px;text-transform:uppercase;
     }
 
     .entries-loading .loading-icon{
-      font-size:32px;
-      display:block;
-      margin-bottom:12px;
+      font-size:32px;display:block;margin-bottom:12px;
       animation:pulse 1.5s ease-in-out infinite;
     }
 
     /* ══ SIDEBAR ══ */
     .sidebar{
-      background:var(--glass);
-      border:1px solid var(--glass-b);
-      border-radius:28px;
-      padding:32px 28px;
-      height:fit-content;
-      position:sticky;
-      top:80px;
+      background:var(--glass);border:1px solid var(--glass-b);
+      border-radius:28px;padding:32px 28px;
+      height:fit-content;position:sticky;top:80px;
     }
 
     .sidebar-title{
-      font-family:'Bebas Neue',sans-serif;
-      font-size:22px;letter-spacing:2px;
+      font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;
       background:var(--shine);background-size:200% auto;
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-      animation:shine 5s linear infinite;
-      margin-bottom:20px;
+      animation:shine 5s linear infinite;margin-bottom:20px;
     }
 
     .sidebar-entry{
       display:block;text-decoration:none;
-      padding:16px 0;
-      border-bottom:1px solid rgba(255,255,255,0.04);
-      transition:.3s;
-      cursor:pointer;
+      padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+      transition:.3s;cursor:pointer;
     }
 
-    .sidebar-entry:last-of-type{border-bottom:none;}
+    .sidebar-entry:last-of-type{border-bottom:none}
     .sidebar-entry:hover{padding-left:8px;background:linear-gradient(90deg,rgba(255,0,0,.08),transparent)}
     .sidebar-entry .s-date{color:var(--rojo);font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
     .sidebar-entry .s-cat{color:#444;font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-left:8px}
@@ -519,13 +643,12 @@
       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
     }
 
-    /* Skeleton mientras carga el sidebar */
     .sidebar-skeleton{
       height:58px;border-radius:10px;margin-bottom:4px;
       background:linear-gradient(90deg,rgba(255,255,255,0.03) 25%,rgba(255,255,255,0.07) 50%,rgba(255,255,255,0.03) 75%);
-      background-size:200% 100%;
-      animation:shimmer 1.4s infinite;
+      background-size:200% 100%;animation:shimmer 1.4s infinite;
     }
+
     @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
     .sidebar-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,0,0,.2),transparent);margin:24px 0}
@@ -537,8 +660,7 @@
 
     .btn-historial{
       display:block;margin-top:20px;
-      background:rgba(255,23,68,.12);
-      border:2px solid #ff1744;
+      background:rgba(255,23,68,.12);border:2px solid #ff1744;
       color:#fff;text-decoration:none;
       padding:14px;border-radius:100px;
       font-weight:900;font-size:10px;
@@ -570,6 +692,7 @@
       nav{padding:0 16px}
       .story-form{padding:24px 18px}
       .hero-title{font-size:56px}
+      .gate-card{padding:36px 22px}
     }
   </style>
 </head>
@@ -578,13 +701,90 @@
   <!-- SPARKS -->
   <div id="sparks"></div>
 
-  <!-- AGE GATE -->
+  <!-- ══════════════════════════════════════════════════
+       AGE GATE — SISTEMA AVANZADO CON VERIFICACIÓN IA
+  ══════════════════════════════════════════════════ -->
   <div id="age-gate">
     <div class="gate-card">
-      <span class="gate-icon">🔥</span>
-      <h2>Chat Caliente</h2>
-      <p>Estás por entrar a la zona de confesiones más audaz de la red.<br>Confirmá que sos mayor de edad para activar el sistema.</p>
-      <button class="btn-enter" onclick="enterSite()">CONFIRMAR Y ENTRAR</button>
+
+      <!-- ── STEP 1: Pantalla inicial ── -->
+      <div id="gate-step-1">
+        <span class="gate-icon">🔥</span>
+        <h2>Chat Caliente</h2>
+        <p>Estás por entrar a la zona de confesiones más audaz de la red.<br>
+        Nuestro sistema de verificación con <strong style="color:#ff6a00">IA</strong> analiza tu perfil antes de darte acceso.</p>
+
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <button class="btn-enter" onclick="startAgeVerification()">SOY MAYOR DE 18 AÑOS</button>
+          <button class="btn-minor" onclick="isMinor()">SOY MENOR DE 18 AÑOS</button>
+        </div>
+
+        <p style="font-size:10px;color:#333;margin-top:20px;margin-bottom:0;letter-spacing:1px">
+          🔒 Verificación cifrada · Datos no almacenados · Acceso por sesión
+        </p>
+      </div>
+
+      <!-- ── STEP 2: Quiz de IA ── -->
+      <div id="gate-step-ai">
+        <div class="ai-badge">
+          <div class="ai-badge-dot"></div>
+          IA VERIFICANDO IDENTIDAD
+        </div>
+
+        <div class="gate-progress" id="gate-progress">
+          <div class="gate-prog-dot active" id="dot-0"></div>
+          <div class="gate-prog-dot" id="dot-1"></div>
+          <div class="gate-prog-dot" id="dot-2"></div>
+        </div>
+
+        <div id="ai-question-container"></div>
+
+        <button class="btn-ai-next" id="btn-ai-next" onclick="nextQuestion()" disabled>
+          SIGUIENTE →
+        </button>
+      </div>
+
+      <!-- ── STEP 3: Analizando ── -->
+      <div id="gate-step-analyzing">
+        <div class="analyzing-ring"></div>
+        <div class="analyzing-text">ANALIZANDO PERFIL</div>
+        <div class="analyzing-sub">Sistema de IA en proceso</div>
+        <div class="analyzing-log" id="analyzing-log">
+          <div class="log-line" id="log-1">› Iniciando motor de verificación...</div>
+          <div class="log-line" id="log-2">› Evaluando coherencia de respuestas...</div>
+          <div class="log-line" id="log-3">› Analizando patrones de comportamiento...</div>
+          <div class="log-line" id="log-4">› Consultando base de datos de IA...</div>
+          <div class="log-line" id="log-5">› Generando resultado...</div>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: Resultado ── -->
+      <div id="gate-step-result">
+        <span class="result-icon" id="result-icon"></span>
+        <div class="result-title" id="result-title"></div>
+        <div class="result-score" id="result-score"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <button class="btn-enter" id="result-btn" onclick="finishEntry()" style="display:none">
+          INGRESAR AL FUEGO 🔥
+        </button>
+        <button class="btn-minor" id="result-retry" onclick="resetGate()" style="display:none;margin-top:12px">
+          VOLVER A INTENTAR
+        </button>
+      </div>
+
+      <!-- ── STEP BLOQUEADO ── -->
+      <div id="gate-step-blocked">
+        <span style="font-size:52px;display:block;margin-bottom:16px">🚫</span>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;color:#ff4444;-webkit-text-fill-color:#ff4444;margin-bottom:12px">
+          ACCESO DENEGADO
+        </h2>
+        <p>Este sitio es exclusivo para mayores de 18 años.<br>
+        Serás redirigido automáticamente.</p>
+        <div style="margin-top:24px;font-size:10px;color:#333;letter-spacing:2px" id="redirect-countdown">
+          Redirigiendo en 3...
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -610,7 +810,7 @@
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="hero-tag">🔞 Solo mayores de 18 · Verificado</div>
+      <div class="hero-tag">🔞 Solo mayores de 18 · Verificado por IA</div>
       <h1 class="hero-title">Confesiones<br>al Rojo Vivo</h1>
       <p class="hero-sub">Historias reales · Anónimas · Verificadas</p>
       <a href="#confesiones" class="btn-scroll">Entrar al fuego ↓</a>
@@ -619,7 +819,6 @@
 
   <!-- MAIN -->
   <div class="main-wrap" id="confesiones">
-
     <div>
 
       <!-- FORMULARIO -->
@@ -630,7 +829,6 @@
         <div class="story-form">
           <form id="confession-form" novalidate>
 
-            <!-- Honeypot anti-bots -->
             <input type="text" id="website" name="website"
                    style="display:none" tabindex="-1" autocomplete="off">
 
@@ -654,7 +852,6 @@
                       placeholder="Contá lo que pasó... (máximo 1000 caracteres)"
                       maxlength="1000"></textarea>
 
-            <!-- SUBIDA DE ARCHIVO -->
             <label>Adjuntá una foto o video (opcional · máx. 20MB)</label>
             <div class="drop-area" id="drop-area">
               <input type="file" id="file-input"
@@ -665,7 +862,6 @@
               <div class="drop-types">JPG · PNG · GIF · MP4 · MOV · TXT · máx. 20MB</div>
             </div>
 
-            <!-- Preview del archivo seleccionado -->
             <div id="file-preview">
               <span class="preview-icon" id="preview-icon">📄</span>
               <div class="preview-info">
@@ -675,7 +871,6 @@
               <button type="button" class="btn-remove" onclick="removeFile()">✕</button>
             </div>
 
-            <!-- Barra de progreso de subida -->
             <div class="progress-wrap" id="progress-wrap">
               <div class="progress-label">
                 <span>Subiendo archivo...</span>
@@ -686,12 +881,10 @@
               </div>
             </div>
 
-            <!-- Turnstile -->
             <div class="turnstile-wrap">
               <div class="cf-turnstile"
                    data-sitekey="0x4AAAAAAC1Jm9k8-eEwDc_4"
-                   data-theme="dark">
-              </div>
+                   data-theme="dark"></div>
             </div>
 
             <button type="submit" class="btn-submit" id="btn-enviar">
@@ -710,12 +903,11 @@
         </div>
       </div>
 
-      <!-- ENTRADAS — se pueblan dinámicamente desde Firestore -->
+      <!-- ENTRADAS -->
       <div class="entries-section">
         <h2 class="section-heading">Entradas calientes</h2>
         <p class="section-sub">Historias verificadas por la comunidad</p>
         <div id="entries-list">
-          <!-- Estado inicial: spinner de carga -->
           <div class="entries-loading">
             <span class="loading-icon">🔥</span>
             Encendiendo el fuego...
@@ -725,11 +917,10 @@
 
     </div>
 
-    <!-- SIDEBAR — dinámico desde Firestore -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-title">Entradas calientes 🔥</div>
 
-      <!-- Skeletons mientras carga; JS los reemplaza -->
       <div id="sidebar-list">
         <div class="sidebar-skeleton"></div>
         <div class="sidebar-skeleton"></div>
@@ -753,7 +944,6 @@
 
       <a href="/chatchaliente/blog" class="btn-historial">HISTORIAL TÉCNICO 🚀</a>
     </aside>
-
   </div>
 
   <footer>
@@ -761,24 +951,21 @@
   </footer>
 
   <!-- ══════════════════════════════════════════════════════
-       LÓGICA PRINCIPAL — file handling + form submit
+       LÓGICA DE ARCHIVO / FORMULARIO
   ══════════════════════════════════════════════════════ -->
   <script>
     const WORKER_URL = "https://flat-mountain-1ee3.joepedev.workers.dev/?v=100";
     const MAX_MB = 20;
     let selectedFile = null;
 
-    // ── File select
     function handleFileSelect(input) {
       const file = input.files[0];
       if (!file) return;
-
       if (file.size > MAX_MB * 1024 * 1024) {
         alert(`El archivo es demasiado grande. Máximo ${MAX_MB}MB.`);
         input.value = "";
         return;
       }
-
       selectedFile = file;
       showPreview(file);
     }
@@ -786,13 +973,10 @@
     function showPreview(file) {
       const icon = file.type.startsWith("image/") ? "🖼️"
                  : file.type.startsWith("video/") ? "🎬"
-                 : file.type.startsWith("text/")  ? "📝"
-                 : "📄";
-
+                 : file.type.startsWith("text/")  ? "📝" : "📄";
       document.getElementById("preview-icon").textContent = icon;
       document.getElementById("preview-name").textContent = file.name;
-      document.getElementById("preview-size").textContent =
-        (file.size / 1024 / 1024).toFixed(2) + " MB";
+      document.getElementById("preview-size").textContent = (file.size/1024/1024).toFixed(2) + " MB";
       document.getElementById("file-preview").style.display = "flex";
       document.getElementById("drop-area").style.borderColor = "rgba(255,200,0,0.4)";
     }
@@ -804,44 +988,27 @@
       document.getElementById("drop-area").style.borderColor = "rgba(255,255,255,0.1)";
     }
 
-    // ── Drag & drop
     const dropArea = document.getElementById("drop-area");
-    dropArea.addEventListener("dragover", e => {
-      e.preventDefault();
-      dropArea.classList.add("drag-over");
-    });
+    dropArea.addEventListener("dragover", e => { e.preventDefault(); dropArea.classList.add("drag-over"); });
     dropArea.addEventListener("dragleave", () => dropArea.classList.remove("drag-over"));
     dropArea.addEventListener("drop", e => {
-      e.preventDefault();
-      dropArea.classList.remove("drag-over");
+      e.preventDefault(); dropArea.classList.remove("drag-over");
       const file = e.dataTransfer.files[0];
-      if (file) {
-        document.getElementById("file-input").files = e.dataTransfer.files;
-        handleFileSelect(document.getElementById("file-input"));
-      }
+      if (file) { document.getElementById("file-input").files = e.dataTransfer.files; handleFileSelect(document.getElementById("file-input")); }
     });
 
-    // ── Subida a Firebase Storage con progreso
     async function uploadToStorage(file) {
       return new Promise((resolve, reject) => {
         const storage = window._fbStorage;
-        const ref     = window._fbRef;
-        const upload  = window._fbUpload;
-        const getUrl  = window._fbGetUrl;
-
-        if (!storage) {
-          reject(new Error("Firebase Storage no inicializado"));
-          return;
-        }
-
-        const ext       = file.name.split('.').pop();
-        const fileName  = `confesiones/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+        const ref = window._fbRef;
+        const upload = window._fbUpload;
+        const getUrl = window._fbGetUrl;
+        if (!storage) { reject(new Error("Firebase Storage no inicializado")); return; }
+        const ext = file.name.split('.').pop();
+        const fileName = `confesiones/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
         const storageRef = ref(storage, fileName);
-        const task      = upload(storageRef, file);
-
-        // Mostrar barra de progreso
+        const task = upload(storageRef, file);
         document.getElementById("progress-wrap").style.display = "block";
-
         task.on("state_changed",
           snapshot => {
             const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
@@ -858,122 +1025,371 @@
       });
     }
 
-    // ══ FORM SUBMIT ══
     document.getElementById("confession-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      const btn       = document.getElementById("btn-enviar");
+      const btn = document.getElementById("btn-enviar");
       const successEl = document.getElementById("success-msg");
-
-      // Honeypot
       if (document.getElementById("website")?.value) return;
-
-      // Inputs
-      const autor   = document.getElementById("autor").value.trim();
-      const tipo    = document.getElementById("tipo").value;
+      const autor = document.getElementById("autor").value.trim();
+      const tipo = document.getElementById("tipo").value;
       const historia = document.getElementById("historia").value.trim();
-
-      // Validaciones
-      if (!autor || !tipo || !historia) {
-        alert("Completá todos los campos obligatorios.");
-        return;
-      }
-      if (historia.length > 1000) {
-        alert("La historia es demasiado larga (máximo 1000 caracteres).");
-        return;
-      }
-
-      // Turnstile token
+      if (!autor || !tipo || !historia) { alert("Completá todos los campos obligatorios."); return; }
+      if (historia.length > 1000) { alert("La historia es demasiado larga (máximo 1000 caracteres)."); return; }
       const token = document.querySelector('[name="cf-turnstile-response"]')?.value;
-      if (!token) {
-        alert("Por favor completá el captcha antes de enviar.");
-        return;
-      }
-
-      btn.textContent = "PROCESANDO... 🔥";
-      btn.disabled = true;
-
+      if (!token) { alert("Por favor completá el captcha antes de enviar."); return; }
+      btn.textContent = "PROCESANDO... 🔥"; btn.disabled = true;
       try {
-        // 1. Subir archivo si hay uno
-        let archivoUrl = null;
-        let archivoTipo = null;
-
-        if (selectedFile) {
-          btn.textContent = "SUBIENDO ARCHIVO... 📤";
-          archivoUrl  = await uploadToStorage(selectedFile);
-          archivoTipo = selectedFile.type;
-        }
-
-        // 2. Enviar al Worker
+        let archivoUrl = null, archivoTipo = null;
+        if (selectedFile) { btn.textContent = "SUBIENDO ARCHIVO... 📤"; archivoUrl = await uploadToStorage(selectedFile); archivoTipo = selectedFile.type; }
         btn.textContent = "ENVIANDO RELATO... 🔥";
-
         const res = await fetch(WORKER_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            autor,
-            tipo,
-            historia,
-            archivoUrl,
-            archivoTipo,
-            turnstileToken: token,
-          }),
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ autor, tipo, historia, archivoUrl, archivoTipo, turnstileToken: token })
         });
-
         let data;
-        try {
-          data = await res.json();
-        } catch {
-          const text = await res.text();
-          throw new Error(text || "Respuesta inesperada del servidor");
-        }
-
+        try { data = await res.json(); } catch { const text = await res.text(); throw new Error(text || "Respuesta inesperada del servidor"); }
         if (!res.ok) throw new Error(data.error || "Error desconocido");
-
-        // Éxito
         successEl.style.display = "block";
         document.getElementById("confession-form").reset();
-        removeFile();
-        window.turnstile?.reset();
+        removeFile(); window.turnstile?.reset();
         successEl.scrollIntoView({ behavior: "smooth" });
-        if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
-
+        if ("vibrate" in navigator) navigator.vibrate([100,50,100]);
       } catch (err) {
         alert(`Error: ${err.message}. Intentá de nuevo.`);
         window.turnstile?.reset();
       } finally {
-        btn.textContent = "TRANSMITIR AL FUEGO 🔥";
-        btn.disabled = false;
+        btn.textContent = "TRANSMITIR AL FUEGO 🔥"; btn.disabled = false;
       }
     });
   </script>
 
-  <!-- AGE GATE + SPARKS + UI -->
+  <!-- ══════════════════════════════════════════════════════
+       AGE GATE — MOTOR DE IA CON ANTHROPIC API
+  ══════════════════════════════════════════════════════ -->
   <script>
-    function enterSite() {
+    // ── Banco de preguntas de verificación adulta (generadas localmente + evaluadas por IA)
+    // 3 categorías: responsabilidades adultas, referencias culturales, situaciones de vida adulta
+    const QUESTION_BANK = [
+      // Bloque A — Vida adulta / responsabilidades
+      {
+        q: "Estás por fin de mes y te quedás corto de plata. ¿Qué hacés primero?",
+        opts: ["Pido plata a mis padres", "Reviso qué gastos puedo postergar", "Lo publico en redes", "Lloro y espero"],
+        adultos: [1]
+      },
+      {
+        q: "¿Qué es el CUIL/CUIT en Argentina?",
+        opts: ["Un tipo de empanada", "Un código tributario de identidad laboral", "Una app de delivery", "Un turno médico"],
+        adultos: [1]
+      },
+      {
+        q: "¿Cuándo renovaste tu DNI por última vez?",
+        opts: ["Nunca lo hice, soy menor", "Hace menos de 10 años, por vencimiento", "Mi mamá lo hizo por mí", "No tengo DNI todavía"],
+        adultos: [1]
+      },
+      {
+        q: "Si alquilás un depto, ¿qué es el depósito de garantía?",
+        opts: ["Un seguro que pone el dueño", "Una suma que pagás al inicio y recuperás al salir", "El primer mes de alquiler doble", "Un contrato bancario"],
+        adultos: [1]
+      },
+      // Bloque B — Cultura adulta
+      {
+        q: "¿Cuál de estos es un director de cine argentino reconocido internacionalmente?",
+        opts: ["Damián Szifron", "Lionel Messi", "Abel Pintos", "Marcos Rojo"],
+        adultos: [0]
+      },
+      {
+        q: "La película 'El Secreto de sus Ojos' ganó el Oscar a Mejor Película Extranjera en...",
+        opts: ["2010", "2015", "2005", "1999"],
+        adultos: [0]
+      },
+      {
+        q: "¿Qué es el 'INDEC' en Argentina?",
+        opts: ["Un banco público", "El instituto de estadísticas del país", "Un ministerio de educación", "Una empresa de transporte"],
+        adultos: [1]
+      },
+      // Bloque C — Situaciones de vida adulta
+      {
+        q: "Tu jefe te pide hacer horas extra sin pago. ¿Qué derecho podés invocar?",
+        opts: ["Ninguno, hay que obedecer siempre", "El derecho laboral a compensación por horas extra", "Denunciarlo en Instagram", "Llamar a tus padres"],
+        adultos: [1]
+      },
+      {
+        q: "¿Qué significa 'habeas corpus'?",
+        opts: ["Una receta médica", "Un recurso legal para proteger la libertad personal", "Un plato italiano", "Un tipo de contrato"],
+        adultos: [1]
+      },
+      {
+        q: "Si alguien te invita a una reunión de trabajo formal, ¿cómo respondés?",
+        opts: ["Le mando un meme", "Confirmo asistencia por mail o llamado profesional", "No respondo y veo si voy", "Le pregunto a mis padres"],
+        adultos: [1]
+      }
+    ];
+
+    // Estado del quiz
+    let quizQuestions = [];
+    let currentQ = 0;
+    let userAnswers = [];
+    let aiVerified = false;
+
+    // ── Helpers de cookies
+    function setCookie(name, value, days) {
+      const exp = new Date();
+      exp.setDate(exp.getDate() + days);
+      document.cookie = `${name}=${value}; expires=${exp.toUTCString()}; path=/; SameSite=Lax`;
+    }
+
+    function getCookie(name) {
+      return document.cookie.split(';').some(c => c.trim().startsWith(name + '='));
+    }
+
+    // ── Detectar si ya pasó el gate
+    function checkAlreadyAdult() {
+      return sessionStorage.getItem('isAdult') === 'true' || getCookie('cc_adult');
+    }
+
+    // ── Mostrar step
+    function showStep(stepId) {
+      ['gate-step-1','gate-step-ai','gate-step-analyzing','gate-step-result','gate-step-blocked']
+        .forEach(id => document.getElementById(id).style.display = 'none');
+      document.getElementById(stepId).style.display = 'block';
+    }
+
+    // ── Mezclar array (Fisher-Yates)
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    // ── Iniciar verificación
+    function startAgeVerification() {
+      if ('vibrate' in navigator) navigator.vibrate([80,40,80]);
+      quizQuestions = shuffle(QUESTION_BANK).slice(0, 3);
+      currentQ = 0;
+      userAnswers = [];
+      renderQuestion();
+      showStep('gate-step-ai');
+    }
+
+    // ── Botón menor
+    function isMinor() {
+      if ('vibrate' in navigator) navigator.vibrate(200);
+      showStep('gate-step-blocked');
+      let count = 3;
+      document.getElementById('redirect-countdown').textContent = `Redirigiendo en ${count}...`;
+      const interval = setInterval(() => {
+        count--;
+        if (count <= 0) {
+          clearInterval(interval);
+          window.location.href = 'https://www.google.com';
+        } else {
+          document.getElementById('redirect-countdown').textContent = `Redirigiendo en ${count}...`;
+        }
+      }, 1000);
+    }
+
+    // ── Renderizar pregunta actual
+    function renderQuestion() {
+      const q = quizQuestions[currentQ];
+      const container = document.getElementById('ai-question-container');
+
+      // Actualizar dots
+      for (let i = 0; i < 3; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        dot.className = 'gate-prog-dot';
+        if (i < currentQ) dot.classList.add('done');
+        else if (i === currentQ) dot.classList.add('active');
+      }
+
+      container.innerHTML = `
+        <div class="ai-question-wrap">
+          <div class="ai-q-num">PREGUNTA ${currentQ + 1} DE 3</div>
+          <div class="ai-q-text">${q.q}</div>
+          <div class="ai-q-options" id="options-wrap">
+            ${q.opts.map((opt, i) => `
+              <button class="ai-opt" onclick="selectOption(${i})" id="opt-${i}">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('btn-ai-next').disabled = true;
+      document.getElementById('btn-ai-next').textContent =
+        currentQ < 2 ? 'SIGUIENTE →' : 'VERIFICAR CON IA 🔥';
+    }
+
+    // ── Seleccionar opción
+    function selectOption(idx) {
+      document.querySelectorAll('.ai-opt').forEach(b => b.classList.remove('selected'));
+      document.getElementById(`opt-${idx}`).classList.add('selected');
+      document.getElementById('btn-ai-next').disabled = false;
+
+      // Guardar respuesta (sobreescribe si ya había)
+      userAnswers[currentQ] = idx;
+    }
+
+    // ── Avanzar pregunta
+    function nextQuestion() {
+      if (userAnswers[currentQ] === undefined) return;
+
+      if (currentQ < 2) {
+        currentQ++;
+        renderQuestion();
+      } else {
+        // Enviar a IA para evaluación
+        analyzeWithAI();
+      }
+    }
+
+    // ── Score local (confianza base antes de IA)
+    function calcLocalScore() {
+      let correct = 0;
+      quizQuestions.forEach((q, i) => {
+        if (q.adultos.includes(userAnswers[i])) correct++;
+      });
+      return correct;
+    }
+
+    // ── Animación de logs
+    function animateLogs() {
+      const logs = ['log-1','log-2','log-3','log-4','log-5'];
+      let i = 0;
+      return new Promise(resolve => {
+        const interval = setInterval(() => {
+          if (i > 0) document.getElementById(logs[i-1]).classList.add('done');
+          if (i < logs.length) {
+            document.getElementById(logs[i]).classList.add('active');
+            i++;
+          } else {
+            clearInterval(interval);
+            setTimeout(resolve, 400);
+          }
+        }, 600);
+      });
+    }
+
+    // ── Llamada a Anthropic API para evaluación final
+    async function analyzeWithAI() {
+      showStep('gate-step-analyzing');
+      await animateLogs();
+
+      const localScore = calcLocalScore();
+
+      // Construir resumen para la IA
+      const summary = quizQuestions.map((q, i) => {
+        const chosen = q.opts[userAnswers[i]];
+        const isCorrect = q.adultos.includes(userAnswers[i]);
+        return `P${i+1}: "${q.q}" → Respondió: "${chosen}" (${isCorrect ? 'respuesta de adulto' : 'respuesta de menor'})`;
+      }).join('\n');
+
+      try {
+        const response = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-20250514",
+            max_tokens: 300,
+            system: `Sos un sistema de verificación de edad para un sitio web adulto argentino (+18). 
+Tu tarea es analizar las respuestas de un usuario a 3 preguntas de verificación y determinar si el patrón de respuestas es consistente con una persona mayor de 18 años.
+
+Respondé SOLO con un JSON válido, sin texto adicional, con este formato exacto:
+{
+  "acceso": true o false,
+  "confianza": número del 0 al 100,
+  "mensaje": "mensaje corto en español para el usuario (máx 80 chars)"
+}
+
+Si el score local es 2 o 3 sobre 3, el acceso debe ser true. Si es 0 o 1, false.
+Sé generoso con el acceso si las respuestas parecen de alguien adulto aunque no sean perfectas.`,
+            messages: [{
+              role: "user",
+              content: `Score local: ${localScore}/3\n\nRespuestas del usuario:\n${summary}\n\nEvaluá si es mayor de 18 años.`
+            }]
+          })
+        });
+
+        const data = await response.json();
+        const text = data.content?.map(b => b.text || '').join('') || '';
+
+        let result;
+        try {
+          const clean = text.replace(/```json|```/g, '').trim();
+          result = JSON.parse(clean);
+        } catch {
+          // Fallback: usar score local
+          result = {
+            acceso: localScore >= 2,
+            confianza: localScore === 3 ? 95 : localScore === 2 ? 72 : 28,
+            mensaje: localScore >= 2 ? "Verificación completada con éxito." : "No pudimos confirmar tu edad."
+          };
+        }
+
+        showResult(result);
+
+      } catch (err) {
+        // Si la API falla, fallback local
+        const localResult = {
+          acceso: localScore >= 2,
+          confianza: localScore === 3 ? 90 : localScore === 2 ? 68 : 25,
+          mensaje: localScore >= 2 ? "Verificación local completada." : "No pudimos confirmar tu edad."
+        };
+        showResult(localResult);
+      }
+    }
+
+    // ── Mostrar resultado
+    function showResult(result) {
+      showStep('gate-step-result');
+
+      document.getElementById('result-icon').textContent = result.acceso ? '✅' : '❌';
+      document.getElementById('result-title').textContent = result.acceso ? 'ACCESO VERIFICADO' : 'VERIFICACIÓN FALLIDA';
+      document.getElementById('result-title').className = `result-title ${result.acceso ? 'ok' : 'fail'}`;
+      document.getElementById('result-score').textContent = `IA CONFIANZA: ${result.confianza}%`;
+      document.getElementById('result-msg').textContent = result.mensaje;
+
+      if (result.acceso) {
+        aiVerified = true;
+        document.getElementById('result-btn').style.display = 'block';
+        document.getElementById('result-retry').style.display = 'none';
+      } else {
+        document.getElementById('result-btn').style.display = 'none';
+        document.getElementById('result-retry').style.display = 'block';
+      }
+    }
+
+    // ── Entrar al sitio (acceso concedido)
+    function finishEntry() {
+      if (!aiVerified) return;
       const gate = document.getElementById('age-gate');
       gate.style.transition = 'opacity .5s ease';
       gate.style.opacity = '0';
       setTimeout(() => {
         gate.style.display = 'none';
         sessionStorage.setItem('isAdult', 'true');
+        setCookie('cc_adult', '1', 30);
+        // Cookie de analytics de verificación exitosa (anonimizada)
+        setCookie('cc_verified', new Date().toISOString().split('T')[0], 30);
         const audio = document.getElementById('fire-audio');
         audio.volume = 0.35;
         audio.play().catch(() => {});
       }, 500);
-      if ('vibrate' in navigator) navigator.vibrate([80, 40, 80]);
+      if ('vibrate' in navigator) navigator.vibrate([80,40,80]);
     }
 
-    if (sessionStorage.getItem('isAdult') === 'true') {
-      document.getElementById('age-gate').style.display = 'none';
-      setTimeout(() => {
-        const audio = document.getElementById('fire-audio');
-        audio.volume = 0.35;
-        audio.play().catch(() => {});
-      }, 300);
+    // ── Resetear gate para reintentar
+    function resetGate() {
+      aiVerified = false;
+      currentQ = 0;
+      userAnswers = [];
+      showStep('gate-step-1');
     }
 
-    // Sparks
+    // ── Sparks
     const sparkContainer = document.getElementById('sparks');
     function createSpark() {
       const s = document.createElement('div');
@@ -989,30 +1405,31 @@
     }
     setInterval(createSpark, 280);
 
-    // Scroll reveal — se aplica a las sidebar-entry dinámicas vía JS en cargarRelatosDinamicos
+    // ── Init: verificar si ya es adulto
+    window.addEventListener('load', () => {
+      if (checkAlreadyAdult()) {
+        document.getElementById('age-gate').style.display = 'none';
+        setTimeout(() => {
+          const audio = document.getElementById('fire-audio');
+          if (audio) { audio.volume = 0.35; audio.play().catch(() => {}); }
+        }, 300);
+      }
+    });
   </script>
 
   <!-- ══════════════════════════════════════════════════════
        FIRESTORE — carga dinámica de relatos verificados
-       + sidebar dinámico con las últimas 5 entradas
   ══════════════════════════════════════════════════════ -->
   <script>
     function escapeHtml(str) {
       return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
     function cargarRelatosDinamicos() {
       const lista = document.getElementById("entries-list");
       const db = window._db;
-
-      if (!db) {
-        setTimeout(cargarRelatosDinamicos, 500);
-        return;
-      }
+      if (!db) { setTimeout(cargarRelatosDinamicos, 500); return; }
 
       const q = window._query(
         window._collection(db, "confesiones"),
@@ -1020,117 +1437,84 @@
         window._orderBy("fecha", "desc")
       );
 
-      // onSnapshot: tiempo real para el búnker
       window._onSnapshot(q, (snapshot) => {
-
-        // ── Contador
         if (document.getElementById("stat-confesiones")) {
           document.getElementById("stat-confesiones").textContent = snapshot.size;
         }
 
-        // ══ ENTRIES LIST (columna principal) ══
         lista.innerHTML = "";
 
         if (snapshot.empty) {
-          lista.innerHTML = `
-            <div class="entries-loading">
-              <span class="loading-icon">🔥</span>
-              Esperando que el fuego se encienda...
-            </div>`;
+          lista.innerHTML = `<div class="entries-loading"><span class="loading-icon">🔥</span>Esperando que el fuego se encienda...</div>`;
         } else {
           snapshot.forEach((doc) => {
             const data = doc.data();
             const id = doc.id;
             const fecha = data.fecha?.toDate
-              ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
+              ? data.fecha.toDate().toLocaleDateString('es-AR', {day:'2-digit',month:'short',year:'numeric'}).toUpperCase()
               : 'RECIENTE';
-
-            const relatoCompleto = data.historia || '';
+            const collapseId = `relato-${id}`;
             const card = document.createElement("div");
             card.className = "entry-card";
             card.id = `card-${id}`;
-
-            // ID único para que el botón sepa qué texto desplegar
-            const collapseId = `relato-${id}`;
-
             card.innerHTML = `
               <div class="entry-meta"><span>${fecha}</span> · VERIFICADO</div>
               <div class="entry-title">${escapeHtml(data.autor || 'Anónimo')}</div>
-
-              <div id="${collapseId}" style="font-size: 13px; color: #aaa; line-height: 1.6; margin-bottom: 10px; max-height: 80px; overflow: hidden; transition: max-height 0.5s ease;">
-                  ${escapeHtml(relatoCompleto)}
+              <div id="${collapseId}" style="font-size:13px;color:#aaa;line-height:1.6;margin-bottom:10px;max-height:80px;overflow:hidden;transition:max-height .5s ease;">
+                ${escapeHtml(data.historia || '')}
               </div>
-
-              <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button onclick="document.getElementById('${collapseId}').style.maxHeight='none'; this.style.display='none'"
-                        style="background: none; border: 1px solid #444; color: #888; padding: 5px 12px; border-radius: 50px; font-size: 10px; cursor: pointer; text-transform: uppercase;">
+              <div style="display:flex;gap:10px;margin-bottom:15px;">
+                <button onclick="document.getElementById('${collapseId}').style.maxHeight='none';this.style.display='none'"
+                        style="background:none;border:1px solid #444;color:#888;padding:5px 12px;border-radius:50px;font-size:10px;cursor:pointer;text-transform:uppercase;">
                   Leer más ↓
                 </button>
-
                 <a href="../relato.html?id=${id}" target="_blank"
-                   style="background: rgba(255,0,0,0.1); border: 1px solid var(--rojo2); color: #fff; padding: 5px 12px; border-radius: 50px; font-size: 10px; text-decoration: none; text-transform: uppercase;">
+                   style="background:rgba(255,0,0,0.1);border:1px solid var(--rojo2);color:#fff;padding:5px 12px;border-radius:50px;font-size:10px;text-decoration:none;text-transform:uppercase;">
                   Pestaña nueva ↗
                 </a>
               </div>
-
               ${data.archivoUrl ? `
-                <div style="margin-top: 15px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000;">
-                  <img src="${data.archivoUrl}"
-                       alt="Adjunto"
-                       style="width: 100%; max-height: 350px; object-fit: contain; display: block;"
+                <div style="margin-top:15px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);background:#000;">
+                  <img src="${data.archivoUrl}" alt="Adjunto"
+                       style="width:100%;max-height:350px;object-fit:contain;display:block;"
                        onerror="this.parentElement.style.display='none'">
                   <a href="${data.archivoUrl}" target="_blank" rel="noopener"
-                     style="color:var(--rojo); font-size:10px; text-decoration:none; padding: 10px; display: block; background: rgba(18,18,18,0.8); text-align: center; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.05);">
-                     VER ADJUNTO COMPLETO 🔥
+                     style="color:var(--rojo);font-size:10px;text-decoration:none;padding:10px;display:block;background:rgba(18,18,18,0.8);text-align:center;font-weight:bold;border-top:1px solid rgba(255,255,255,0.05);">
+                    VER ADJUNTO COMPLETO 🔥
                   </a>
-                </div>
-              ` : ''}
+                </div>` : ''}
             `;
             lista.appendChild(card);
           });
         }
 
-        // ══ SIDEBAR — últimas 5 entradas dinámicas ══
+        // Sidebar
         const sidebarList = document.getElementById("sidebar-list");
         sidebarList.innerHTML = "";
 
         if (snapshot.empty) {
-          sidebarList.innerHTML = `
-            <p style="color:#333;font-size:11px;text-align:center;padding:20px 0;letter-spacing:1px;">
-              Sin entradas aún
-            </p>`;
+          sidebarList.innerHTML = `<p style="color:#333;font-size:11px;text-align:center;padding:20px 0;letter-spacing:1px;">Sin entradas aún</p>`;
         } else {
           snapshot.docs.slice(0, 5).forEach((docSnap, i) => {
             const data = docSnap.data();
             const id = docSnap.id;
             const fecha = data.fecha?.toDate
-              ? data.fecha.toDate().toLocaleDateString('es-AR', { day:'2-digit', month:'short', year:'numeric' }).toUpperCase()
+              ? data.fecha.toDate().toLocaleDateString('es-AR', {day:'2-digit',month:'short',year:'numeric'}).toUpperCase()
               : 'RECIENTE';
-
             const entry = document.createElement("div");
             entry.className = "sidebar-entry";
-
-            // Click → scroll suave a la card correspondiente
             entry.addEventListener("click", () => {
               const target = document.getElementById(`card-${id}`);
               if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
-
-            // Animación de entrada escalonada (igual que el original con sidebar-entry estáticas)
             entry.style.opacity = '0';
             entry.style.transform = 'translateX(16px)';
             entry.style.transition = `all .5s ease ${i * 0.08}s`;
-
             entry.innerHTML = `
-              <div>
-                <span class="s-date">${fecha}</span>
-                <span class="s-cat">· VERIFICADO</span>
-              </div>
+              <div><span class="s-date">${fecha}</span><span class="s-cat">· VERIFICADO</span></div>
               <h4>${escapeHtml(data.autor || 'Anónimo')}</h4>
             `;
             sidebarList.appendChild(entry);
-
-            // Dispara la animación
             requestAnimationFrame(() => requestAnimationFrame(() => {
               entry.style.opacity = '1';
               entry.style.transform = 'translateX(0)';
