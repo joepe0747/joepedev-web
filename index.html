@@ -30,6 +30,17 @@
       --glass-b:rgba(108,99,255,0.18);
     }
     html{scroll-behavior:smooth}
+    <script>
+  fetch('https://api.countapi.xyz/hit/joepedev.com/visitas')
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('visit-count').textContent =
+        data.value.toLocaleString('es-AR');
+    })
+    .catch(() => {
+      document.getElementById('visit-counter').style.display = 'none';
+    });
+</script>
     body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
 
     /* NOISE */
