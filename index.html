@@ -169,12 +169,14 @@
       <a href="/dailyboost">DailyBoost Widget</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
     </div>
+
     <!-- CONTADOR DE VISITAS -->
     <div id="visit-counter" style="display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:5px 14px;">
       <span class="badge-dot"></span>
       <span style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Visitas</span>
       <span id="visit-count" style="font-size:13px;font-weight:500;letter-spacing:1px;">—</span>
     </div>
+
     <div class="footer-copy">© 2026 joeDEV · joepedev.com</div>
   </footer>
 
@@ -182,9 +184,10 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  <!-- CONTADOR DE VISITAS REAL -->
+  <!-- CONTADOR DE VISITAS — corregido con transaction() -->
   <script>
   window.addEventListener('load', function() {
+
     const firebaseConfig = {
       apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
       authDomain: "chatcalienteapp2.firebaseapp.com",
@@ -195,23 +198,42 @@
       appId: "1:798220681076:web:44847b5dca7673dd4af621"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    // Evitar doble inicialización si Firebase ya fue cargado por otra página
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const db  = firebase.database();
     const ref = db.ref('visitas_web');
 
-    // Incrementa con ServerValue (atómico, más confiable que transaction)
-    ref.set(firebase.database.ServerValue.increment(1))
-      .then(() => {
-        ref.get().then(snap => {
-          document.getElementById('visit-count').textContent =
-            snap.val().toLocaleString('es-AR');
-        });
+    // No contar visitas propias en desarrollo
+    const esLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+
+    if (!esLocal) {
+      // transaction() garantiza incremento atómico sin perder visitas concurrentes
+      ref.transaction(function(valorActual) {
+        return (valorActual || 0) + 1;
       })
-      .catch(err => {
-        console.error('Error contador visitas:', err);
+      .then(function(resultado) {
+        var total = resultado.snapshot.val();
+        document.getElementById('visit-count').textContent =
+          total ? total.toLocaleString('es-AR') : '—';
+      })
+      .catch(function(err) {
+        console.warn('Contador visitas:', err);
         document.getElementById('visit-count').textContent = '—';
       });
+    } else {
+      // En local solo muestra el valor actual sin incrementar
+      ref.get().then(function(snap) {
+        var total = snap.val();
+        document.getElementById('visit-count').textContent =
+          total ? total.toLocaleString('es-AR') : '0';
+      });
+    }
+
   });
   </script>
+
 </body>
 </html>
