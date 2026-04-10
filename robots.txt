@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin-fuego.html
+Disallow: /aprobar.html
+
+Sitemap: https://joepedev.com/sitemap.xml
