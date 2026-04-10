@@ -273,7 +273,7 @@
       <li><a href="https://play.google.com/store/apps/details?id=com.joedev.chatcaliente" class="nav-cta" target="_blank" rel="noopener">↓ Descargar</a></li>
     </ul>
     <!-- Hamburger mobile -->
-    <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+    <button type="button" class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -473,41 +473,31 @@
       document.getElementById('ln').textContent = b.toLocaleString('es-AR');
     }, 3000);
 
-    // ── Hamburger / Drawer
-    const hamburger = document.getElementById('hamburger');
-    const drawer = document.getElementById('mobile-drawer');
+    // ── Hamburger / Drawer — funciones globales
     let drawerOpen = false;
 
+    function toggleDrawer() {
+      drawerOpen ? closeDrawer() : openDrawer();
+    }
+
     function openDrawer() {
+      document.getElementById('hamburger').classList.add('open');
+      document.getElementById('mobile-drawer').classList.add('open');
       drawerOpen = true;
-      hamburger.classList.add('open');
-      drawer.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      drawer.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
     }
 
     function closeDrawer() {
+      document.getElementById('hamburger').classList.remove('open');
+      document.getElementById('mobile-drawer').classList.remove('open');
       drawerOpen = false;
-      hamburger.classList.remove('open');
-      drawer.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      drawer.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
     }
 
-    hamburger.addEventListener('click', () => {
-      drawerOpen ? closeDrawer() : openDrawer();
-    });
-
-    // Cerrar con Escape
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && drawerOpen) closeDrawer();
     });
 
-    // Cerrar al hacer tap fuera del drawer (en el overlay)
-    drawer.addEventListener('click', e => {
-      if (e.target === drawer) closeDrawer();
+    document.getElementById('mobile-drawer').addEventListener('click', e => {
+      if (e.target === document.getElementById('mobile-drawer')) closeDrawer();
     });
 
     // ── Bottom nav: marcar ítem activo según scroll
