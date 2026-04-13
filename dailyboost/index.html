@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DailyBoost Widget ⚡ | Tu motivación diaria en Android</title>
   <meta name="description" content="DailyBoost Widget: frases motivacionales inteligentes en tu pantalla Android. Diseño negro-turquesa. Descargá gratis."/>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XGCD4YB7M3');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XGCD4YB7M3');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -34,7 +33,6 @@
     .nav-back{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
     .nav-back:hover{color:var(--text)}
 
-    /* HERO */
     .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;overflow:hidden;z-index:2}
     .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 100%,rgba(0,212,170,.15) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 20%,rgba(0,245,212,.06) 0%,transparent 60%),var(--dark)}
     .hero-content{position:relative;z-index:2;max-width:720px}
@@ -50,7 +48,6 @@
     .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);color:var(--text);padding:16px 28px;border-radius:12px;font-size:15px;text-decoration:none;transition:background .2s}
     .btn-ghost:hover{background:rgba(0,212,170,.12)}
 
-    /* QUOTE WIDGET PREVIEW */
     .widget-preview{display:flex;justify-content:center;margin:56px 0 0;animation:fadeUp .8s .5s ease both}
     .widget-card{background:linear-gradient(135deg,#0d1f1b,#071a16);border:1px solid var(--glass-b);border-radius:20px;padding:28px 32px;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,212,170,.1),0 4px 16px rgba(0,0,0,.4)}
     .widget-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
@@ -59,12 +56,10 @@
     .widget-author{font-size:11px;color:var(--muted);letter-spacing:1px}
     .widget-bar{height:3px;background:linear-gradient(90deg,var(--teal2),var(--cyan));border-radius:2px;margin-top:16px}
 
-    /* SECTIONS */
     section{position:relative;z-index:2;padding:80px 24px}
     .sec-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:12px}
     .sec-title{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-1px;text-align:center;margin-bottom:52px;line-height:1.1}
 
-    /* FEATURES */
     .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:960px;margin:0 auto}
     .feat-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:18px;padding:28px 24px;transition:transform .3s,border-color .3s}
     .feat-card:hover{transform:translateY(-4px);border-color:rgba(0,212,170,.4)}
@@ -72,12 +67,24 @@
     .feat-card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;color:var(--cyan)}
     .feat-card p{font-size:13px;line-height:1.6;color:rgba(232,255,249,.5)}
 
-    /* GALLERY */
-    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:800px;margin:0 auto}
-    .gallery-item{aspect-ratio:1;border-radius:14px;background:linear-gradient(135deg,rgba(0,212,170,.1),rgba(0,212,170,.04));border:1px solid var(--glass-b);display:flex;align-items:center;justify-content:center;font-size:36px;transition:transform .2s}
-    .gallery-item:hover{transform:scale(1.02)}
+    /* ── GALLERY ── */
+    .gallery-scroll{display:flex;gap:14px;overflow-x:auto;padding:8px 4px 20px;max-width:1000px;margin:0 auto;scrollbar-width:thin;scrollbar-color:var(--glass-b) transparent;scroll-snap-type:x mandatory}
+    .gallery-scroll::-webkit-scrollbar{height:4px}
+    .gallery-scroll::-webkit-scrollbar-track{background:transparent}
+    .gallery-scroll::-webkit-scrollbar-thumb{background:var(--glass-b);border-radius:4px}
+    .gallery-scroll img{
+      flex-shrink:0;
+      width: 180px;
+      border-radius:18px;
+      border:1px solid var(--glass-b);
+      object-fit:cover;
+      box-shadow:0 8px 32px rgba(0,0,0,.5);
+      transition:transform .3s,box-shadow .3s;
+      scroll-snap-align:start;
+      display:block;
+    }
+    .gallery-scroll img:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 16px 48px rgba(0,212,170,.2),0 4px 16px rgba(0,0,0,.6)}
 
-    /* CTA */
     .cta-sec{text-align:center;padding:80px 24px 100px}
     .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(0,212,170,.15) 0%,transparent 70%);pointer-events:none}
     .cta-sec h2{font-family:'Syne',sans-serif;font-size:clamp(40px,7vw,72px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:16px}
@@ -90,7 +97,7 @@
     .foot-copy{font-size:12px;color:rgba(77,138,122,.4)}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    @media(max-width:600px){nav{padding:0 18px}.nav-links{display:none}.gallery{grid-template-columns:repeat(2,1fr)}footer{flex-direction:column}}
+    @media(max-width:600px){nav{padding:0 18px}.nav-links{display:none}.gallery-scroll img{width:140px}footer{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -146,13 +153,16 @@
   <section style="background:rgba(0,212,170,.03);border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b)">
     <p class="sec-label">Vista previa</p>
     <h2 class="sec-title">Así se ve en tu celu</h2>
-    <div class="gallery">
-      <div class="gallery-item">📱</div>
-      <div class="gallery-item">⚡</div>
-      <div class="gallery-item">🌅</div>
-      <div class="gallery-item">💡</div>
-      <div class="gallery-item">🎯</div>
-      <div class="gallery-item">✨</div>
+    <div class="gallery-scroll">
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-01.png" alt="DailyBoost Widget captura 1" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-02.png" alt="DailyBoost Widget captura 2" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-03.png" alt="DailyBoost Widget captura 3" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-04.png" alt="DailyBoost Widget captura 4" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-05.png" alt="DailyBoost Widget captura 5" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-06.png" alt="DailyBoost Widget captura 6" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-07.png" alt="DailyBoost Widget captura 7" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-08.png" alt="DailyBoost Widget captura 8" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-09.png" alt="DailyBoost Widget captura 9" loading="lazy"/>
     </div>
   </section>
 
