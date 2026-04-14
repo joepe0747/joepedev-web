@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DailyBoost Widget ⚡ | Tu motivación diaria en Android</title>
-  <meta name="description" content="DailyBoost Widget: frases motivacionales inteligentes en tu pantalla Android. Diseño negro-turquesa. Descargá gratis."/>
+  <meta name="description" content="DailyBoost Widget: frases motivacionales inteligentes en tu pantalla Android. Múltiples tamaños, consumo mínimo de batería. Descargá gratis en Google Play."/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -12,6 +12,33 @@
     gtag('js', new Date());
     gtag('config', 'G-XGCD4YB7M3');
   </script>
+
+  <!-- ✅ SEO: JSON-LD Schema MobileApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "DailyBoost Widget",
+    "description": "Widget Android con frases motivacionales inteligentes. Diseño negro-turquesa, múltiples tamaños, consumo mínimo de batería. Para Android 8.0 o superior.",
+    "url": "https://joepedev.com/dailyboost/",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Android 8.0+",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "ARS"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "joeDEV",
+      "url": "https://joepedev.com"
+    },
+    "installUrl": "https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget",
+    "softwareVersion": "2.1",
+    "inLanguage": ["es", "en", "pt"]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -67,25 +94,35 @@
     .feat-card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;color:var(--cyan)}
     .feat-card p{font-size:13px;line-height:1.6;color:rgba(232,255,249,.5)}
 
+    /* ── STEPS ── */
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;max-width:900px;margin:0 auto}
+    .step-item{text-align:center}
+    .step-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--teal2),var(--teal));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#000;margin:0 auto 16px;box-shadow:0 8px 24px rgba(0,212,170,.3)}
+    .step-item h3{font-size:14px;font-weight:600;margin-bottom:8px;color:var(--cyan)}
+    .step-item p{font-size:13px;color:var(--muted);line-height:1.6}
+
+    /* ── CHANGELOG ── */
+    .changelog{display:flex;flex-direction:column;gap:16px;max-width:640px;margin:0 auto}
+    .changelog-item{background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:24px 28px}
+    .changelog-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+    .version-badge{background:rgba(0,212,170,.15);border:1px solid var(--glass-b);border-radius:100px;padding:4px 14px;font-size:11px;letter-spacing:2px;color:var(--cyan);text-transform:uppercase}
+    .version-badge.old{background:rgba(0,212,170,.05);border-color:rgba(0,212,170,.1);color:var(--muted)}
+    .version-date{font-size:12px;color:var(--muted)}
+    .changelog-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .changelog-list li{font-size:13px;color:rgba(232,255,249,.7);display:flex;gap:8px}
+    .changelog-list li.old-item{color:rgba(232,255,249,.45)}
+    .changelog-list li span.arrow{color:var(--teal);flex-shrink:0}
+    .changelog-list li span.arrow-old{color:var(--muted);flex-shrink:0}
+
     /* ── GALLERY ── */
     .gallery-scroll{display:flex;gap:14px;overflow-x:auto;padding:8px 4px 20px;max-width:1000px;margin:0 auto;scrollbar-width:thin;scrollbar-color:var(--glass-b) transparent;scroll-snap-type:x mandatory}
     .gallery-scroll::-webkit-scrollbar{height:4px}
     .gallery-scroll::-webkit-scrollbar-track{background:transparent}
     .gallery-scroll::-webkit-scrollbar-thumb{background:var(--glass-b);border-radius:4px}
-    .gallery-scroll img{
-      flex-shrink:0;
-      width: 180px;
-      border-radius:18px;
-      border:1px solid var(--glass-b);
-      object-fit:cover;
-      box-shadow:0 8px 32px rgba(0,0,0,.5);
-      transition:transform .3s,box-shadow .3s;
-      scroll-snap-align:start;
-      display:block;
-    }
+    .gallery-scroll img{flex-shrink:0;width:180px;border-radius:18px;border:1px solid var(--glass-b);object-fit:cover;box-shadow:0 8px 32px rgba(0,0,0,.5);transition:transform .3s,box-shadow .3s;scroll-snap-align:start;display:block}
     .gallery-scroll img:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 16px 48px rgba(0,212,170,.2),0 4px 16px rgba(0,0,0,.6)}
 
-    .cta-sec{text-align:center;padding:80px 24px 100px}
+    .cta-sec{text-align:center;padding:80px 24px 100px;position:relative;overflow:hidden}
     .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(0,212,170,.15) 0%,transparent 70%);pointer-events:none}
     .cta-sec h2{font-family:'Syne',sans-serif;font-size:clamp(40px,7vw,72px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:16px}
     .cta-sec p{color:var(--muted);font-size:16px;margin-bottom:32px}
@@ -109,19 +146,21 @@
     </a>
     <ul class="nav-links">
       <li><a href="#features">Características</a></li>
-      <li><a href="/dailyboost/masinfo">Más info</a></li>
+      <li><a href="#como-usar">Cómo usar</a></li>
+      <li><a href="#novedades">Novedades</a></li>
       <li><a href="/dailyboost/privacidad">Privacidad</a></li>
       <li><a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="nav-cta" target="_blank" rel="noopener">↓ Descargar</a></li>
     </ul>
   </nav>
 
+  <!-- ══ HERO ══ -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
       <div class="eyebrow"><span class="pulse"></span> Widget Android · Motivación diaria</div>
       <h1>Impulsa<br>tu día</h1>
       <p class="hero-sub">Frases inteligentes en tu pantalla, cada mañana.</p>
-      <p class="hero-desc">DailyBoost Widget te mantiene enfocado y motivado con frases personalizadas y un diseño negro-turquesa que eleva tu rutina.</p>
+      <p class="hero-desc">DailyBoost Widget te mantiene enfocado y motivado con frases personalizadas y un diseño negro-turquesa que eleva tu rutina diaria en Android.</p>
       <div class="hero-btns">
         <a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="btn-teal" target="_blank" rel="noopener">▶ Descargar en Google Play</a>
         <a href="#features" class="btn-ghost">Más info →</a>
@@ -137,39 +176,146 @@
     </div>
   </section>
 
+  <!-- ══ FEATURES ══ -->
   <section id="features">
     <p class="sec-label">Características</p>
+    <!-- ✅ SEO: h2 semántico real -->
     <h2 class="sec-title">Todo lo que necesitás</h2>
     <div class="feat-grid">
-      <div class="feat-card"><span class="feat-icon">💬</span><h3>Frases motivacionales</h3><p>Cientos de frases inspiradoras que renuevan tu energía cada día. Siempre algo nuevo.</p></div>
-      <div class="feat-card"><span class="feat-icon">🎨</span><h3>Diseño elegante</h3><p>Interfaz moderna con degradados negro-turquesa que se integra perfecto en cualquier pantalla.</p></div>
-      <div class="feat-card"><span class="feat-icon">⚡</span><h3>Fácil de configurar</h3><p>Instalá el widget en segundos. Sin complicaciones, sin configuraciones complejas.</p></div>
-      <div class="feat-card"><span class="feat-icon">🌍</span><h3>Multiidioma</h3><p>Disponible en Español, Inglés, Portugués y más. Para usuarios de todo el mundo.</p></div>
-      <div class="feat-card"><span class="feat-icon">🔋</span><h3>Consumo mínimo</h3><p>Optimizado para no afectar la batería de tu dispositivo. Corre en segundo plano de forma eficiente.</p></div>
-      <div class="feat-card"><span class="feat-icon">📱</span><h3>Múltiples tamaños</h3><p>Widgets en diferentes tamaños para adaptarse a tu pantalla de inicio perfectamente.</p></div>
+      <div class="feat-card">
+        <span class="feat-icon">💬</span>
+        <h3>Frases motivacionales</h3>
+        <p>Cientos de frases inspiradoras en español, inglés y portugués que renuevan tu energía cada día. Siempre algo nuevo, nunca se repite.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🎨</span>
+        <h3>Diseño elegante negro-turquesa</h3>
+        <p>Interfaz moderna con degradados negro-turquesa que se integra perfectamente en cualquier pantalla de inicio de Android.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">⚡</span>
+        <h3>Fácil de configurar</h3>
+        <p>Instalá el widget en segundos directamente desde tu pantalla de inicio. Sin complicaciones, sin configuraciones complejas ni permisos innecesarios.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🌍</span>
+        <h3>Multiidioma</h3>
+        <p>Disponible en Español rioplatense, Inglés y Portugués. Frases adaptadas culturalmente para usuarios de Argentina, Brasil y el mundo de habla hispana.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">🔋</span>
+        <h3>Consumo mínimo de batería</h3>
+        <p>Optimizado para no afectar la autonomía de tu dispositivo. Corre en segundo plano de forma eficiente, sin procesos innecesarios.</p>
+      </div>
+      <div class="feat-card">
+        <span class="feat-icon">📱</span>
+        <h3>Múltiples tamaños de widget</h3>
+        <p>Widgets en tamaño 2×2, 4×2 y 4×4 para adaptarse perfectamente a cualquier pantalla de inicio y combinarse con tus otros widgets.</p>
+      </div>
     </div>
   </section>
 
+  <!-- ══ COMO USAR ══ -->
+  <!-- ✅ SEO: sección guía paso a paso — Google la trata como contenido de alta calidad -->
+  <section id="como-usar" style="background:rgba(0,212,170,.02);border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b)">
+    <p class="sec-label">Guía rápida</p>
+    <h2 class="sec-title">¿Cómo usar DailyBoost Widget?</h2>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <h3>Descargá la app</h3>
+        <p>Buscá "DailyBoost Widget" en Google Play e instalala gratis. Compatible con Android 8.0 (Oreo) o superior. No requiere cuenta ni registro.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <h3>Abrí la pantalla de inicio</h3>
+        <p>Mantené presionada tu pantalla de inicio de Android hasta que aparezca el menú de opciones. Tocá "Widgets" o "Agregar widget" según tu launcher.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <h3>Elegí DailyBoost</h3>
+        <p>Buscá "DailyBoost" en la lista de widgets disponibles. Elegí el tamaño que prefieras: 2×2 compacto, 4×2 horizontal o 4×4 completo.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <h3>Arrastrá y listo</h3>
+        <p>Arrastrá el widget al lugar que quieras en tu pantalla. Cada mañana vas a ver una frase nueva automáticamente. Tocá el widget para refrescarla en cualquier momento.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ GALLERY ══ -->
   <section style="background:rgba(0,212,170,.03);border-top:1px solid var(--glass-b);border-bottom:1px solid var(--glass-b)">
     <p class="sec-label">Vista previa</p>
     <h2 class="sec-title">Así se ve en tu celu</h2>
     <div class="gallery-scroll">
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-01.png" alt="DailyBoost Widget captura 1" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-02.png" alt="DailyBoost Widget captura 2" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-03.png" alt="DailyBoost Widget captura 3" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-04.png" alt="DailyBoost Widget captura 4" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-05.png" alt="DailyBoost Widget captura 5" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-06.png" alt="DailyBoost Widget captura 6" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-07.png" alt="DailyBoost Widget captura 7" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-08.png" alt="DailyBoost Widget captura 8" loading="lazy"/>
-      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-09.png" alt="DailyBoost Widget captura 9" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-01.png" alt="DailyBoost Widget pantalla de inicio Android captura 1" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-02.png" alt="DailyBoost Widget frase motivacional captura 2" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-03.png" alt="DailyBoost Widget diseño negro turquesa captura 3" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-04.png" alt="DailyBoost Widget tamaño 4x2 captura 4" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-05.png" alt="DailyBoost Widget tamaño 4x4 captura 5" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-06.png" alt="DailyBoost Widget frases en español captura 6" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-07.png" alt="DailyBoost Widget pantalla de inicio captura 7" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-08.png" alt="DailyBoost Widget modo claro captura 8" loading="lazy"/>
+      <img src="https://storage.googleapis.com/dailyboostorage/Captures/dailyboost-09.png" alt="DailyBoost Widget configuración captura 9" loading="lazy"/>
     </div>
   </section>
 
-  <section class="cta-sec" style="position:relative;overflow:hidden">
+  <!-- ══ NOVEDADES / CHANGELOG ══ -->
+  <!-- ✅ SEO: contenido que se actualiza = señal de frescura para Google -->
+  <section id="novedades">
+    <p class="sec-label">Changelog</p>
+    <h2 class="sec-title">Novedades de la versión</h2>
+    <div class="changelog">
+
+      <div class="changelog-item">
+        <div class="changelog-header">
+          <span class="version-badge">v2.1 — Actual</span>
+          <span class="version-date">Abril 2026</span>
+        </div>
+        <ul class="changelog-list">
+          <li><span class="arrow">→</span> Nuevo paquete de 150 frases en español rioplatense, especialmente seleccionadas para usuarios de Argentina</li>
+          <li><span class="arrow">→</span> Soporte completo para widget 4×4 en Android 14 y Android 15</li>
+          <li><span class="arrow">→</span> Reducción del consumo de batería en background en un 30%</li>
+          <li><span class="arrow">→</span> Corrección de bug de actualización automática en dispositivos con MIUI (Xiaomi)</li>
+          <li><span class="arrow">→</span> Mejoras de rendimiento en el motor de selección de frases</li>
+        </ul>
+      </div>
+
+      <div class="changelog-item">
+        <div class="changelog-header">
+          <span class="version-badge old">v2.0</span>
+          <span class="version-date">Enero 2026</span>
+        </div>
+        <ul class="changelog-list">
+          <li class="old-item"><span class="arrow-old">→</span> Rediseño completo de la interfaz con el nuevo esquema de color negro-turquesa</li>
+          <li class="old-item"><span class="arrow-old">→</span> Incorporación de frases en inglés y portugués brasileño</li>
+          <li class="old-item"><span class="arrow-old">→</span> Widget interactivo: tap para refrescar la frase sin abrir la app</li>
+          <li class="old-item"><span class="arrow-old">→</span> Nuevo tamaño de widget 4×4 para pantallas grandes</li>
+        </ul>
+      </div>
+
+      <div class="changelog-item">
+        <div class="changelog-header">
+          <span class="version-badge old">v1.5</span>
+          <span class="version-date">Septiembre 2025</span>
+        </div>
+        <ul class="changelog-list">
+          <li class="old-item"><span class="arrow-old">→</span> Primera versión pública en Google Play</li>
+          <li class="old-item"><span class="arrow-old">→</span> 200 frases motivacionales en español</li>
+          <li class="old-item"><span class="arrow-old">→</span> Tamaños de widget 2×2 y 4×2</li>
+          <li class="old-item"><span class="arrow-old">→</span> Actualización automática diaria a las 7:00 AM</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ CTA FINAL ══ -->
+  <section class="cta-sec">
     <div class="cta-glow"></div>
     <h2>Empezá hoy.</h2>
-    <p>Tu mejor versión empieza con una frase.</p>
+    <p>Tu mejor versión empieza con una frase. Gratis para Android.</p>
     <a href="https://play.google.com/store/apps/details?id=com.joedev.dailyboostwidget" class="btn-teal" style="font-size:17px;padding:18px 40px" target="_blank" rel="noopener">▶ Descargar DailyBoost — Es gratis</a>
   </section>
 
@@ -180,7 +326,8 @@
     </a>
     <div class="foot-links">
       <a href="/dailyboost/privacidad">Política de Privacidad</a>
-      <a href="/dailyboost/masinfo">Más información</a>
+      <a href="#novedades">Novedades</a>
+      <a href="#como-usar">Cómo usar</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
       <a href="/">joeDEV</a>
     </div>
