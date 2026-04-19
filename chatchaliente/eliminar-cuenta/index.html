@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eliminar Cuenta | Chat Caliente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --fire1:#ff2d00;--fire2:#ff6a00;--fire3:#ffb300;
+      --dark:#0a0500;--dark2:#110800;
+      --glass:rgba(255,80,0,0.07);--glass-b:rgba(255,100,0,0.18);
+      --text:#fff0e8;--muted:#b07060;--muted2:#7a4030;
+    }
+    body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+    /* Ambient background */
+    body::before{
+      content:'';position:fixed;inset:0;
+      background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(255,45,0,0.08) 0%,transparent 60%),
+                 radial-gradient(ellipse 40% 60% at 80% 90%,rgba(255,106,0,0.06) 0%,transparent 60%);
+      pointer-events:none;z-index:0
+    }
+
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;height:64px;
+      display:flex;align-items:center;justify-content:space-between;padding:0 36px;
+      background:rgba(10,5,0,0.9);backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--glass-b)
+    }
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--fire1),var(--fire3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .t1{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;background:linear-gradient(90deg,var(--fire2),var(--fire3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+    .t2{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;display:block}
+    .nav-link{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
+    .nav-link:hover{color:var(--text)}
+
+    main{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:100px 24px 80px}
+
+    /* Header */
+    .page-header{text-align:center;margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid var(--glass-b)}
+    .page-tag{display:inline-block;background:rgba(255,45,0,0.12);border:1px solid rgba(255,45,0,0.3);border-radius:100px;padding:5px 16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fire1);margin-bottom:20px}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,7vw,68px);letter-spacing:3px;background:linear-gradient(180deg,#fff8f0 0%,var(--fire2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:16px}
+    .page-subtitle{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto}
+
+    /* Warning box */
+    .warning-box{
+      background:rgba(255,45,0,0.08);border:1px solid rgba(255,45,0,0.25);
+      border-radius:14px;padding:20px 24px;margin-bottom:32px;
+      display:flex;gap:14px;align-items:flex-start
+    }
+    .warning-box .icon{font-size:22px;flex-shrink:0;margin-top:2px}
+    .warning-box p{font-size:13px;line-height:1.7;color:rgba(255,200,150,.8)}
+    .warning-box strong{color:var(--fire2)}
+
+    /* Sections */
+    .section{margin-bottom:32px}
+    .section-title{
+      font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;
+      color:var(--fire3);margin-bottom:16px;display:flex;align-items:center;gap:10px
+    }
+    .section-title::after{content:'';flex:1;height:1px;background:var(--glass-b)}
+
+    /* Steps */
+    .steps{display:flex;flex-direction:column;gap:12px}
+    .step{
+      background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;
+      padding:16px 20px;display:flex;gap:16px;align-items:flex-start
+    }
+    .step-num{
+      width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--fire1),var(--fire2));
+      display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+      flex-shrink:0;margin-top:1px
+    }
+    .step-content h4{font-size:13px;font-weight:600;margin-bottom:4px;color:var(--text)}
+    .step-content p{font-size:12px;color:var(--muted);line-height:1.6}
+
+    /* Data table */
+    .data-table{width:100%;border-collapse:collapse;font-size:13px}
+    .data-table th{
+      text-align:left;padding:10px 14px;background:rgba(255,80,0,0.1);
+      color:var(--fire3);font-size:11px;letter-spacing:1px;text-transform:uppercase;
+      border-bottom:1px solid var(--glass-b)
+    }
+    .data-table td{
+      padding:10px 14px;border-bottom:1px solid rgba(255,100,0,0.08);
+      color:rgba(255,240,230,.7);vertical-align:top;line-height:1.5
+    }
+    .data-table tr:last-child td{border-bottom:none}
+    .badge-del{background:rgba(255,45,0,0.15);color:#ff6a6a;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600}
+    .badge-keep{background:rgba(255,179,0,0.12);color:#ffb300;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600}
+    .table-wrap{border:1px solid var(--glass-b);border-radius:12px;overflow:hidden}
+
+    /* Contact CTA */
+    .cta-box{
+      background:linear-gradient(135deg,rgba(255,45,0,0.1),rgba(255,106,0,0.06));
+      border:1px solid var(--glass-b);border-radius:16px;padding:28px;text-align:center;margin-top:40px
+    }
+    .cta-box h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--fire3);margin-bottom:8px}
+    .cta-box p{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:linear-gradient(135deg,var(--fire1),var(--fire2));
+      color:#fff;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+      padding:12px 28px;border-radius:10px;text-decoration:none;
+      transition:opacity .2s,transform .15s;border:none;cursor:pointer
+    }
+    .btn:hover{opacity:.85;transform:translateY(-1px)}
+    .btn-ghost{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--glass);border:1px solid var(--glass-b);
+      color:var(--muted);font-size:13px;font-weight:500;letter-spacing:.5px;
+      padding:12px 28px;border-radius:10px;text-decoration:none;
+      transition:all .2s;margin-top:10px
+    }
+    .btn-ghost:hover{color:var(--text);border-color:rgba(255,100,0,0.35)}
+    .btn-row{display:flex;flex-direction:column;align-items:center;gap:0}
+
+    /* Info pill */
+    .info-pill{
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--glass);border:1px solid var(--glass-b);
+      border-radius:8px;padding:8px 14px;font-size:12px;color:var(--muted);
+      margin-top:12px
+    }
+
+    footer{
+      position:relative;z-index:1;
+      border-top:1px solid var(--glass-b);padding:24px 36px;
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px
+    }
+    .foot-links{display:flex;gap:18px;flex-wrap:wrap}
+    .foot-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+    .foot-links a:hover{color:var(--text)}
+    .foot-copy{font-size:12px;color:rgba(176,112,96,.4)}
+
+    @media(max-width:500px){
+      nav{padding:0 16px}
+      main{padding:90px 16px 60px}
+      footer{padding:20px 16px}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/chatchaliente" class="nav-link">← Chat Caliente</a>
+    <a href="/chatchaliente" class="nav-logo">
+      <div class="nav-logo-icon">🔥</div>
+      <div style="display:flex;flex-direction:column;line-height:1">
+        <span class="t1">Chat Caliente</span>
+        <span class="t2">by joeDEV</span>
+      </div>
+    </a>
+    <a href="/" class="nav-link">joeDEV →</a>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <div class="page-tag">Gestión de cuenta</div>
+      <h1>Eliminar cuenta</h1>
+      <p class="page-subtitle">Podés solicitar la eliminación completa de tu cuenta de Chat Caliente y todos los datos asociados en cualquier momento.</p>
+    </div>
+
+    <div class="warning-box">
+      <div class="icon">⚠️</div>
+      <p><strong>Esta acción es irreversible.</strong> Una vez procesada la solicitud, tu cuenta, perfil, mensajes, fotos y puntos no podrán recuperarse bajo ninguna circunstancia.</p>
+    </div>
+
+    <!-- Pasos -->
+    <div class="section">
+      <div class="section-title">Cómo solicitar la eliminación</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Opción A — Desde la app de Chat Caliente</h4>
+            <p>Abrí la app → Perfil → Ajustes → Mi cuenta → <strong>Eliminar cuenta</strong>. Seguí las instrucciones en pantalla para confirmar.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Opción B — Por email</h4>
+            <p>Enviá un correo a <strong>joepedev@gmail.com</strong> con el asunto <em>"Eliminación de cuenta Chat Caliente"</em> desde el email asociado a tu cuenta. Incluí tu nombre de usuario si lo recordás.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Confirmación y plazo de procesamiento</h4>
+            <p>Recibirás un email de confirmación en 48 hs. El proceso completo de eliminación tarda hasta <strong>30 días hábiles</strong> desde la confirmación.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Qué se elimina -->
+    <div class="section">
+      <div class="section-title">Qué datos se eliminan o conservan</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tipo de dato</th>
+              <th>Acción</th>
+              <th>Período de retención</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Perfil (nombre, foto, bio)</td>
+              <td><span class="badge-del">Eliminado</span></td>
+              <td>Al completarse el proceso (≤ 30 días)</td>
+            </tr>
+            <tr>
+              <td>Mensajes privados y chats</td>
+              <td><span class="badge-del">Eliminado</span></td>
+              <td>Al completarse el proceso (≤ 30 días)</td>
+            </tr>
+            <tr>
+              <td>Fotos y contenido multimedia</td>
+              <td><span class="badge-del">Eliminado</span></td>
+              <td>Al completarse el proceso (≤ 30 días)</td>
+            </tr>
+            <tr>
+              <td>Vibe points y regalos virtuales</td>
+              <td><span class="badge-del">Eliminado</span></td>
+              <td>Al completarse el proceso (≤ 30 días)</td>
+            </tr>
+            <tr>
+              <td>Historial de verificación de identidad (DNI)</td>
+              <td><span class="badge-keep">Conservado</span></td>
+              <td>Hasta 5 años por obligaciones legales argentinas</td>
+            </tr>
+            <tr>
+              <td>Registros de denuncias o infracciones</td>
+              <td><span class="badge-keep">Conservado</span></td>
+              <td>Hasta 5 años por obligaciones legales y de seguridad</td>
+            </tr>
+            <tr>
+              <td>Datos de facturación (si aplica)</td>
+              <td><span class="badge-keep">Conservado</span></td>
+              <td>Hasta 10 años por normativa fiscal argentina</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Solicitar eliminación por email</h3>
+      <p>Si preferís iniciar el proceso por email, hacé clic abajo. Se abrirá tu cliente de correo con el asunto pre-cargado.</p>
+      <div class="btn-row">
+        <a href="mailto:joepedev@gmail.com?subject=Eliminaci%C3%B3n%20de%20cuenta%20Chat%20Caliente&body=Hola%2C%20solicito%20la%20eliminaci%C3%B3n%20de%20mi%20cuenta%20de%20Chat%20Caliente.%0A%0AEmail%20asociado%20a%20mi%20cuenta%3A%20%5Btu%20email%5D%0ANombre%20de%20usuario%3A%20%5Btu%20usuario%5D" class="btn">📧 Enviar solicitud de eliminación</a>
+        <div class="info-pill">⏱ Plazo de respuesta: 48 hs · Proceso completo: hasta 30 días hábiles</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span style="font-size:12px;color:var(--muted)">Chat Caliente · by joeDEV</span>
+    <div class="foot-links">
+      <a href="/chatchaliente">Inicio</a>
+      <a href="/chatchaliente/soporte">Soporte</a>
+      <a href="/chatchaliente/eliminar-datos">Eliminar mis datos</a>
+      <a href="/chatchaliente/privacidad">Privacidad</a>
+      <a href="/chatchaliente/legales">Legales</a>
+    </div>
+    <div class="foot-copy">© 2026 joeDEV</div>
+  </footer>
+</body>
+</html>
