@@ -239,6 +239,8 @@
       <li><a href="/chatchaliente/blog">Blog</a></li>
       <li><a href="/chatchaliente/soporte">Soporte</a></li>
       <li><a href="/chatchaliente/privacidad">Privacidad</a></li>
+      <!-- ✅ Google Play: link directo a eliminación de cuenta -->
+      <li><a href="/chatchaliente/eliminar-cuenta">Mi cuenta</a></li>
       <li><a href="https://play.google.com/store/apps/details?id=com.joedev.chatcaliente" class="nav-cta" target="_blank" rel="noopener">↓ Descargar</a></li>
     </ul>
     <button type="button" class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" onclick="toggleDrawer()">
@@ -260,6 +262,9 @@
       <li><a href="#salas" onclick="closeDrawer()"><span class="d-icon">💬</span>Salas activas</a></li>
       <li><a href="/chatchaliente/soporte"><span class="d-icon">🛠️</span>Soporte</a></li>
       <li><a href="/chatchaliente/privacidad"><span class="d-icon">🔒</span>Privacidad</a></li>
+      <!-- ✅ Google Play: links de gestión de datos en drawer -->
+      <li><a href="/chatchaliente/eliminar-cuenta"><span class="d-icon">👤</span>Mi cuenta / Eliminar cuenta</a></li>
+      <li><a href="/chatchaliente/eliminar-datos"><span class="d-icon">🗑️</span>Eliminar mis datos</a></li>
     </ul>
     <a href="https://play.google.com/store/apps/details?id=com.joedev.chatcaliente" class="drawer-cta" target="_blank" rel="noopener">
       ▶ Descargar en Google Play — Gratis
@@ -268,6 +273,9 @@
       <a href="/chatchaliente/privacidad">Política de privacidad</a>
       <a href="/chatchaliente/legales">Términos</a>
       <a href="/chatchaliente/legales#infantil">Seguridad infantil</a>
+      <!-- ✅ Google Play: reemplazado mailto por páginas web reales -->
+      <a href="/chatchaliente/eliminar-cuenta">Eliminar cuenta</a>
+      <a href="/chatchaliente/eliminar-datos">Eliminar datos</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
     </div>
   </div>
@@ -291,9 +299,10 @@
       <span class="bn-icon">🛠️</span>
       Soporte
     </a>
-    <a href="/chatchaliente/privacidad" class="bottom-nav-item">
-      <span class="bn-icon">🔒</span>
-      Legal
+    <!-- ✅ Google Play: bottom nav apunta a Mi cuenta en lugar de privacidad -->
+    <a href="/chatchaliente/eliminar-cuenta" class="bottom-nav-item">
+      <span class="bn-icon">👤</span>
+      Mi cuenta
     </a>
   </nav>
 
@@ -450,7 +459,9 @@
       <a href="/chatchaliente/privacidad">Política de Privacidad</a>
       <a href="/chatchaliente/legales">Términos del Servicio</a>
       <a href="/chatchaliente/legales#infantil">Seguridad Infantil</a>
-      <a href="/chatchaliente/soporte#eliminar">Eliminar cuenta</a>
+      <!-- ✅ Google Play: rutas dedicadas en lugar de soporte#eliminar -->
+      <a href="/chatchaliente/eliminar-cuenta">Eliminar cuenta</a>
+      <a href="/chatchaliente/eliminar-datos">Eliminar mis datos</a>
       <a href="/chatchaliente/soporte">Soporte</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
     </div>
