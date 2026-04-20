@@ -24,6 +24,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://joepedev.com/chatchaliente/child-safety/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 
   <url>
     <loc>https://joepedev.com/dailyboost/</loc>
