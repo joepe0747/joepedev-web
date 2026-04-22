@@ -89,6 +89,33 @@
     }
     .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,71,42,.4); }
 
+    /* ── NAV DROPDOWN LEGAL ─────────────────────────────────────────────── */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .nav-dropdown > a::after { content: '▾'; font-size: 10px; opacity: .6; }
+    .dropdown-menu {
+      display: none;
+      position: absolute; top: calc(100% + 14px); right: 0;
+      background: rgba(18,18,28,0.97);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px;
+      min-width: 200px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.5);
+      z-index: 200;
+    }
+    .nav-dropdown:hover .dropdown-menu { display: flex; flex-direction: column; }
+    .dropdown-menu a {
+      font-size: 13px !important; font-weight: 700;
+      color: var(--muted) !important;
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: background .15s, color .15s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dropdown-menu a:hover { background: rgba(255,255,255,.06); color: var(--text) !important; }
+
     /* ── HERO ──────────────────────────────────────────────────────────── */
     #hero {
       position: relative; min-height: 100vh;
@@ -473,7 +500,14 @@
       <a href="#perfiles">Perfiles</a>
       <a href="#neurin">Neurin</a>
       <a href="#modulos">Módulos</a>
-      <a href="#legal">Legal</a>
+      <div class="nav-dropdown">
+        <a href="#legal">Legal</a>
+        <div class="dropdown-menu">
+          <a href="/neurokids/privacidad.html">🔒 Privacidad</a>
+          <a href="/neurokids/seguridad-infantil.html">🛡️ Seguridad Infantil</a>
+          <a href="/neurokids/aviso-legal.html">⚖️ Aviso Legal</a>
+        </div>
+      </div>
       <a href="#download" class="nav-cta">Descargar</a>
     </div>
   </nav>
