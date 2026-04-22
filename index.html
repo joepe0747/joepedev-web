@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>joeDEV · Apps Android independientes desde Argentina</title>
-  <meta name="description" content="joeDEV: desarrollador indie argentino. Creador de Chat Caliente y DailyBoost Widget. Apps reales, hechas con pasión."/>
+  <meta name="description" content="joeDEV: desarrollador indie argentino. Creador de Chat Caliente, DailyBoost Widget y NeuroKids Ayuda. Apps reales, hechas con pasión."/>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
   <script>
@@ -23,6 +23,8 @@
       --accent:#6c63ff;
       --fire:#ff6a00;
       --teal:#00d4aa;
+      --neuro:#7C3AED;
+      --neuro-lt:#C084FC;
       --text:#f0eeff;
       --muted:#6b6880;
       --glass:rgba(108,99,255,0.07);
@@ -49,8 +51,9 @@
     .orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(108,99,255,0.18),transparent 70%);top:-100px;left:-100px}
     .orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(0,212,170,0.12),transparent 70%);bottom:-80px;right:-80px}
     .orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(255,106,0,0.08),transparent 70%);top:40%;left:60%}
+    .orb4{width:350px;height:350px;background:radial-gradient(circle,rgba(124,58,237,0.1),transparent 70%);top:20%;right:10%}
 
-    .hero-inner{position:relative;z-index:2;text-align:center;max-width:720px}
+    .hero-inner{position:relative;z-index:2;text-align:center;max-width:860px}
     .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:6px 16px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:32px;animation:fadeUp .8s ease both}
     .badge-dot{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:blink 2s ease-in-out infinite}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
@@ -59,25 +62,29 @@
     h1 span{background:linear-gradient(135deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .hero-sub{font-size:clamp(15px,2vw,18px);color:var(--muted);line-height:1.7;max-width:500px;margin:0 auto 48px;animation:fadeUp .8s .2s ease both}
 
-    /* APP CARDS */
-    .apps-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:800px;margin:0 auto;animation:fadeUp .8s .3s ease both}
-    .app-card{position:relative;border-radius:24px;padding:36px 32px;text-decoration:none;overflow:hidden;transition:transform .3s,box-shadow .3s;border:1px solid transparent}
+    /* APP CARDS — ahora 3 columnas */
+    .apps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;animation:fadeUp .8s .3s ease both}
+    .app-card{position:relative;border-radius:24px;padding:36px 28px;text-decoration:none;overflow:hidden;transition:transform .3s,box-shadow .3s;border:1px solid transparent}
     .app-card:hover{transform:translateY(-6px)}
 
     .card-fire{background:linear-gradient(135deg,rgba(255,45,0,0.12),rgba(255,106,0,0.06));border-color:rgba(255,80,0,0.2)}
     .card-fire:hover{box-shadow:0 24px 60px rgba(255,60,0,0.18);border-color:rgba(255,80,0,0.4)}
     .card-teal{background:linear-gradient(135deg,rgba(0,212,170,0.1),rgba(108,99,255,0.06));border-color:rgba(0,212,170,0.15)}
     .card-teal:hover{box-shadow:0 24px 60px rgba(0,212,170,0.15);border-color:rgba(0,212,170,0.35)}
+    .card-neuro{background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(192,132,252,0.06));border-color:rgba(124,58,237,0.2)}
+    .card-neuro:hover{box-shadow:0 24px 60px rgba(124,58,237,0.2);border-color:rgba(192,132,252,0.45)}
 
     .card-icon{font-size:44px;margin-bottom:16px;display:block}
     .card-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
     .tag-fire{color:#ff6a00}
     .tag-teal{color:var(--teal)}
+    .tag-neuro{color:var(--neuro-lt)}
     .card-name{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;margin-bottom:10px;color:var(--text)}
     .card-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
     .card-arrow{font-size:13px;letter-spacing:1px}
     .arrow-fire{color:#ff6a00}
     .arrow-teal{color:var(--teal)}
+    .arrow-neuro{color:var(--neuro-lt)}
 
     /* ABOUT */
     .about{max-width:900px;margin:0 auto;padding:100px 24px;position:relative;z-index:1;text-align:center}
@@ -97,10 +104,12 @@
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
+    @media(max-width:780px){
+      .apps-grid{grid-template-columns:1fr}
+    }
     @media(max-width:600px){
       nav{padding:0 20px}
       .nav-links{display:none}
-      .apps-grid{grid-template-columns:1fr}
       footer{flex-direction:column;align-items:flex-start}
     }
   </style>
@@ -129,6 +138,7 @@
     <ul class="nav-links">
       <li><a href="/chatchaliente">Chat Caliente</a></li>
       <li><a href="/dailyboost">DailyBoost</a></li>
+      <li><a href="/neurokids">NeuroKids</a></li>
       <li><a href="mailto:joepedev@gmail.com" class="nav-contact">Contacto</a></li>
     </ul>
   </nav>
@@ -137,11 +147,13 @@
     <div class="hero-orb orb1"></div>
     <div class="hero-orb orb2"></div>
     <div class="hero-orb orb3"></div>
+    <div class="hero-orb orb4"></div>
     <div class="hero-inner">
       <div class="hero-badge"><span class="badge-dot"></span> Desarrollador indie · Argentina</div>
       <h1>Apps que<br><span>importan</span></h1>
       <p class="hero-sub">Desarrollo Android independiente desde Argentina. Cada app construida con Kotlin, Jetpack Compose y mucha pasión.</p>
       <div class="apps-grid">
+
         <a href="/chatchaliente" class="app-card card-fire">
           <span class="card-icon">🔥</span>
           <div class="card-tag tag-fire">Chat Social · +18</div>
@@ -149,6 +161,7 @@
           <div class="card-desc">La comunidad de chat más real y segura de Argentina. Verificación de identidad, galerías privadas y modo HOT.</div>
           <div class="card-arrow arrow-fire">Ver más →</div>
         </a>
+
         <a href="/dailyboost" class="app-card card-teal">
           <span class="card-icon">⚡</span>
           <div class="card-tag tag-teal">Widget · Motivación</div>
@@ -156,47 +169,56 @@
           <div class="card-desc">Frases motivacionales inteligentes en tu pantalla. Diseño negro-turquesa que eleva tu rutina diaria.</div>
           <div class="card-arrow arrow-teal">Ver más →</div>
         </a>
+
+        <a href="/neurokids" class="app-card card-neuro">
+          <span class="card-icon">🧠</span>
+          <div class="card-tag tag-neuro">Educación · Neurodiversidad</div>
+          <div class="card-name">NeuroKids Ayuda</div>
+          <div class="card-desc">App educativa adaptativa para niños con TEA, TDAH, Dislexia y más. IA inclusiva, gratuita y sin publicidad.</div>
+          <div class="card-arrow arrow-neuro">Ver más →</div>
+        </a>
+
       </div>
     </div>
   </section>
 
   <section class="about">
-  <p class="section-label">Sobre mí</p>
-  <h2 class="section-title">Hecho en Argentina,<br>para el mundo</h2>
-  <p class="about-text">
-    Soy José María, desarrollador Android independiente con base en Buenos Aires, Argentina.
-    Me especializo en construir aplicaciones móviles reales, con arquitectura MVVM, Firebase y
-    Jetpack Compose. No trabajo para una empresa: cada app que publico la imagino, la diseño y
-    la lanzo de forma independiente. Eso me da la libertad de iterar rápido, escuchar a los usuarios
-    y tomar decisiones de producto sin burocracia.
-  </p>
-  <p class="about-text" style="margin-top: -24px;">
-    Actualmente mantengo dos proyectos activos: <strong>Chat Caliente</strong>, una comunidad de
-    chat social con verificación de identidad por DNI y moderación con IA, y
-    <strong>DailyBoost Widget</strong>, un widget de frases motivacionales para la pantalla de
-    inicio de Android. Ambas apps están publicadas en Google Play y tienen usuarios reales en
-    Argentina y Latinoamérica.
-  </p>
-  <p class="about-text" style="margin-top: -24px;">
-    Mi stack principal incluye Kotlin, Jetpack Compose, Firebase Realtime Database, Firebase Storage,
-    Firebase Auth, ML Kit para visión por computadora, CameraX para captura de imagen y video,
-    y Cloud Functions para la lógica de backend. También trabajo con GitHub Actions para CI/CD
-    y despliego sitios estáticos con GitHub Pages y Cloudflare.
-  </p>
+    <p class="section-label">Sobre mí</p>
+    <h2 class="section-title">Hecho en Argentina,<br>para el mundo</h2>
+    <p class="about-text">
+      Soy José María, desarrollador Android independiente con base en Buenos Aires, Argentina.
+      Me especializo en construir aplicaciones móviles reales, con arquitectura MVVM, Firebase y
+      Jetpack Compose. No trabajo para una empresa: cada app que publico la imagino, la diseño y
+      la lanzo de forma independiente. Eso me da la libertad de iterar rápido, escuchar a los usuarios
+      y tomar decisiones de producto sin burocracia.
+    </p>
+    <p class="about-text" style="margin-top: -24px;">
+      Actualmente mantengo tres proyectos activos: <strong>Chat Caliente</strong>, una comunidad de
+      chat social con verificación de identidad por DNI y moderación con IA; <strong>DailyBoost Widget</strong>,
+      un widget de frases motivacionales para la pantalla de inicio de Android; y <strong>NeuroKids Ayuda</strong>,
+      una app educativa adaptativa para niños con neurodiversidad. Todas publicadas en Google Play con
+      usuarios reales en Argentina y Latinoamérica.
+    </p>
+    <p class="about-text" style="margin-top: -24px;">
+      Mi stack principal incluye Kotlin, Jetpack Compose, Firebase Realtime Database, Firebase Storage,
+      Firebase Auth, ML Kit para visión por computadora, CameraX para captura de imagen y video,
+      y Cloud Functions para la lógica de backend. También trabajo con GitHub Actions para CI/CD
+      y despliego sitios estáticos con GitHub Pages y Cloudflare.
+    </p>
 
-  <div class="tech-pills">
-    <span class="pill">Kotlin</span>
-    <span class="pill">Jetpack Compose</span>
-    <span class="pill">Firebase</span>
-    <span class="pill">Android Studio</span>
-    <span class="pill">Cloud Functions</span>
-    <span class="pill">CameraX</span>
-    <span class="pill">ML Kit</span>
-    <span class="pill">MVVM</span>
-    <span class="pill">GitHub Actions</span>
-    <span class="pill">Google Play</span>
-  </div>
-</section>
+    <div class="tech-pills">
+      <span class="pill">Kotlin</span>
+      <span class="pill">Jetpack Compose</span>
+      <span class="pill">Firebase</span>
+      <span class="pill">Android Studio</span>
+      <span class="pill">Cloud Functions</span>
+      <span class="pill">CameraX</span>
+      <span class="pill">ML Kit</span>
+      <span class="pill">MVVM</span>
+      <span class="pill">GitHub Actions</span>
+      <span class="pill">Google Play</span>
+    </div>
+  </section>
 
   <footer>
     <a href="/" class="nav-brand" style="font-size:16px;display:flex;align-items:center;gap:8px;">
@@ -205,6 +227,7 @@
     <div class="footer-links">
       <a href="/chatchaliente">Chat Caliente</a>
       <a href="/dailyboost">DailyBoost Widget</a>
+      <a href="/neurokids">NeuroKids Ayuda</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
     </div>
 
@@ -222,10 +245,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  <!-- CONTADOR DE VISITAS — corregido con transaction() -->
+  <!-- CONTADOR DE VISITAS -->
   <script>
   window.addEventListener('load', function() {
-
     const firebaseConfig = {
       apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
       authDomain: "chatcalienteapp2.firebaseapp.com",
@@ -235,20 +257,13 @@
       messagingSenderId: "798220681076",
       appId: "1:798220681076:web:44847b5dca7673dd4af621"
     };
-
-    // Evitar doble inicialización si Firebase ya fue cargado por otra página
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-
     const db  = firebase.database();
     const ref = db.ref('visitas_web');
-
-    // No contar visitas propias en desarrollo
     const esLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
-
     if (!esLocal) {
-      // transaction() garantiza incremento atómico sin perder visitas concurrentes
       ref.transaction(function(valorActual) {
         return (valorActual || 0) + 1;
       })
@@ -262,14 +277,12 @@
         document.getElementById('visit-count').textContent = '—';
       });
     } else {
-      // En local solo muestra el valor actual sin incrementar
       ref.get().then(function(snap) {
         var total = snap.val();
         document.getElementById('visit-count').textContent =
           total ? total.toLocaleString('es-AR') : '0';
       });
     }
-
   });
   </script>
 
