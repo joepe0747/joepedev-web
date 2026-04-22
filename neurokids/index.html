@@ -105,7 +105,7 @@
       box-shadow: 0 16px 40px rgba(0,0,0,.5);
       z-index: 200;
     }
-    .nav-dropdown:hover .dropdown-menu { display: flex; flex-direction: column; }
+    .nav-dropdown.open .dropdown-menu { display: flex; flex-direction: column; }
     .dropdown-menu a {
       font-size: 13px !important; font-weight: 700;
       color: var(--muted) !important;
@@ -998,6 +998,17 @@
 
   <!-- ── SCRIPTS ────────────────────────────────────────────────────────── -->
   <script>
+    // ── Dropdown Legal ────────────────────────────────────────────────────
+    const dropdownToggle = document.querySelector('.nav-dropdown > a');
+    const dropdown = document.querySelector('.nav-dropdown');
+    dropdownToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      dropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
+    });
+
     // ── Tabs legales ──────────────────────────────────────────────────────
     function showTab(id) {
       document.querySelectorAll('.legal-content').forEach(el => el.classList.remove('active'));
