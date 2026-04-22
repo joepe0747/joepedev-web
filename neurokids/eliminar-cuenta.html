@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eliminar Cuenta — NeuroKids Ayuda</title>
+  <meta name="description" content="Solicitar la eliminación de datos y cuenta en NeuroKids Ayuda. Tu privacidad y la de tu hijo son nuestra prioridad." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── VARIABLES ─────────────────────────────────────────────────────── */
+    :root {
+      --bg:        #0A0A0F;
+      --bg-card:   #13131C;
+      --bg-elev:   #1A1A25;
+      --border:    rgba(255,255,255,0.07);
+      --red:       #E8472A;
+      --orange:    #FF9F43;
+      --purple:    #7C3AED;
+      --purple-lt: #C084FC;
+      --blue:      #1A73E8;
+      --blue-lt:   #4FC3F7;
+      --green:     #34D399;
+      --text:      #F0EDE8;
+      --muted:     #888;
+      --radius:    20px;
+      --font-body: 'Nunito', sans-serif;
+      --font-disp: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NOISE OVERLAY ─────────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ── NAV ───────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-disp); font-size: 18px; font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .nav-logo span { font-size: 22px; }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    @media (max-width: 768px) { nav { padding: 14px 20px; } }
+
+    /* ── HERO ──────────────────────────────────────────────────────────── */
+    .page-hero {
+      position: relative;
+      padding: 160px 24px 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(232,71,42,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(124,58,237,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+    .breadcrumb {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; color: var(--muted);
+      margin-bottom: 28px;
+      animation: fadeUp .5s ease both;
+    }
+    .breadcrumb a { color: var(--muted); transition: color .2s; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb .sep { opacity: .4; }
+
+    .hero-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 80px; height: 80px;
+      background: rgba(232,71,42,.12);
+      border: 1px solid rgba(232,71,42,.25);
+      border-radius: 24px;
+      font-size: 38px;
+      margin-bottom: 28px;
+      animation: fadeUp .55s .05s ease both;
+    }
+
+    .page-title {
+      font-family: var(--font-disp);
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+      animation: fadeUp .6s .1s ease both;
+    }
+    .page-title .accent { color: var(--red); }
+
+    .page-sub {
+      font-size: 17px; color: var(--muted);
+      line-height: 1.7; max-width: 520px; margin: 0 auto;
+      animation: fadeUp .6s .18s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── DIVIDER ────────────────────────────────────────────────────────── */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ── MAIN CONTENT ───────────────────────────────────────────────────── */
+    .content-wrap {
+      position: relative; z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 72px 24px 100px;
+    }
+
+    /* ── INFO CARDS ─────────────────────────────────────────────────────── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 20px;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: border-color .25s, transform .25s;
+    }
+    .info-card:hover { border-color: rgba(255,255,255,.14); transform: translateY(-3px); }
+    .info-card .ic {
+      font-size: 28px; flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .info-card h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .info-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ── WARNING BOX ────────────────────────────────────────────────────── */
+    .warning-box {
+      background: rgba(232,71,42,.07);
+      border: 1px solid rgba(232,71,42,.22);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .warning-box .warn-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+    .warning-box h4 { font-size: 15px; font-weight: 800; color: var(--red); margin-bottom: 6px; }
+    .warning-box p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .warning-box ul { font-size: 13px; color: var(--muted); line-height: 1.8; padding-left: 18px; margin-top: 8px; }
+
+    /* ── SUCCESS BOX ────────────────────────────────────────────────────── */
+    .success-box {
+      background: rgba(52,211,153,.07);
+      border: 1px solid rgba(52,211,153,.22);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .success-box .ok-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .success-box p { font-size: 13px; color: var(--green); font-weight: 700; line-height: 1.6; }
+
+    /* ── SECTION TITLE ──────────────────────────────────────────────────── */
+    .block-title {
+      font-family: var(--font-disp);
+      font-size: 22px; font-weight: 800;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    /* ── STEPS ──────────────────────────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px; }
+    .step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      display: flex; gap: 18px; align-items: flex-start;
+      transition: border-color .2s;
+    }
+    .step:hover { border-color: rgba(255,255,255,.13); }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-disp);
+      font-size: 15px; font-weight: 800;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+    .step-body h4 { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .step-body p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .step-body code {
+      display: inline-block;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--purple-lt);
+      margin-top: 6px;
+    }
+    .step-highlight { border-color: rgba(232,71,42,.22) !important; }
+    .step-highlight .step-num { background: rgba(232,71,42,.12); border-color: rgba(232,71,42,.3); color: var(--red); }
+
+    /* ── FORM SECTION ───────────────────────────────────────────────────── */
+    .form-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      margin-bottom: 56px;
+    }
+    .form-block h3 {
+      font-family: var(--font-disp);
+      font-size: 20px; font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .form-block .form-desc {
+      font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.6;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 13px; font-weight: 800; margin-bottom: 8px;
+      color: var(--text);
+    }
+    .form-group label .req { color: var(--red); margin-left: 2px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      resize: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #444; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(232,71,42,.5);
+      box-shadow: 0 0 0 3px rgba(232,71,42,.1);
+    }
+    .form-group select option { background: #13131C; }
+
+    /* Checkbox */
+    .checkbox-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .checkbox-row input[type="checkbox"] {
+      width: 18px; height: 18px;
+      flex-shrink: 0; margin-top: 2px;
+      accent-color: var(--red);
+      cursor: pointer;
+    }
+    .checkbox-row label {
+      font-size: 13px; color: var(--muted); line-height: 1.6;
+      cursor: pointer; font-weight: 700; margin-bottom: 0;
+    }
+    .checkbox-row label strong { color: var(--text); }
+
+    /* Form row */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* Hint */
+    .field-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+    /* Submit */
+    .btn-danger {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #C0392B, var(--red));
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 15px; font-weight: 900;
+      border: none; cursor: pointer;
+      font-family: var(--font-body);
+      transition: transform .2s, box-shadow .2s, opacity .2s;
+      box-shadow: 0 4px 24px rgba(232,71,42,.3);
+    }
+    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(232,71,42,.45); }
+    .btn-danger:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 16px 28px;
+      border-radius: 50px;
+      font-size: 14px; font-weight: 700;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.09); color: var(--text); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+    /* ── SUCCESS STATE ─────────────────────────────────────────────────── */
+    #success-state {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+    }
+    #success-state .big-icon { font-size: 72px; margin-bottom: 24px; }
+    #success-state h2 {
+      font-family: var(--font-disp);
+      font-size: 32px; font-weight: 800;
+      margin-bottom: 14px;
+    }
+    #success-state p { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 480px; margin: 0 auto 32px; }
+
+    /* ── FAQ ────────────────────────────────────────────────────────────── */
+    .faq { display: flex; flex-direction: column; gap: 12px; margin-bottom: 60px; }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 20px 24px;
+      font-size: 14px; font-weight: 800;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+      transition: background .15s;
+    }
+    .faq-q:hover { background: rgba(255,255,255,.03); }
+    .faq-q .arrow {
+      font-size: 12px; color: var(--muted);
+      transition: transform .3s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .35s ease;
+    }
+    .faq-item.open .faq-a { max-height: 300px; }
+    .faq-a-inner {
+      padding: 0 24px 20px;
+      font-size: 13px; color: var(--muted); line-height: 1.75;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* ── CONTACT CARD ───────────────────────────────────────────────────── */
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+    }
+    .contact-card .c-icon { font-size: 40px; flex-shrink: 0; }
+    .contact-card h4 { font-family: var(--font-disp); font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+    .contact-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .contact-card a { color: var(--blue-lt); font-weight: 700; transition: opacity .2s; }
+    .contact-card a:hover { opacity: .8; }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      position: relative; z-index: 1;
+    }
+    footer .footer-logo {
+      font-family: var(--font-disp);
+      font-size: 15px; font-weight: 800;
+      display: flex; align-items: center; gap: 8px;
+    }
+    footer .footer-links {
+      display: flex; gap: 20px; flex-wrap: wrap;
+    }
+    footer .footer-links a {
+      font-size: 12px; color: var(--muted);
+      transition: color .2s;
+    }
+    footer .footer-links a:hover { color: var(--text); }
+    footer .footer-copy {
+      font-size: 11px; color: var(--muted);
+      width: 100%; text-align: center;
+    }
+    @media (max-width: 600px) {
+      footer { flex-direction: column; text-align: center; padding: 28px 20px; }
+      .content-wrap { padding: 48px 18px 80px; }
+      .form-block { padding: 24px 20px; }
+    }
+
+    /* ── REVEAL ANIMATION ───────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/neurokids/" class="nav-logo">
+      <span>🧠</span> NeuroKids Ayuda
+    </a>
+    <a href="/neurokids/" class="nav-back">← Volver a la app</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="hero-content">
+      <div class="breadcrumb">
+        <a href="/neurokids/">NeuroKids Ayuda</a>
+        <span class="sep">/</span>
+        <span>Eliminar cuenta y datos</span>
+      </div>
+      <div class="hero-icon">🗑️</div>
+      <h1 class="page-title">
+        Eliminar <span class="accent">cuenta</span><br/>y datos
+      </h1>
+      <p class="page-sub">
+        Podés solicitar la eliminación de todos los datos almacenados en tu dispositivo o enviarnos una solicitud formal. Tu privacidad y la de tu hijo son nuestra prioridad.
+      </p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content-wrap">
+
+    <!-- INFO CARDS -->
+    <div class="info-grid reveal">
+      <div class="info-card">
+        <div class="ic" style="background:rgba(52,211,153,.1)">📱</div>
+        <div>
+          <h4>Datos locales</h4>
+          <p>La mayoría de los datos se almacenan solo en tu dispositivo, sin servidores externos.</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic" style="background:rgba(26,115,232,.1)">⚡</div>
+        <div>
+          <h4>Eliminación inmediata</h4>
+          <p>Podés borrar todo directamente desde la configuración del teléfono en segundos.</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic" style="background:rgba(124,58,237,.1)">📧</div>
+        <div>
+          <h4>Solicitud formal</h4>
+          <p>Si preferís, completá el formulario y te confirmamos la eliminación en 48 hs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WARNING -->
+    <div class="warning-box reveal">
+      <div class="warn-icon">⚠️</div>
+      <div>
+        <h4>Esta acción es irreversible</h4>
+        <p>Una vez que eliminés los datos, no podremos recuperarlos. Se perderá permanentemente:</p>
+        <ul>
+          <li>El perfil del niño/a (nombre, edad, neuroperfil)</li>
+          <li>El historial de lecciones completadas y puntuaciones</li>
+          <li>Los puntos de experiencia (XP) acumulados</li>
+          <li>La configuración de accesibilidad personalizada</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- OPCIÓN 1: DESDE EL DISPOSITIVO -->
+    <div class="block-title reveal">
+      <span>📱</span> Opción 1 — Eliminación desde el dispositivo
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;" class="reveal">
+      Esta es la forma más rápida y completa. Borra todos los datos locales al instante.
+    </p>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Abrí la Configuración del teléfono</h4>
+          <p>Andá a <strong>Ajustes</strong> → <strong>Aplicaciones</strong> (o "Administrador de aplicaciones" en algunos dispositivos).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Buscá NeuroKids Ayuda</h4>
+          <p>Encontrá la app en la lista. Podés usar el buscador integrado.</p>
+          <code>com.joedev.neurokidsayuda</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Tocá "Almacenamiento"</h4>
+          <p>Dentro de la info de la app, encontrás la sección de almacenamiento con el uso de espacio.</p>
+        </div>
+      </div>
+      <div class="step step-highlight">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Tocá "Borrar datos" → Confirmar</h4>
+          <p>Esto elimina <strong>todos los datos</strong> de la app del dispositivo de forma permanente e inmediata.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-box reveal">
+      <div class="ok-icon">✅</div>
+      <p>También podés desinstalar la app directamente. Esto elimina tanto la aplicación como todos sus datos almacenados.</p>
+    </div>
+
+    <div class="divider" style="margin-bottom:56px;"></div>
+
+    <!-- OPCIÓN 2: FORMULARIO -->
+    <div id="form-section">
+      <div class="block-title reveal">
+        <span>📋</span> Opción 2 — Solicitud formal de eliminación
+      </div>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:32px;line-height:1.7;" class="reveal">
+        Si tenés alguna consulta adicional o necesitás confirmación escrita de la eliminación, completá el formulario a continuación.
+      </p>
+
+      <div class="form-block reveal">
+        <h3>Formulario de eliminación de datos</h3>
+        <p class="form-desc">Respondemos en menos de 48 horas hábiles con la confirmación. Todos los campos marcados con <span style="color:var(--red)">*</span> son obligatorios.</p>
+
+        <form id="delete-form" onsubmit="handleSubmit(event)" novalidate>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre del tutor/padre <span class="req">*</span></label>
+              <input type="text" id="parent-name" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label>Email de contacto <span class="req">*</span></label>
+              <input type="email" id="parent-email" placeholder="tu@email.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Nombre del perfil a eliminar <span class="req">*</span></label>
+            <input type="text" id="child-name" placeholder="Nombre del niño/a en la app (puede ser un alias)" required />
+            <p class="field-hint">No necesitás indicar nombre real. Cualquier nombre con el que registraste el perfil.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Tipo de solicitud <span class="req">*</span></label>
+            <select id="request-type" required>
+              <option value="" disabled selected>Seleccioná una opción...</option>
+              <option value="all">Eliminar todos los datos del perfil</option>
+              <option value="account">Solo eliminar la cuenta / perfil</option>
+              <option value="groq">Solicitar exclusión de datos de IA (Groq)</option>
+              <option value="info">Solo quiero saber qué datos tengo</option>
+              <option value="other">Otro (especificar en el mensaje)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Mensaje adicional (opcional)</label>
+            <textarea id="message" rows="4" placeholder="Contanos si tenés alguna consulta específica, razón de la solicitud, o información adicional..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-row">
+              <input type="checkbox" id="confirm-check" required />
+              <label for="confirm-check">
+                <strong>Entiendo</strong> que esta solicitud es irreversible y que los datos eliminados no pueden ser recuperados.
+              </label>
+            </div>
+            <div class="checkbox-row">
+              <input type="checkbox" id="legal-check" required />
+              <label for="legal-check">
+                He leído la <a href="/neurokids/privacidad.html" style="color:var(--blue-lt)">Política de Privacidad</a> y solicito la eliminación en base a mis derechos como usuario.
+              </label>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="submit" class="btn-danger" id="submit-btn">
+              <span>🗑️</span> Enviar solicitud
+            </button>
+            <button type="button" class="btn-secondary" onclick="window.location.href='/neurokids/'">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="success-state">
+      <div class="big-icon">✅</div>
+      <h2>Solicitud recibida</h2>
+      <p>Recibimos tu solicitud de eliminación de datos. Te confirmaremos por email en menos de <strong style="color:var(--text)">48 horas hábiles</strong>. Si no recibís respuesta, revisá tu carpeta de spam o escribinos directamente a <a href="mailto:joepedev@gmail.com" style="color:var(--blue-lt)">joepedev@gmail.com</a>.</p>
+      <a href="/neurokids/" class="btn-secondary" style="display:inline-flex;margin:0 auto;">← Volver a NeuroKids</a>
+    </div>
+
+    <div class="divider" style="margin: 16px 0 56px;"></div>
+
+    <!-- FAQ -->
+    <div class="block-title reveal"><span>❓</span> Preguntas frecuentes</div>
+    <div class="faq reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          ¿NeuroKids guarda datos en servidores externos?
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            No. Todos los datos del perfil (nombre, neuroperfil, XP, historial de lecciones) se almacenan <strong>únicamente en tu dispositivo</strong>. La única excepción son las peticiones anónimas a la API de Groq para generar actividades, pero estas no contienen datos personales ni identificadores del dispositivo.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          ¿Cuánto tiempo tiene joeDEV para responder a mi solicitud?
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            Respondemos en un máximo de <strong>48 horas hábiles</strong> desde la recepción del formulario. En la mayoría de los casos, la confirmación llega mucho antes. Para consultas urgentes, podés escribir directamente a joepedev@gmail.com.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          ¿Puedo recuperar los datos después de eliminarlos?
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            No. Una vez eliminados los datos (ya sea desde Configuración del teléfono o a través de nuestra solicitud), <strong>no es posible recuperarlos</strong>. Si querés volver a usar la app, deberás crear un nuevo perfil desde cero.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          ¿Qué datos comparte la app con Groq (la IA)?
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            Cuando la IA genera una actividad, se envía a Groq el neuroperfil del niño (ej: "perfil TDAH, interés en dinosaurios") de forma <strong>completamente anonimizada</strong>. Nunca se envía nombre, edad exacta, ubicación ni ningún identificador personal. Groq no almacena estas peticiones de forma permanente según sus términos de servicio.
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          ¿Tengo derechos sobre mis datos como usuario argentino?
+          <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            Sí. La <strong>Ley 25.326 de Protección de Datos Personales de Argentina</strong> te garantiza el derecho de acceso, rectificación, supresión y confidencialidad de tus datos. Podés ejercer estos derechos contactándonos en cualquier momento a joepedev@gmail.com.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="contact-card reveal">
+      <div class="c-icon">📧</div>
+      <div>
+        <h4>¿Necesitás ayuda adicional?</h4>
+        <p>Si tenés alguna duda sobre el proceso de eliminación, tus derechos o la privacidad de los datos de tu hijo, escribinos directamente.<br/>
+        <a href="mailto:joepedev@gmail.com">joepedev@gmail.com</a> — Respondemos en menos de 48 hs hábiles.</p>
+      </div>
+    </div>
+
+  </div><!-- end content-wrap -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><span>🧠</span> NeuroKids Ayuda</div>
+    <div class="footer-links">
+      <a href="/neurokids/">Inicio</a>
+      <a href="/neurokids/privacidad.html">Privacidad</a>
+      <a href="/neurokids/seguridad-infantil.html">Seguridad Infantil</a>
+      <a href="/neurokids/aviso-legal.html">Aviso Legal</a>
+      <a href="mailto:joepedev@gmail.com">Soporte</a>
+    </div>
+    <p class="footer-copy">© 2025 joeDEV — Buenos Aires, Argentina · joepedev.com</p>
+  </footer>
+
+  <script>
+    // ── FORM SUBMIT ────────────────────────────────────────────────────────
+    function handleSubmit(e) {
+      e.preventDefault();
+
+      const name    = document.getElementById('parent-name').value.trim();
+      const email   = document.getElementById('parent-email').value.trim();
+      const child   = document.getElementById('child-name').value.trim();
+      const type    = document.getElementById('request-type').value;
+      const confirm = document.getElementById('confirm-check').checked;
+      const legal   = document.getElementById('legal-check').checked;
+      const msg     = document.getElementById('message').value.trim();
+
+      if (!name || !email || !child || !type) {
+        alert('Por favor completá todos los campos obligatorios.');
+        return;
+      }
+      if (!confirm || !legal) {
+        alert('Debés aceptar ambas confirmaciones para continuar.');
+        return;
+      }
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Enviando...';
+
+      // Build mailto link as fallback
+      const subject = encodeURIComponent('[NeuroKids] Solicitud de eliminación de datos');
+      const body = encodeURIComponent(
+        `Nombre tutor: ${name}\nEmail: ${email}\nPerfil a eliminar: ${child}\nTipo: ${type}\n\nMensaje: ${msg || '(sin mensaje adicional)'}`
+      );
+      const mailtoLink = `mailto:joepedev@gmail.com?subject=${subject}&body=${body}`;
+
+      setTimeout(() => {
+        document.getElementById('form-section').style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+        // Open mail client as fallback
+        window.location.href = mailtoLink;
+      }, 800);
+    }
+
+    // ── FAQ TOGGLE ─────────────────────────────────────────────────────────
+    function toggleFaq(el) {
+      const item = el.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+
+    // ── SCROLL REVEAL ──────────────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 3) * 60 + 'ms';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
