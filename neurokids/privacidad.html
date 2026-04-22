@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Política de Privacidad · NeuroKids Ayuda</title>
+  <meta name="description" content="Política de privacidad de NeuroKids Ayuda. Cumplimiento COPPA y GDPR-K. Datos almacenados localmente, sin servidores externos."/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #0A0A0F;
+      --bg-card:   #13131C;
+      --bg-elev:   #1A1A28;
+      --border:    rgba(255,255,255,0.07);
+      --purple:    #7C3AED;
+      --purple-lt: #C084FC;
+      --purple-dk: #4C1D95;
+      --blue-lt:   #4FC3F7;
+      --green:     #34D399;
+      --red:       #E8472A;
+      --orange:    #FF9F43;
+      --text:      #F0EDE8;
+      --muted:     #888;
+      --radius:    16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: var(--purple-lt); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NOISE */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: 0.5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(10,10,15,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      padding: 8px 18px; border-radius: 50px;
+      transition: color .2s, background .2s;
+    }
+    .nav-back:hover { color: var(--text); background: rgba(255,255,255,0.09); text-decoration: none; }
+
+    /* HERO HEADER */
+    .page-header {
+      position: relative; z-index: 1;
+      padding: 140px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(124,58,237,.28) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(79,195,247,.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .page-header-inner { position: relative; z-index: 1; }
+    .page-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,.15);
+      border: 1px solid rgba(124,58,237,.35);
+      border-radius: 50px; padding: 7px 18px;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--purple-lt);
+      margin-bottom: 24px;
+      animation: fadeUp .6s ease both;
+    }
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800; letter-spacing: -1.5px; line-height: 1.05;
+      margin-bottom: 16px;
+      animation: fadeUp .6s .1s ease both;
+    }
+    .page-title .hl { color: var(--purple-lt); }
+    .page-subtitle {
+      font-size: 16px; color: var(--muted); max-width: 520px;
+      margin: 0 auto; animation: fadeUp .6s .2s ease both;
+    }
+    .page-meta {
+      display: inline-block; margin-top: 20px;
+      font-size: 12px; color: rgba(136,136,136,0.6);
+      animation: fadeUp .6s .3s ease both;
+    }
+
+    /* CONTENT */
+    .content-wrap {
+      position: relative; z-index: 1;
+      max-width: 780px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* SECTION CARDS */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      margin-bottom: 20px;
+      transition: border-color .3s;
+      animation: fadeUp .5s ease both;
+    }
+    .section-card:hover { border-color: rgba(124,58,237,.3); }
+
+    .section-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px; font-weight: 800;
+      color: var(--purple-lt);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-card h2 .num {
+      background: rgba(124,58,237,.2);
+      border: 1px solid rgba(124,58,237,.3);
+      border-radius: 8px;
+      padding: 2px 10px;
+      font-size: 13px;
+      color: var(--purple-lt);
+    }
+    .section-card p { font-size: 15px; color: #aaa; line-height: 1.75; }
+    .section-card p + p { margin-top: 10px; }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: rgba(52,211,153,.07);
+      border: 1px solid rgba(52,211,153,.25);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-top: 16px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .highlight-box .icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .highlight-box p { font-size: 14px; color: var(--green); font-weight: 700; margin: 0; }
+
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: var(--muted); }
+    .footer-links a:hover { color: var(--purple-lt); text-decoration: none; }
+    .footer-copy { font-size: 12px; color: rgba(136,136,136,0.4); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+    @media(max-width:600px) {
+      nav { padding: 14px 20px; }
+      .section-card { padding: 24px 20px; }
+      footer { flex-direction: column; align-items: flex-start; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/neurokids/" class="nav-logo">🧠 NeuroKids Ayuda</a>
+    <a href="/neurokids/" class="nav-back">← Volver a la app</a>
+  </nav>
+
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="page-badge">🔒 Documento Legal</div>
+      <h1 class="page-title">Política de <span class="hl">Privacidad</span></h1>
+      <p class="page-subtitle">Tu privacidad y la seguridad del menor son nuestra prioridad absoluta. Sin servidores centrales, sin perfiles de usuario.</p>
+      <span class="page-meta">Última actualización: Abril 2025 · joeDEV · Buenos Aires, Argentina</span>
+    </div>
+  </header>
+
+  <main class="content-wrap">
+
+    <div class="section-card" style="animation-delay:.05s">
+      <h2><span class="num">1</span> Compromiso de Privacidad</h2>
+      <p>NeuroKids Ayuda está diseñada específicamente para niños y adolescentes con necesidades neurocognitivas (TEA, TDAH, Dislexia, Síndrome de Down y otros). Nuestra prioridad absoluta es el anonimato y la seguridad del menor.</p>
+      <p>joeDEV, como desarrollador independiente con base en Argentina, asume plena responsabilidad por el tratamiento de los datos y cumple con las regulaciones <strong style="color:var(--text)">COPPA</strong> (EE.UU.), <strong style="color:var(--text)">GDPR-K</strong> (Europa) y la <strong style="color:var(--text)">Ley 26.061</strong> de Protección Integral de los Derechos de Niñas, Niños y Adolescentes (Argentina).</p>
+    </div>
+
+    <div class="section-card" style="animation-delay:.1s">
+      <h2><span class="num">2</span> Almacenamiento Local (On-Device)</h2>
+      <p>Todos los datos personales — nombre, edad, intereses y perfil neurocognitivo — se almacenan <strong style="color:var(--text)">exclusivamente en el dispositivo</strong> del usuario mediante Android DataStore. NeuroKids Ayuda <strong style="color:var(--text)">no posee servidores centrales</strong> que almacenen identidad alguna.</p>
+      <div class="highlight-box">
+        <span class="icon">✅</span>
+        <p>Sin base de datos central. Sin sincronización en la nube. Tus datos son solo tuyos, en tu dispositivo.</p>
+      </div>
+    </div>
+
+    <div class="section-card" style="animation-delay:.15s">
+      <h2><span class="num">3</span> Procesamiento de IA (Groq / Llama 3.1)</h2>
+      <p>Para las funciones conversacionales del Avatar Neurin, se envían fragmentos de texto <strong style="color:var(--text)">anonimizados</strong> a la API de Groq (Llama 3.1). Los prompts incluyen restricciones explícitas que impiden respuestas inapropiadas para menores.</p>
+      <p>Nunca se envían conversaciones completas, nombres reales, ni datos que puedan identificar personalmente al niño fuera de la aplicación. No construimos perfiles de usuario para terceros ni realizamos targeting comportamental.</p>
+    </div>
+
+    <div class="section-card" style="animation-delay:.2s">
+      <h2><span class="num">4</span> Datos que NO recopilamos</h2>
+      <p>En cumplimiento estricto de COPPA y GDPR-K, NeuroKids Ayuda <strong style="color:var(--text)">jamás solicita</strong>:</p>
+      <ul style="margin-top:12px; padding-left:20px; color:#aaa; font-size:15px; line-height:2;">
+        <li>Dirección de correo electrónico</li>
+        <li>Número de teléfono</li>
+        <li>Ubicación GPS o geolocalización</li>
+        <li>Fotografías del usuario</li>
+        <li>Datos biométricos de ningún tipo</li>
+        <li>Información de pago o tarjetas de crédito</li>
+      </ul>
+    </div>
+
+    <div class="section-card" style="animation-delay:.25s">
+      <h2><span class="num">5</span> Seguridad de Menores (COPPA)</h2>
+      <p>Los ajustes avanzados de la aplicación (activar/desactivar micrófono, cámara, módulos) están protegidos y deben ser supervisados por un adulto responsable. No hay chat entre usuarios, redes sociales ni funciones de comunicación externa.</p>
+      <p>Si detectás contenido generado por la IA que consideres inapropiado, reportalo de inmediato a <a href="mailto:seguridad@joepedev.com">seguridad@joepedev.com</a>. Respondemos en menos de 48 horas hábiles.</p>
+    </div>
+
+    <div class="section-card" style="animation-delay:.3s">
+      <h2><span class="num">6</span> Derechos del Usuario y Tutores</h2>
+      <p>En cualquier momento, el usuario o tutor legal puede ejercer los siguientes derechos:</p>
+      <ul style="margin-top:12px; padding-left:20px; color:#aaa; font-size:15px; line-height:2;">
+        <li><strong style="color:var(--text)">Acceso:</strong> Ver todos los datos almacenados localmente desde los ajustes de la app.</li>
+        <li><strong style="color:var(--text)">Rectificación:</strong> Editar nombre, edad e intereses en cualquier momento.</li>
+        <li><strong style="color:var(--text)">Eliminación total:</strong> Desinstalar la app o borrar el almacenamiento desde los ajustes de Android elimina toda la información irreversiblemente.</li>
+      </ul>
+    </div>
+
+    <div class="section-card" style="animation-delay:.35s">
+      <h2><span class="num">7</span> Contacto de Privacidad</h2>
+      <p>Para consultas relacionadas con privacidad de datos:</p>
+      <p style="margin-top:12px;">📧 <a href="mailto:privacidad@joepedev.com">privacidad@joepedev.com</a><br/>
+      🌐 <a href="https://joepedev.com">joepedev.com</a><br/>
+      📍 Buenos Aires, Argentina</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">🧠 NeuroKids Ayuda</div>
+    <div class="footer-links">
+      <a href="/neurokids/">Inicio</a>
+      <a href="/neurokids/privacidad.html">Privacidad</a>
+      <a href="/neurokids/seguridad-infantil.html">Seguridad Infantil</a>
+      <a href="/neurokids/aviso-legal.html">Aviso Legal</a>
+    </div>
+    <div class="footer-copy">© 2025 joeDEV · Buenos Aires, Argentina</div>
+  </footer>
+
+</body>
+</html>
