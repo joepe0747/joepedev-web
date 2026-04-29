@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- PRINCIPAL -->
   <url>
     <loc>https://joepedev.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- APPS ANDROID -->
   <url>
     <loc>https://joepedev.com/chatchaliente/</loc>
     <changefreq>weekly</changefreq>
@@ -55,4 +59,15 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- PORTFOLIO DISEÑO WEB (sección pública del index) -->
+  <url>
+    <loc>https://joepedev.com/#portfolio</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- MAQUETADOR PRIVADO: NO indexado por robots, NO en sitemap -->
+  <!-- URL privada: /herramientas/studio → solo acceso directo -->
+
 </urlset>
