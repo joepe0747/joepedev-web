@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>joeDEV · Apps Android independientes desde Argentina</title>
   <meta name="description" content="joeDEV: desarrollador indie argentino. Creador de Chat Caliente, DailyBoost Widget y NeuroKids Ayuda. Apps reales, hechas con pasión."/>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XGCD4YB7M3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -33,7 +32,6 @@
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
 
-    /* NOISE */
     body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4}
 
     /* NAV */
@@ -62,7 +60,6 @@
     h1 span{background:linear-gradient(135deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .hero-sub{font-size:clamp(15px,2vw,18px);color:var(--muted);line-height:1.7;max-width:500px;margin:0 auto 48px;animation:fadeUp .8s .2s ease both}
 
-    /* APP CARDS — ahora 3 columnas */
     .apps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;animation:fadeUp .8s .3s ease both}
     .app-card{position:relative;border-radius:24px;padding:36px 28px;text-decoration:none;overflow:hidden;transition:transform .3s,box-shadow .3s;border:1px solid transparent}
     .app-card:hover{transform:translateY(-6px)}
@@ -86,12 +83,45 @@
     .arrow-teal{color:var(--teal)}
     .arrow-neuro{color:var(--neuro-lt)}
 
-    /* ABOUT */
-    .about{max-width:900px;margin:0 auto;padding:100px 24px;position:relative;z-index:1;text-align:center}
+    /* ===================== PORTFOLIO SECTION ===================== */
+    .portfolio-section{position:relative;z-index:1;padding:100px 24px}
+    .portfolio-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(to bottom,transparent,rgba(108,99,255,0.3),transparent)}
+    .section-center{text-align:center;max-width:700px;margin:0 auto 60px}
     .section-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-    .section-title{font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-1px;margin-bottom:24px;line-height:1.1}
-    .about-text{font-size:16px;color:var(--muted);line-height:1.8;max-width:580px;margin:0 auto 48px}
+    .section-title{font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-1px;margin-bottom:16px;line-height:1.1}
+    .section-title span{background:linear-gradient(135deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .section-sub{font-size:16px;color:var(--muted);line-height:1.7}
 
+    .portfolio-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1100px;margin:0 auto}
+
+    .pf-card{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer}
+    .pf-card:hover{transform:translateY(-4px);border-color:rgba(108,99,255,0.3);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+
+    /* Preview iframe container */
+    .pf-preview{position:relative;height:260px;overflow:hidden;background:#0a0a14}
+    .pf-preview iframe{width:1200px;height:700px;border:none;transform:scale(0.385);transform-origin:top left;pointer-events:none;display:block}
+    .pf-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(7,7,16,0.95) 100%)}
+
+    /* Badge tipo en la preview */
+    .pf-badge{position:absolute;top:14px;right:14px;background:rgba(7,7,16,0.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:4px 12px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+    .pf-info{padding:24px 28px 28px}
+    .pf-type{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    .pf-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px;color:var(--text)}
+    .pf-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+
+    .pf-pills{display:flex;flex-wrap:wrap;gap:6px}
+    .pf-pill{background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:4px 12px;font-size:11px;color:var(--muted)}
+
+    /* CTA bajo portfolio */
+    .portfolio-cta{text-align:center;margin-top:56px}
+    .portfolio-cta p{font-size:15px;color:var(--muted);margin-bottom:20px}
+    .cta-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:linear-gradient(135deg,var(--accent),var(--teal));color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;transition:opacity .2s,transform .2s}
+    .cta-btn:hover{opacity:.88;transform:translateY(-2px)}
+
+    /* ===================== ABOUT ===================== */
+    .about{max-width:900px;margin:0 auto;padding:80px 24px 100px;position:relative;z-index:1;text-align:center}
+    .about-text{font-size:16px;color:var(--muted);line-height:1.8;max-width:580px;margin:0 auto 48px}
     .tech-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
     .pill{background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:8px 18px;font-size:12px;letter-spacing:1px;color:var(--muted)}
 
@@ -104,8 +134,9 @@
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-    @media(max-width:780px){
+    @media(max-width:860px){
       .apps-grid{grid-template-columns:1fr}
+      .portfolio-grid{grid-template-columns:1fr}
     }
     @media(max-width:600px){
       nav{padding:0 20px}
@@ -139,10 +170,12 @@
       <li><a href="/chatchaliente">Chat Caliente</a></li>
       <li><a href="/dailyboost">DailyBoost</a></li>
       <li><a href="/neurokids">NeuroKids</a></li>
+      <li><a href="#portfolio">Portfolio Web</a></li>
       <li><a href="mailto:joepedev@gmail.com" class="nav-contact">Contacto</a></li>
     </ul>
   </nav>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-orb orb1"></div>
     <div class="hero-orb orb2"></div>
@@ -153,7 +186,6 @@
       <h1>Apps que<br><span>importan</span></h1>
       <p class="hero-sub">Desarrollo Android independiente desde Argentina. Cada app construida con Kotlin, Jetpack Compose y mucha pasión.</p>
       <div class="apps-grid">
-
         <a href="/chatchaliente" class="app-card card-fire">
           <span class="card-icon">🔥</span>
           <div class="card-tag tag-fire">Chat Social · +18</div>
@@ -161,7 +193,6 @@
           <div class="card-desc">La comunidad de chat más real y segura de Argentina. Verificación de identidad, galerías privadas y modo HOT.</div>
           <div class="card-arrow arrow-fire">Ver más →</div>
         </a>
-
         <a href="/dailyboost" class="app-card card-teal">
           <span class="card-icon">⚡</span>
           <div class="card-tag tag-teal">Widget · Motivación</div>
@@ -169,7 +200,6 @@
           <div class="card-desc">Frases motivacionales inteligentes en tu pantalla. Diseño negro-turquesa que eleva tu rutina diaria.</div>
           <div class="card-arrow arrow-teal">Ver más →</div>
         </a>
-
         <a href="/neurokids" class="app-card card-neuro">
           <span class="card-icon">🧠</span>
           <div class="card-tag tag-neuro">Educación · Neurodiversidad</div>
@@ -177,35 +207,45 @@
           <div class="card-desc">App educativa adaptativa para niños con TEA, TDAH, Dislexia y más. IA inclusiva, gratuita y sin publicidad.</div>
           <div class="card-arrow arrow-neuro">Ver más →</div>
         </a>
-
       </div>
     </div>
   </section>
 
+  <!-- ===================== PORTFOLIO SECTION ===================== -->
+  <section class="portfolio-section" id="portfolio">
+    <div class="section-center">
+      <p class="section-label">Diseño Web</p>
+      <h2 class="section-title">Portfolio de<br><span>sitios web</span></h2>
+      <p class="section-sub">10 estilos de sitios profesionales que puedo desarrollar para cualquier rubro. Cada diseño es único, con identidad propia.</p>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+      <!-- Cards generadas por JS -->
+    </div>
+
+    <div class="portfolio-cta">
+      <p>¿Querés un sitio como alguno de estos para tu negocio?</p>
+      <a href="mailto:joepedev@gmail.com" class="cta-btn">
+        <span>📩</span> Contactame
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
   <section class="about">
     <p class="section-label">Sobre mí</p>
-    <h2 class="section-title">Hecho en Argentina,<br>para el mundo</h2>
+    <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-1px;margin-bottom:24px;line-height:1.1">Hecho en Argentina,<br>para el mundo</h2>
     <p class="about-text">
       Soy José María, desarrollador Android independiente con base en Buenos Aires, Argentina.
       Me especializo en construir aplicaciones móviles reales, con arquitectura MVVM, Firebase y
       Jetpack Compose. No trabajo para una empresa: cada app que publico la imagino, la diseño y
-      la lanzo de forma independiente. Eso me da la libertad de iterar rápido, escuchar a los usuarios
-      y tomar decisiones de producto sin burocracia.
+      la lanzo de forma independiente.
     </p>
-    <p class="about-text" style="margin-top: -24px;">
-      Actualmente mantengo tres proyectos activos: <strong>Chat Caliente</strong>, una comunidad de
-      chat social con verificación de identidad por DNI y moderación con IA; <strong>DailyBoost Widget</strong>,
-      un widget de frases motivacionales para la pantalla de inicio de Android; y <strong>NeuroKids Ayuda</strong>,
-      una app educativa adaptativa para niños con neurodiversidad. Todas publicadas en Google Play con
-      usuarios reales en Argentina y Latinoamérica.
+    <p class="about-text" style="margin-top:-24px">
+      Actualmente mantengo tres proyectos activos: <strong>Chat Caliente</strong>, <strong>DailyBoost Widget</strong>
+      y <strong>NeuroKids Ayuda</strong>. Todas publicadas en Google Play con usuarios reales en Argentina y Latinoamérica.
+      Además ofrezco desarrollo de sitios web estáticos con diseño profesional y hosting en Cloudflare Pages.
     </p>
-    <p class="about-text" style="margin-top: -24px;">
-      Mi stack principal incluye Kotlin, Jetpack Compose, Firebase Realtime Database, Firebase Storage,
-      Firebase Auth, ML Kit para visión por computadora, CameraX para captura de imagen y video,
-      y Cloud Functions para la lógica de backend. También trabajo con GitHub Actions para CI/CD
-      y despliego sitios estáticos con GitHub Pages y Cloudflare.
-    </p>
-
     <div class="tech-pills">
       <span class="pill">Kotlin</span>
       <span class="pill">Jetpack Compose</span>
@@ -215,8 +255,8 @@
       <span class="pill">CameraX</span>
       <span class="pill">ML Kit</span>
       <span class="pill">MVVM</span>
-      <span class="pill">GitHub Actions</span>
-      <span class="pill">Google Play</span>
+      <span class="pill">HTML/CSS/JS</span>
+      <span class="pill">Cloudflare Pages</span>
     </div>
   </section>
 
@@ -228,10 +268,10 @@
       <a href="/chatchaliente">Chat Caliente</a>
       <a href="/dailyboost">DailyBoost Widget</a>
       <a href="/neurokids">NeuroKids Ayuda</a>
+      <a href="#portfolio">Portfolio Web</a>
       <a href="mailto:joepedev@gmail.com">Contacto</a>
     </div>
 
-    <!-- CONTADOR DE VISITAS -->
     <div id="visit-counter" style="display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);border-radius:100px;padding:5px 14px;">
       <span class="badge-dot"></span>
       <span style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;">Visitas</span>
@@ -245,8 +285,151 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  <!-- CONTADOR DE VISITAS -->
   <script>
+  /* ============================================================
+     PORTFOLIO: embed de las plantillas como previews estáticas
+     ============================================================ */
+  const TEMPLATES = [
+    {
+      id: 'agency',
+      type: 'Agencia Digital',
+      name: 'Agencia & Servicios',
+      desc: 'Hero impactante, cards de servicios y paleta oscura con acentos neón. Perfecto para agencias creativas o estudios de diseño.',
+      pills: ['Dark mode', 'Animaciones', 'Full responsive'],
+      accentColor: '#6c63ff',
+      src: '/portfolio/agency.html'
+    },
+    {
+      id: 'restaurant',
+      type: 'Gastronomía',
+      name: 'Restaurante & Bar',
+      desc: 'Diseño cálido con fondo negro, tipografía serif y galería de platos. Ideal para bares, restaurantes y cafés.',
+      pills: ['Menú online', 'Reservas', 'Galería'],
+      accentColor: '#e8a838',
+      src: '/portfolio/restaurant.html'
+    },
+    {
+      id: 'startup',
+      type: 'Tech / SaaS',
+      name: 'SaaS & Startup',
+      desc: 'Landing page moderna con pricing, features y CTA. El estilo que usan Notion, Linear y las mejores SaaS del mundo.',
+      pills: ['Pricing', 'Features', 'Moderno'],
+      accentColor: '#00d4aa',
+      src: '/portfolio/startup.html'
+    },
+    {
+      id: 'portfolio',
+      type: 'Freelancer',
+      name: 'Portfolio Personal',
+      desc: 'Minimalista, elegante y centrado en el trabajo. Para diseñadores, fotógrafos, desarrolladores o creativos.',
+      pills: ['Proyectos', 'Minimalista', 'Personal'],
+      accentColor: '#f0eeff',
+      src: '/portfolio/portfolio.html'
+    },
+    {
+      id: 'store',
+      type: 'E-commerce',
+      name: 'Tienda Online',
+      desc: 'Grid de productos con filtros, carrito y diseño limpio. Para negocios que quieren vender online desde el día uno.',
+      pills: ['Productos', 'Carrito', 'Catálogo'],
+      accentColor: '#ff6a00',
+      src: '/portfolio/store.html'
+    },
+    {
+      id: 'clinic',
+      type: 'Salud',
+      name: 'Clínica & Salud',
+      desc: 'Diseño confiable y profesional con sección de especialidades, equipo médico y formulario de turnos online.',
+      pills: ['Turnos', 'Especialidades', 'Confianza'],
+      accentColor: '#3dd6b5',
+      src: '/portfolio/clinic.html'
+    },
+    {
+      id: 'realestate',
+      type: 'Real Estate',
+      name: 'Inmobiliaria',
+      desc: 'Listado de propiedades con fotos, filtros y mapa. El estilo premium que esperan los clientes del sector inmobiliario.',
+      pills: ['Propiedades', 'Premium', 'Filtros'],
+      accentColor: '#c9a96e',
+      src: '/portfolio/realestate.html'
+    },
+    {
+      id: 'event',
+      type: 'Eventos',
+      name: 'Evento & Conferencia',
+      desc: 'Countdown timer, lineup de speakers y venta de tickets. Perfecto para congresos, festivales o eventos corporativos.',
+      pills: ['Countdown', 'Speakers', 'Tickets'],
+      accentColor: '#ff3cac',
+      src: '/portfolio/event.html'
+    },
+    {
+      id: 'gym',
+      type: 'Deporte',
+      name: 'Gym & Fitness',
+      desc: 'Energético, oscuro y potente. Tipografía Oswald en mayúsculas, stats de impacto y sección de clases.',
+      pills: ['Energético', 'Clases', 'Stats'],
+      accentColor: '#c8f135',
+      src: '/portfolio/gym.html'
+    },
+    {
+      id: 'law',
+      type: 'Legal',
+      name: 'Estudio Jurídico',
+      desc: 'Diseño formal y elegante con tipografía serif, tonos dorados y sección de áreas de práctica.',
+      pills: ['Profesional', 'Serif', 'Confiable'],
+      accentColor: '#c9a96e',
+      src: '/portfolio/law.html'
+    }
+  ];
+
+  /* Genera los snippets HTML estáticos de cada template para preview */
+  const PREVIEW_SNIPPETS = {
+    agency: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#07070f;color:#f0eeff;font-family:'DM Sans',sans-serif}nav{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(7,7,15,.85);border-bottom:1px solid rgba(255,255,255,.08)}.logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(90deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-cta{padding:8px 20px;background:#6c63ff;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden}.orb{position:absolute;border-radius:50%;filter:blur(80px)}.orb1{width:500px;height:500px;background:radial-gradient(circle,#6c63ff30,transparent 70%);top:-100px;left:-100px}.orb2{width:400px;height:400px;background:radial-gradient(circle,#00d4aa25,transparent 70%);bottom:-80px;right:-80px}h1{font-family:'Syne',sans-serif;font-size:80px;font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:20px;position:relative}h1 span{background:linear-gradient(135deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.sub{font-size:18px;color:#888;max-width:520px;margin:0 auto 40px;line-height:1.7}.cta-btn{padding:16px 36px;background:linear-gradient(135deg,#6c63ff,#00d4aa);color:#fff;border:none;border-radius:12px;font-size:16px;cursor:pointer}.services{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:60px auto;padding:0 24px}.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 28px;text-align:center}.card-icon{font-size:36px;margin-bottom:16px}.card-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:10px;color:#00d4aa}.card-text{font-size:14px;color:#888;line-height:1.6}</style></head><body><nav><div class="logo">Agencia</div><button class="nav-cta">Empezar</button></nav><section class="hero"><div class="orb orb1"></div><div class="orb orb2"></div><h1>Creamos<br><span>lo que importa</span></h1><p class="sub">La mejor solución digital para tu negocio</p><button class="cta-btn">Empezar ahora</button></section><section class="services"><div class="card"><div class="card-icon">◈</div><div class="card-title">Diseño Web</div><div class="card-text">Ideas que se convierten en productos digitales reales.</div></div><div class="card"><div class="card-icon">◉</div><div class="card-title">Apps Móviles</div><div class="card-text">Soluciones que escalan con tu negocio.</div></div><div class="card"><div class="card-icon">◇</div><div class="card-title">Consultoría</div><div class="card-text">Estrategia y ejecución en un solo lugar.</div></div></section></body></html>`,
+
+    restaurant: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0d0a07;color:#f5f0e8;font-family:'DM Sans',sans-serif}nav{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(13,10,7,.9);border-bottom:1px solid rgba(200,160,60,.15)}.logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#e8a838}.hero{min-height:90vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;background:radial-gradient(ellipse at center,rgba(200,140,30,.12) 0%,transparent 70%)}.badge{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#c8a040;margin-bottom:16px}h1{font-family:'Cormorant Garamond',serif;font-size:90px;font-weight:600;line-height:.95;letter-spacing:-1px;margin-bottom:12px}h1 em{font-style:italic;color:#e8a838}.tagline{font-size:16px;color:#6a5f50;margin-bottom:32px}.btn{padding:14px 36px;border:1px solid #c8a040;color:#c8a040;background:transparent;border-radius:4px;font-size:14px;cursor:pointer;letter-spacing:1px}.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);max-width:900px;margin:60px auto;gap:2px}.dish{background:#110e0a;padding:32px;border:1px solid rgba(200,140,30,.1);text-align:center}.dish-icon{font-size:32px;margin-bottom:12px}.dish-name{font-family:'Cormorant Garamond',serif;font-size:20px;color:#e8a838;margin-bottom:8px}.dish-desc{font-size:13px;color:#5a5040;line-height:1.6}.price{font-size:18px;color:#c8a040;margin-top:10px;font-weight:600}</style></head><body><nav><div class="logo">La Casa</div><div style="font-size:13px;color:#6a5f50;letter-spacing:2px">RESERVAS · MENÚ · NOSOTROS</div></nav><section class="hero"><div><div class="badge">Buenos Aires · Desde 1998</div><h1>La <em>mejor</em><br>mesa</h1><p class="tagline">Cocina argentina de autor · Vinos de bodega</p><button class="btn">RESERVAR MESA</button></div></section><section class="menu-grid"><div class="dish"><div class="dish-icon">🥩</div><div class="dish-name">Asado de Tira</div><div class="dish-desc">Corte premium a las brasas, chimichurri casero.</div><div class="price">$4.800</div></div><div class="dish"><div class="dish-icon">🐟</div><div class="dish-name">Trucha del Sur</div><div class="dish-desc">Patagónica con limón, alcaparras y papas rústicas.</div><div class="price">$5.200</div></div><div class="dish"><div class="dish-icon">🍮</div><div class="dish-name">Flan de la Casa</div><div class="dish-desc">Receta de la abuela, caramelo tostado y crema.</div><div class="price">$1.900</div></div></section></body></html>`,
+
+    startup: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#05050d;color:#eeeeff;font-family:'DM Sans',sans-serif}nav{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid rgba(255,255,255,.06)}.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;background:linear-gradient(90deg,#a78bfa,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-r{display:flex;gap:12px}.btn-ghost{padding:7px 16px;border:1px solid rgba(255,255,255,.1);border-radius:7px;color:#888;background:none;font-size:13px;cursor:pointer}.btn-solid{padding:7px 18px;background:#a78bfa;border:none;border-radius:7px;color:#fff;font-size:13px;cursor:pointer}.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative}.glow{position:absolute;width:600px;height:300px;background:radial-gradient(ellipse,rgba(167,139,250,.15),transparent 70%);top:30%;left:50%;transform:translateX(-50%);pointer-events:none}.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:100px;padding:5px 14px;font-size:11px;color:#a78bfa;letter-spacing:2px;margin-bottom:28px}h1{font-family:'Syne',sans-serif;font-size:76px;font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:20px}h1 b{background:linear-gradient(135deg,#a78bfa,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.sub{font-size:17px;color:#6b7280;max-width:480px;margin:0 auto 36px;line-height:1.7}.cta-row{display:flex;gap:12px;justify-content:center}.btn-big{padding:13px 28px;background:linear-gradient(135deg,#a78bfa,#38bdf8);border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer}.btn-outline{padding:13px 28px;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#ccc;background:none;font-size:15px;cursor:pointer}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:60px auto;padding:0 24px}.feat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;text-align:left}.feat-icon{font-size:28px;margin-bottom:12px}.feat-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:8px;color:#a78bfa}.feat-text{font-size:13px;color:#6b7280;line-height:1.6}</style></head><body><nav><div class="logo">FlowApp</div><div class="nav-r"><button class="btn-ghost">Login</button><button class="btn-solid">Empezar gratis</button></div></nav><section class="hero"><div class="glow"></div><div class="chip">✦ Nuevo · v2.0 disponible</div><h1>Tu trabajo,<br><b>sin fricción</b></h1><p class="sub">La plataforma que conecta equipos, automatiza tareas y acelera resultados. Sin complejidad.</p><div class="cta-row"><button class="btn-big">Empezar gratis</button><button class="btn-outline">Ver demo →</button></div></section><section class="features"><div class="feat"><div class="feat-icon">⚡</div><div class="feat-title">Ultra rápido</div><div class="feat-text">Respuesta en milisegundos. Sin lag, sin esperas.</div></div><div class="feat"><div class="feat-icon">🔒</div><div class="feat-title">Seguro</div><div class="feat-text">Cifrado end-to-end y backups automáticos.</div></div><div class="feat"><div class="feat-icon">🤝</div><div class="feat-title">Colaborativo</div><div class="feat-text">Trabaja con tu equipo en tiempo real.</div></div></section></body></html>`,
+
+    portfolio: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#f8f7f4;color:#1a1a1a;font-family:'DM Sans',sans-serif}nav{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid #e8e4dc}.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}.nav-links{display:flex;gap:28px;list-style:none}.nav-links a{text-decoration:none;color:#888;font-size:13px;letter-spacing:1px;text-transform:uppercase}.hero{min-height:90vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 48px;gap:60px}.hero-text .label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#b8a898;margin-bottom:20px}h1{font-family:'Playfair Display',serif;font-size:68px;line-height:1.0;margin-bottom:24px}h1 em{font-style:italic;color:#8b7355}.hero-text p{font-size:16px;color:#888;line-height:1.8;margin-bottom:32px}.btn{padding:13px 28px;background:#1a1a1a;color:#f8f7f4;border:none;border-radius:100px;font-size:14px;cursor:pointer}.hero-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px}.proj{border-radius:16px;overflow:hidden;position:relative}.proj-img{width:100%;height:180px;object-fit:cover;background:linear-gradient(135deg,#e8e4dc,#d4cec4)}.proj-label{position:absolute;bottom:0;left:0;right:0;padding:14px;background:rgba(26,26,26,.8);color:#f8f7f4;font-size:12px;letter-spacing:1px;text-transform:uppercase}.proj:first-child{grid-row:span 2}.proj:first-child .proj-img{height:372px}.skills-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.skill-tag{background:#f0ece4;border-radius:100px;padding:6px 14px;font-size:12px;color:#888}</style></head><body><nav><div class="logo">Nombre</div><ul class="nav-links"><li><a href="#">Trabajo</a></li><li><a href="#">Sobre mí</a></li><li><a href="#">Contacto</a></li></ul></nav><section class="hero"><div class="hero-text"><div class="label">Diseñador & Desarrollador</div><h1>Arte que<br>cuenta<br><em>historias</em></h1><p>Portfolio de proyectos de diseño visual, branding y desarrollo frontend. Buenos Aires.</p><button class="btn">Ver proyectos →</button><div class="skills-row"><span class="skill-tag">Figma</span><span class="skill-tag">React</span><span class="skill-tag">Branding</span><span class="skill-tag">Motion</span></div></div><div class="hero-visual"><div class="proj"><div class="proj-img" style="background:linear-gradient(135deg,#c8b89a,#a0927e)"></div><div class="proj-label">Branding · 2025</div></div><div class="proj"><div class="proj-img" style="background:linear-gradient(135deg,#8b7355,#6a5740);height:180px"></div><div class="proj-label">Web Design</div></div><div class="proj"><div class="proj-img" style="background:linear-gradient(135deg,#d4cec4,#b8b0a4);height:180px"></div><div class="proj-label">Ilustración</div></div></div></section></body></html>`,
+
+    store: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#fff;color:#111;font-family:'DM Sans',sans-serif}nav{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid #eee}.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px}.nav-r{display:flex;gap:20px;align-items:center;font-size:13px;color:#666}.cart{background:#ff4500;color:#fff;padding:7px 16px;border:none;border-radius:100px;font-size:13px;cursor:pointer}.hero{background:linear-gradient(135deg,#ff4500 0%,#ff7a00 100%);color:#fff;padding:80px 48px;text-align:center}h1{font-family:'Syne',sans-serif;font-size:72px;font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:16px}.hero p{font-size:18px;opacity:.85;margin-bottom:32px}.btn-w{padding:14px 32px;background:#fff;color:#ff4500;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}.products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1100px;margin:60px auto;padding:0 24px}.product{border-radius:16px;overflow:hidden;border:1px solid #f0f0f0;transition:box-shadow .2s}.product:hover{box-shadow:0 8px 30px rgba(0,0,0,.12)}.product-img{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:56px}.product-info{padding:16px}.product-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:4px}.product-price{color:#ff4500;font-weight:600;font-size:17px;margin-bottom:12px}.btn-buy{width:100%;padding:9px;background:#111;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}</style></head><body><nav><div class="logo">ShopNow</div><div class="nav-r"><span>Inicio</span><span>Categorías</span><button class="cart">🛒 Carrito (0)</button></div></nav><section class="hero"><h1>Todo lo que<br>necesitás</h1><p>Envío gratis en compras mayores a $20.000</p><button class="btn-w">Ver catálogo completo</button></section><div class="products"><div class="product"><div class="product-img" style="background:#fff8f0">👟</div><div class="product-info"><div class="product-name">Zapatillas Urban</div><div class="product-price">$45.000</div><button class="btn-buy">Agregar al carrito</button></div></div><div class="product"><div class="product-img" style="background:#f0fff8">🎧</div><div class="product-info"><div class="product-name">Auriculares Pro</div><div class="product-price">$89.000</div><button class="btn-buy">Agregar al carrito</button></div></div><div class="product"><div class="product-img" style="background:#f0f4ff">💻</div><div class="product-info"><div class="product-name">Laptop Stand</div><div class="product-price">$28.000</div><button class="btn-buy">Agregar al carrito</button></div></div><div class="product"><div class="product-img" style="background:#fff0f4">⌚</div><div class="product-info"><div class="product-name">Smartwatch X</div><div class="product-price">$120.000</div><button class="btn-buy">Agregar al carrito</button></div></div></div></body></html>`,
+
+    clinic: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#f0fbf8;color:#1a2e2a;font-family:'Nunito',sans-serif}nav{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:#fff;box-shadow:0 1px 0 #e0f5ee}.logo{font-weight:800;font-size:20px;color:#1a7a5e}.logo span{color:#3dd6b5}.nav-r{display:flex;gap:16px}.btn-turno{padding:9px 22px;background:#1a7a5e;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:700}.hero{display:grid;grid-template-columns:1fr 1fr;min-height:85vh;align-items:center;padding:0 48px;gap:48px}.kicker{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#3dd6b5;margin-bottom:16px}h1{font-size:56px;font-weight:800;line-height:1.05;margin-bottom:20px;color:#1a2e2a}h1 span{color:#1a7a5e}.hero p{font-size:16px;color:#6b8a80;line-height:1.8;margin-bottom:32px}.hero-visual{background:linear-gradient(135deg,#1a7a5e15,#3dd6b510);border-radius:24px;padding:40px;border:2px solid #3dd6b520}.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.spec{background:#fff;border-radius:16px;padding:20px;border:1px solid #e0f5ee}.spec-icon{font-size:28px;margin-bottom:10px}.spec-name{font-weight:700;color:#1a7a5e;margin-bottom:6px;font-size:15px}.spec-desc{font-size:12px;color:#6b8a80;line-height:1.5}</style></head><body><nav><div class="logo">Salud<span>+</span></div><div class="nav-r"><button class="btn-turno">Pedir turno</button></div></nav><section class="hero"><div><div class="kicker">Clínica Integral · Buenos Aires</div><h1>Tu salud,<br><span>nuestra<br>prioridad</span></h1><p>Atención médica de excelencia con los mejores profesionales. Turnos online 24hs.</p><button class="btn-turno">Reservar turno online</button></div><div class="hero-visual"><div class="spec-grid"><div class="spec"><div class="spec-icon">❤️</div><div class="spec-name">Cardiología</div><div class="spec-desc">Control y prevención cardiovascular.</div></div><div class="spec"><div class="spec-icon">🧠</div><div class="spec-name">Neurología</div><div class="spec-desc">Especialistas en el sistema nervioso.</div></div><div class="spec"><div class="spec-icon">🦷</div><div class="spec-name">Odontología</div><div class="spec-desc">Salud bucal integral para toda la familia.</div></div><div class="spec"><div class="spec-icon">👁️</div><div class="spec-name">Oftalmología</div><div class="spec-desc">Cuidado avanzado de la visión.</div></div></div></div></section></body></html>`,
+
+    realestate: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0f0d09;color:#f5f0e8;font-family:'DM Sans',sans-serif}nav{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid rgba(200,163,100,.15)}.logo{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:#c8a364}.hero{min-height:90vh;display:flex;align-items:center;padding:80px 48px;gap:60px}.hero-text .label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#c8a364;margin-bottom:20px}h1{font-family:'Fraunces',serif;font-size:72px;line-height:.95;margin-bottom:24px}h1 em{font-style:italic;color:#c8a364}.hero-text p{font-size:16px;color:#8a7860;line-height:1.8;margin-bottom:32px}.btn{padding:14px 32px;background:#c8a364;color:#0f0d09;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.5px}.props{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:60px auto;padding:0 48px}.prop{background:#1a160f;border-radius:16px;overflow:hidden;border:1px solid rgba(200,163,100,.12)}.prop-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:48px}.prop-info{padding:20px}.prop-type{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c8a364;margin-bottom:6px}.prop-name{font-family:'Fraunces',serif;font-size:20px;margin-bottom:8px}.prop-price{font-size:18px;color:#c8a364;font-weight:600;margin-bottom:10px}.prop-tags{display:flex;gap:6px}.tag{background:rgba(200,163,100,.1);border:1px solid rgba(200,163,100,.2);border-radius:100px;padding:3px 10px;font-size:11px;color:#c8a364}</style></head><body><nav><div class="logo">Premiere RE</div><div style="font-size:13px;color:#6a5f50;letter-spacing:2px">PROPIEDADES · TASACIONES · CONTACTO</div></nav><section class="hero"><div class="hero-text"><div class="label">Buenos Aires · Premium</div><h1>Propiedades<br>que son<br><em>hogar</em></h1><p>Selección exclusiva de propiedades en los mejores barrios de Buenos Aires. Asesoramiento personalizado.</p><button class="btn">Ver propiedades</button></div></section><section class="props"><div class="prop"><div class="prop-img" style="background:linear-gradient(135deg,#2a2010,#1a1508)">🏢</div><div class="prop-info"><div class="prop-type">Departamento</div><div class="prop-name">Palermo Soho 3A</div><div class="prop-price">USD 180.000</div><div class="prop-tags"><span class="tag">3 amb</span><span class="tag">85m²</span><span class="tag">Balcón</span></div></div></div><div class="prop"><div class="prop-img" style="background:linear-gradient(135deg,#1e1a0e,#141008)">🏡</div><div class="prop-info"><div class="prop-type">Casa</div><div class="prop-name">Nordelta · Laguna</div><div class="prop-price">USD 420.000</div><div class="prop-tags"><span class="tag">5 amb</span><span class="tag">320m²</span><span class="tag">Piscina</span></div></div></div><div class="prop"><div class="prop-img" style="background:linear-gradient(135deg,#201808,#180e04)">🏗️</div><div class="prop-info"><div class="prop-type">PH</div><div class="prop-name">Recoleta Centro</div><div class="prop-price">USD 260.000</div><div class="prop-tags"><span class="tag">4 amb</span><span class="tag">160m²</span><span class="tag">Terraza</span></div></div></div></section></body></html>`,
+
+    event: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#08010f;color:#fff;font-family:'DM Sans',sans-serif;overflow-x:hidden}nav{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid rgba(255,60,172,.15)}.logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;background:linear-gradient(90deg,#ff3cac,#784ba0,#2b86c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.btn-ticket{padding:9px 22px;background:linear-gradient(135deg,#ff3cac,#784ba0);border:none;border-radius:8px;color:#fff;font-size:13px;cursor:pointer}.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;position:relative;overflow:hidden}.glow-bg{position:absolute;width:800px;height:400px;background:radial-gradient(ellipse,rgba(255,60,172,.2) 0%,rgba(120,75,160,.1) 40%,transparent 70%);top:20%;left:50%;transform:translateX(-50%);pointer-events:none}.event-date{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#ff3cac;margin-bottom:20px}h1{font-family:'Bebas Neue',sans-serif;font-size:110px;line-height:.9;letter-spacing:2px;margin-bottom:20px}h1 span{background:linear-gradient(135deg,#ff3cac,#784ba0,#2b86c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.countdown{display:flex;gap:24px;margin:32px 0}.count-block{text-align:center}.count-num{font-family:'Bebas Neue',sans-serif;font-size:56px;background:linear-gradient(135deg,#ff3cac,#784ba0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}.count-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#666}.speakers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:700px;margin:48px auto;padding:0 24px}.speaker{text-align:center}.sp-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 10px;border:2px solid rgba(255,60,172,.4);display:flex;align-items:center;justify-content:center;font-size:28px;background:rgba(255,60,172,.1)}.sp-name{font-weight:600;font-size:14px;margin-bottom:2px}.sp-role{font-size:11px;color:#666}</style></head><body><nav><div class="logo">TechFest</div><button class="btn-ticket">Tickets →</button></nav><section class="hero"><div class="glow-bg"></div><div class="event-date">📍 Buenos Aires · 15 Nov 2026</div><h1>TECH<br><span>FEST</span><br>2026</h1><div class="countdown"><div class="count-block"><div class="count-num">142</div><div class="count-label">Días</div></div><div class="count-block"><div class="count-num">08</div><div class="count-label">Horas</div></div><div class="count-block"><div class="count-num">23</div><div class="count-label">Min</div></div></div><button class="btn-ticket" style="font-size:15px;padding:14px 32px">Conseguir tickets</button></section><section class="speakers"><div class="speaker"><div class="sp-avatar">👩‍💻</div><div class="sp-name">Ana García</div><div class="sp-role">CEO · TechCorp</div></div><div class="speaker"><div class="sp-avatar">👨‍🔬</div><div class="sp-name">Luis Torres</div><div class="sp-role">AI Research Lead</div></div><div class="speaker"><div class="sp-avatar">🧑‍🎨</div><div class="sp-name">Mía Sosa</div><div class="sp-role">Design Director</div></div></section></body></html>`,
+
+    gym: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a08;color:#f8f8f0;font-family:'DM Sans',sans-serif}nav{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid rgba(200,240,0,.15)}.logo{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;color:#c8f135}.btn-nav{padding:9px 22px;background:#c8f135;color:#0a0a08;border:none;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:1px}.hero{min-height:90vh;display:flex;align-items:center;padding:80px 64px;position:relative;overflow:hidden}.bg-accent{position:absolute;top:0;right:0;width:50%;height:100%;background:linear-gradient(135deg,rgba(200,240,0,.08),transparent);clip-path:polygon(20% 0%,100% 0%,100% 100%,0% 100%)}.hero-text{position:relative;max-width:600px}.kicker{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#c8f135;margin-bottom:16px}h1{font-family:'Oswald',sans-serif;font-size:110px;font-weight:700;letter-spacing:-1px;line-height:.9;margin-bottom:24px;text-transform:uppercase}h1 span{color:#c8f135}.sub{font-size:17px;color:#888;line-height:1.7;margin-bottom:36px;max-width:460px}.stats{display:flex;gap:40px;margin-bottom:36px}.stat-num{font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;color:#c8f135}.stat-label{font-size:12px;color:#666;text-transform:uppercase;letter-spacing:1px}.btn-main{padding:16px 36px;background:#c8f135;color:#0a0a08;border:none;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer}.classes{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:80px}.cls{background:#111;padding:36px 28px;border:1px solid #1a1a1a;text-align:center}.cls-icon{font-size:36px;margin-bottom:12px}.cls-name{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;color:#c8f135;margin-bottom:8px}.cls-text{font-size:13px;color:#666;line-height:1.6}</style></head><body><nav><div class="logo">IRONCORE</div><button class="btn-nav">Unirse</button></nav><section class="hero"><div class="bg-accent"></div><div class="hero-text"><p class="kicker">Gym · Fitness · Resultados</p><h1>No<br><span>pares</span></h1><p class="sub">Superá tus límites con entrenamiento de élite y comunidad que te impulsa.</p><div class="stats"><div><div class="stat-num">500+</div><div class="stat-label">Miembros</div></div><div><div class="stat-num">20+</div><div class="stat-label">Clases</div></div><div><div class="stat-num">5★</div><div class="stat-label">Rating</div></div></div><button class="btn-main">Empezar ahora</button></div></section><section class="classes"><div class="cls"><div class="cls-icon">🏋️</div><div class="cls-name">Musculación</div><div class="cls-text">Fuerza y definición muscular progresiva.</div></div><div class="cls"><div class="cls-icon">🥊</div><div class="cls-name">Box Funcional</div><div class="cls-text">Quemá calorías al máximo con HIIT.</div></div><div class="cls"><div class="cls-icon">🧘</div><div class="cls-name">Yoga & Stretch</div><div class="cls-text">Balance y recuperación muscular.</div></div></section></body></html>`,
+
+    law: `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#f7f5f0;color:#1a1510;font-family:'DM Sans',sans-serif}nav{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 64px;background:#1a1510}.logo{font-family:'IM Fell English',serif;font-size:22px;color:#c9a96e}.nav-r{font-size:12px;color:#6a5f50;letter-spacing:2px;text-transform:uppercase}.hero{display:grid;grid-template-columns:1fr 1fr;min-height:85vh;align-items:stretch}.hero-text{background:#1a1510;color:#f7f5f0;padding:80px 64px;display:flex;flex-direction:column;justify-content:center}.kicker{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#c9a96e;margin-bottom:20px}h1{font-family:'IM Fell English',serif;font-size:60px;line-height:1.05;margin-bottom:24px}h1 em{color:#c9a96e;font-style:italic}.sub{font-size:15px;color:#8a7860;line-height:1.8;margin-bottom:36px}.btn{padding:13px 28px;background:#c9a96e;color:#1a1510;border:none;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;align-self:flex-start}.hero-right{background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(240,234,216,.1));display:flex;flex-direction:column;justify-content:center;padding:80px 48px}.quote{font-family:'IM Fell English',serif;font-size:22px;font-style:italic;color:#4a3820;line-height:1.6;margin-bottom:28px}.divider{width:48px;height:2px;background:#c9a96e;margin-bottom:24px}.area-item{display:flex;align-items:center;gap:12px;font-size:14px;color:#6a5540;margin-bottom:12px}.area-dot{width:6px;height:6px;border-radius:50%;background:#c9a96e;flex-shrink:0}.practice{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:60px auto;padding:0 24px}.pcard{background:#fff;border:1px solid #e8e0d0;border-radius:8px;padding:28px;border-top:3px solid #c9a96e}.pcard-icon{font-size:28px;margin-bottom:12px}.pcard-title{font-family:'IM Fell English',serif;font-size:18px;margin-bottom:8px}.pcard-text{font-size:13px;color:#8a7860;line-height:1.7}</style></head><body><nav><div class="logo">García & Asociados</div><div class="nav-r">Áreas · Equipo · Contacto</div></nav><section class="hero"><div class="hero-text"><p class="kicker">Estudio Jurídico · Buenos Aires</p><h1>Derecho con<br><em>integridad</em></h1><p class="sub">Asesoramiento legal experto con más de 20 años de trayectoria en Argentina.</p><button class="btn">Consulta gratuita</button></div><div class="hero-right"><p class="quote">"La justicia es la base sobre la que se construye la confianza."</p><div class="divider"></div><div class="area-item"><span class="area-dot"></span>Derecho Laboral</div><div class="area-item"><span class="area-dot"></span>Derecho Comercial</div><div class="area-item"><span class="area-dot"></span>Litigios Civiles</div></div></section><section class="practice"><div class="pcard"><div class="pcard-icon">⚖️</div><div class="pcard-title">Derecho Laboral</div><div class="pcard-text">Defensa de trabajadores y empresas en conflictos laborales.</div></div><div class="pcard"><div class="pcard-icon">📋</div><div class="pcard-title">Contratos</div><div class="pcard-text">Redacción, revisión y asesoría en contratos comerciales.</div></div><div class="pcard"><div class="pcard-icon">🏛️</div><div class="pcard-title">Litigios</div><div class="pcard-text">Representación judicial de primer nivel.</div></div></section></body></html>`
+  };
+
+  function buildPortfolioGrid() {
+    const grid = document.getElementById('portfolioGrid');
+    TEMPLATES.forEach(tpl => {
+      const card = document.createElement('div');
+      card.className = 'pf-card';
+      card.innerHTML = `
+        <div class="pf-preview">
+          <iframe srcdoc="${PREVIEW_SNIPPETS[tpl.id].replace(/"/g, '&quot;')}" scrolling="no" tabindex="-1"></iframe>
+          <div class="pf-overlay"></div>
+          <div class="pf-badge">${tpl.type}</div>
+        </div>
+        <div class="pf-info">
+          <div class="pf-type">${tpl.type}</div>
+          <div class="pf-name">${tpl.name}</div>
+          <div class="pf-desc">${tpl.desc}</div>
+          <div class="pf-pills">${tpl.pills.map(p=>`<span class="pf-pill">${p}</span>`).join('')}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', buildPortfolioGrid);
+
+  /* CONTADOR DE VISITAS */
   window.addEventListener('load', function() {
     const firebaseConfig = {
       apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
@@ -257,34 +440,24 @@
       messagingSenderId: "798220681076",
       appId: "1:798220681076:web:44847b5dca7673dd4af621"
     };
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db  = firebase.database();
     const ref = db.ref('visitas_web');
     const esLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
     if (!esLocal) {
-      ref.transaction(function(valorActual) {
-        return (valorActual || 0) + 1;
-      })
-      .then(function(resultado) {
-        var total = resultado.snapshot.val();
-        document.getElementById('visit-count').textContent =
-          total ? total.toLocaleString('es-AR') : '—';
-      })
-      .catch(function(err) {
-        console.warn('Contador visitas:', err);
-        document.getElementById('visit-count').textContent = '—';
-      });
+      ref.transaction(v => (v || 0) + 1)
+        .then(r => {
+          const total = r.snapshot.val();
+          document.getElementById('visit-count').textContent = total ? total.toLocaleString('es-AR') : '—';
+        })
+        .catch(() => { document.getElementById('visit-count').textContent = '—'; });
     } else {
-      ref.get().then(function(snap) {
-        var total = snap.val();
-        document.getElementById('visit-count').textContent =
-          total ? total.toLocaleString('es-AR') : '0';
+      ref.get().then(s => {
+        const total = s.val();
+        document.getElementById('visit-count').textContent = total ? total.toLocaleString('es-AR') : '0';
       });
     }
   });
   </script>
-
 </body>
 </html>
