@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob: wss:; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * wss: blob:; img-src * data: blob:; frame-src *;">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Solicitar sitio web · joeDEV</title>
@@ -249,25 +248,8 @@ input[type=color]{width:48px;height:42px;border:1px solid var(--border);border-r
   </div>
 </div>
 
-<!-- FIREBASE SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBId693Vbb9YqVRYKCGe08gVzYSj60W8Bs",
-  authDomain: "joepedev-f13c0.firebaseapp.com",
-  databaseURL: "https://joepedev-f13c0-default-rtdb.firebaseio.com",
-  projectId: "joepedev-f13c0",
-  storageBucket: "joepedev-f13c0.firebasestorage.app",
-  messagingSenderId: "713399681632",
-  appId: "1:713399681632:web:652e36c0f5c0c68a2bf905",
-  measurementId: "G-XS1CDVVL4H"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const storage = firebase.storage();
+const DB_URL = 'https://joepedev-f13c0-default-rtdb.firebaseio.com';
 
 /* ---- TEMPLATES ---- */
 const TEMPLATES = [
@@ -336,22 +318,9 @@ async function submitForm(){
   btn.textContent = 'Enviando...';
 
   try {
-    // Upload logo if provided
-    let logoUrl = null;
-    const logoFile = document.getElementById('f_logo').files[0];
-    if(logoFile){
-      const ref = storage.ref('presupuestos_logos/' + Date.now() + '_' + logoFile.name);
-      await ref.put(logoFile);
-      logoUrl = await ref.getDownloadURL();
-    }
-
-    // Build pedido object
-    const ref = db.ref('presupuestos_web').push();
-    const id = ref.key;
     const refCode = 'JD-' + Date.now().toString(36).toUpperCase().slice(-6);
 
     const pedido = {
-      id,
       refCode,
       estado: 'pendiente',
       creadoEn: new Date().toISOString(),
@@ -374,16 +343,24 @@ async function submitForm(){
         color3: document.getElementById('f_color3').value,
         fechaLimite: document.getElementById('f_fecha').value,
         extras: document.getElementById('f_extras').value.trim(),
-        logoUrl,
+        logoUrl: null,
       },
       metodoPago: null,
       pagado: false,
       linkPago: null,
     };
 
-    await ref.set(pedido);
+    const res = await fetch(
+      DB_URL + '/presupuestos_web.json',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pedido)
+      }
+    );
 
-    // Show success
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+
     document.getElementById('formView').style.display = 'none';
     document.getElementById('successView').style.display = 'block';
     document.getElementById('refNumber').textContent = refCode;
