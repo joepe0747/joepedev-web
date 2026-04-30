@@ -203,7 +203,7 @@ async function loadPedidos(){
     const res = await fetch(DB_URL + '/presupuestos_web.json');
     const data = await res.json() || {};
     // Convert object to array, attaching the Firebase key as .id
-    allPedidos = Object.entries(data).map(([key, val]) => ({...val, id: key}))
+    allPedidos = Object.entries(data).map(([key, val]) => ({...val, _key: key}))
       .sort((a,b) => new Date(b.creadoEn) - new Date(a.creadoEn));
     updateStats();
     renderList();
@@ -263,29 +263,29 @@ function buildCard(p){
     : `
       <div class="price-input-wrap">
         <label>Precio final (USD)</label>
-        <input class="price-input" type="number" id="price_${p.id}" placeholder="0" value="${p.precioFinal||''}" min="0"/>
+        <input class="price-input" type="number" id="price_${p._key}" placeholder="0" value="${p.precioFinal||''}" min="0"/>
       </div>
       <div class="link-input-wrap">
         <label>Link de pago (MercadoPago / Stripe / etc.)</label>
-        <input class="link-input" type="url" id="link_${p.id}" placeholder="https://mpago.la/..." value="${p.linkPago||''}"/>
+        <input class="link-input" type="url" id="link_${p._key}" placeholder="https://mpago.la/..." value="${p.linkPago||''}"/>
       </div>
-      <button class="btn-aprobar" onclick="aprobarPedido('${p.id}')">✅ Aprobar y enviar link</button>
-      ${est === 'pendiente' ? `<button class="btn-rechazar" onclick="rechazarPedido('${p.id}')">✕ Rechazar</button>` : ''}
-      ${est === 'aprobado' ? `<button class="btn-marcar-pagado" onclick="marcarPagado('${p.id}')">💜 Marcar como pagado</button>` : ''}
+      <button class="btn-aprobar" onclick="aprobarPedido('${p._key}')">✅ Aprobar y enviar link</button>
+      ${est === 'pendiente' ? `<button class="btn-rechazar" onclick="rechazarPedido('${p._key}')">✕ Rechazar</button>` : ''}
+      ${est === 'aprobado' ? `<button class="btn-marcar-pagado" onclick="marcarPagado('${p._key}')">💜 Marcar como pagado</button>` : ''}
     `;
 
   return `
-  <div class="pedido-card estado-${est}" id="card_${p.id}">
-    <div class="card-header" onclick="toggleCard('${p.id}')">
+  <div class="pedido-card estado-${est}" id="card_${p._key}">
+    <div class="card-header" onclick="toggleCard('${p._key}')">
       <span class="card-ref">${p.refCode}</span>
       <span class="card-empresa">${p.cliente?.empresa || '—'} <span style="font-weight:400;color:var(--muted);font-size:12px">· ${p.cliente?.nombre || '—'}</span></span>
       <span class="card-tpl">${p.templateNombre || p.template}</span>
       <span style="font-size:13px;color:var(--teal);font-weight:700;min-width:80px;text-align:right">${precioFinal !== '—' ? precioFinal : precioBase + ' base'}</span>
       <span class="estado-badge estado-${est}">${est}</span>
       <span class="card-fecha">${fecha}</span>
-      <span class="card-chevron" id="chev_${p.id}">▾</span>
+      <span class="card-chevron" id="chev_${p._key}">▾</span>
     </div>
-    <div class="card-body" id="body_${p.id}">
+    <div class="card-body" id="body_${p._key}">
       <div class="detail-grid">
 
         <div class="detail-section">
@@ -325,7 +325,7 @@ function buildCard(p){
           </div>
           <div class="detail-row"><span class="detail-label">Logo</span><span class="detail-val">${logoLink}</span></div>
           <div class="detail-row"><span class="detail-label">Creado</span><span class="detail-val">${fecha}</span></div>
-          <div class="detail-row"><span class="detail-label">ID</span><span class="detail-val" style="font-size:11px;color:var(--muted)">${p.id}</span></div>
+          <div class="detail-row"><span class="detail-label">ID</span><span class="detail-val" style="font-size:11px;color:var(--muted)">${p._key}</span></div>
         </div>
       </div>
 
