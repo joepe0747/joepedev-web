@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin · Presupuestos joeDEV</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070710;--bg2:#0d0d1a;--accent:#6c63ff;--teal:#00d4aa;
+  --text:#f0eeff;--muted:#6b6880;--glass:rgba(108,99,255,0.07);
+  --glass-b:rgba(108,99,255,0.18);--border:#1e1e30;
+  --ok:#00d4aa;--warn:#f59e0b;--err:#ff4d6d;--info:#6c63ff;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+
+/* ── LOGIN ── */
+#loginScreen{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:48px 40px;width:360px;text-align:center}
+.login-logo{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:32px}
+.login-box input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;background:rgba(255,255,255,.04);color:var(--text);outline:none;margin-bottom:12px}
+.login-box input:focus{border-color:var(--accent)}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--teal));color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.login-err{font-size:12px;color:var(--err);margin-top:10px;display:none}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(7,7,16,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-badge{font-size:11px;background:rgba(255,77,109,.15);border:1px solid rgba(255,77,109,.3);color:#ff4d6d;border-radius:100px;padding:3px 10px;letter-spacing:1px}
+.nav-right{display:flex;align-items:center;gap:16px}
+.stats-pill{font-size:12px;color:var(--muted);display:flex;gap:16px}
+.stat-item{display:flex;align-items:center;gap:5px}
+.stat-dot{width:7px;height:7px;border-radius:50%}
+
+/* ── LAYOUT ── */
+.main{max-width:1100px;margin:0 auto;padding:80px 24px 60px}
+
+/* ── FILTERS ── */
+.filter-bar{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;align-items:center}
+.filter-btn{padding:7px 16px;border:1px solid var(--border);border-radius:100px;font-size:12px;cursor:pointer;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);background:rgba(108,99,255,.15);color:var(--text)}
+.search-input{padding:8px 14px;border:1px solid var(--border);border-radius:100px;font-size:13px;font-family:'DM Sans',sans-serif;background:rgba(255,255,255,.04);color:var(--text);outline:none;width:220px;margin-left:auto}
+.search-input:focus{border-color:var(--accent)}
+
+/* ── CARDS ── */
+.pedidos-grid{display:flex;flex-direction:column;gap:14px}
+.pedido-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s}
+.pedido-card:hover{border-color:var(--glass-b)}
+.pedido-card.estado-aprobado{border-left:3px solid var(--ok)}
+.pedido-card.estado-pagado{border-left:3px solid #8b5cf6}
+.pedido-card.estado-pendiente{border-left:3px solid var(--warn)}
+.pedido-card.estado-rechazado{border-left:3px solid var(--err)}
+
+.card-header{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none}
+.card-ref{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--teal);min-width:120px}
+.card-empresa{font-weight:600;font-size:14px;flex:1}
+.card-tpl{font-size:12px;color:var(--muted);background:var(--glass);border:1px solid var(--border);border-radius:6px;padding:3px 9px}
+.card-fecha{font-size:11px;color:var(--muted)}
+.estado-badge{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border-radius:100px;padding:4px 12px;border:1px solid}
+.estado-pendiente{color:var(--warn);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08)}
+.estado-aprobado{color:var(--ok);border-color:rgba(0,212,170,.3);background:rgba(0,212,170,.08)}
+.estado-pagado{color:#a78bfa;border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.08)}
+.estado-rechazado{color:var(--err);border-color:rgba(255,77,109,.3);background:rgba(255,77,109,.08)}
+.card-chevron{color:var(--muted);transition:transform .2s;font-size:16px}
+.card-chevron.open{transform:rotate(180deg)}
+
+.card-body{display:none;border-top:1px solid var(--border);padding:20px}
+.card-body.open{display:block}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.detail-section{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:12px;padding:16px}
+.detail-section.full{grid-column:1/-1}
+.detail-title{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;font-weight:600}
+.detail-row{display:flex;gap:8px;margin-bottom:8px;font-size:13px}
+.detail-row:last-child{margin-bottom:0}
+.detail-label{color:var(--muted);min-width:110px;flex-shrink:0}
+.detail-val{color:var(--text);word-break:break-word}
+.detail-val a{color:var(--teal);text-decoration:none}
+.detail-val a:hover{text-decoration:underline}
+.color-dot{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.15);vertical-align:middle;margin-right:4px}
+
+/* ── ACTIONS ── */
+.card-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.price-input-wrap{display:flex;flex-direction:column;gap:4px}
+.price-input-wrap label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.price-input{padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Syne',sans-serif;background:rgba(255,255,255,.06);color:var(--teal);outline:none;width:160px;font-weight:700}
+.price-input:focus{border-color:var(--teal)}
+.link-input-wrap{display:flex;flex-direction:column;gap:4px;flex:1;min-width:200px}
+.link-input-wrap label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.link-input{padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;background:rgba(255,255,255,.04);color:var(--text);outline:none;width:100%}
+.link-input:focus{border-color:var(--accent)}
+.btn-aprobar{padding:10px 20px;background:linear-gradient(135deg,var(--accent),var(--teal));color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.btn-rechazar{padding:10px 18px;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);color:var(--err);border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.btn-marcar-pagado{padding:10px 18px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);color:#a78bfa;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.btn-whatsapp{padding:10px 18px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);color:#25D366;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:80px 24px;color:var(--muted)}
+.empty-icon{font-size:48px;margin-bottom:16px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--glass-b);border-radius:12px;padding:12px 20px;font-size:13px;color:var(--text);transform:translateY(80px);opacity:0;transition:all .3s;z-index:999}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:640px){
+  .detail-grid{grid-template-columns:1fr}
+  .detail-section.full{grid-column:1}
+  .card-header{flex-wrap:wrap}
+  nav{padding:0 16px}
+  .stats-pill{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">joeDEV</div>
+    <div class="login-sub">Panel de administración · Solo para vos</div>
+    <input type="password" id="loginPass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="login-btn" onclick="doLogin()">Entrar al panel →</button>
+    <div class="login-err" id="loginErr">Contraseña incorrecta</div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-brand">joeDEV Admin</div>
+  <div class="nav-badge">⚡ PRIVADO</div>
+  <div class="nav-right">
+    <div class="stats-pill" id="statsBar">
+      <span class="stat-item"><span class="stat-dot" style="background:var(--warn)"></span><span id="cntPendiente">0</span> pendientes</span>
+      <span class="stat-item"><span class="stat-dot" style="background:var(--ok)"></span><span id="cntAprobado">0</span> aprobados</span>
+      <span class="stat-item"><span class="stat-dot" style="background:#a78bfa"></span><span id="cntPagado">0</span> pagados</span>
+    </div>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+    <button class="filter-btn" onclick="setFilter('pendiente',this)">⏳ Pendientes</button>
+    <button class="filter-btn" onclick="setFilter('aprobado',this)">✅ Aprobados</button>
+    <button class="filter-btn" onclick="setFilter('pagado',this)">💜 Pagados</button>
+    <button class="filter-btn" onclick="setFilter('rechazado',this)">✕ Rechazados</button>
+    <input class="search-input" placeholder="🔍 Buscar cliente, empresa..." oninput="setSearch(this.value)"/>
+  </div>
+  <div id="pedidosContainer" class="pedidos-grid">
+    <div class="empty"><div class="empty-icon">⏳</div><div>Cargando pedidos...</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+/* ── CONFIG ── */
+const ADMIN_PASS = 'joedev2026';  // ← Cambiá esto por tu contraseña real
+const WHATSAPP_ME = '5491112345678';  // ← Tu número con código de país, sin +
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBId693Vbb9YqVRYKCGe08gVzYSj60W8Bs",
+  authDomain: "joepedev-f13c0.firebaseapp.com",
+  databaseURL: "https://joepedev-f13c0-default-rtdb.firebaseio.com",
+  projectId: "joepedev-f13c0",
+  storageBucket: "joepedev-f13c0.firebasestorage.app",
+  messagingSenderId: "713399681632",
+  appId: "1:713399681632:web:652e36c0f5c0c68a2bf905",
+  measurementId: "G-XS1CDVVL4H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* ── LOGIN ── */
+function doLogin(){
+  const pass = document.getElementById('loginPass').value;
+  if(pass === ADMIN_PASS){
+    document.getElementById('loginScreen').style.display = 'none';
+    initAdmin();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+
+/* ── STATE ── */
+let allPedidos = [];
+let currentFilter = 'todos';
+let currentSearch = '';
+
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderList();
+}
+
+function setSearch(v){
+  currentSearch = v.toLowerCase();
+  renderList();
+}
+
+/* ── INIT ── */
+function initAdmin(){
+  db.ref('presupuestos_web').on('value', snap => {
+    const data = snap.val() || {};
+    allPedidos = Object.values(data).sort((a,b) => new Date(b.creadoEn) - new Date(a.creadoEn));
+    updateStats();
+    renderList();
+  });
+}
+
+function updateStats(){
+  const cnt = s => allPedidos.filter(p => p.estado === s).length;
+  document.getElementById('cntPendiente').textContent = cnt('pendiente');
+  document.getElementById('cntAprobado').textContent = cnt('aprobado');
+  document.getElementById('cntPagado').textContent = cnt('pagado');
+}
+
+function renderList(){
+  const container = document.getElementById('pedidosContainer');
+  let filtered = allPedidos;
+
+  if(currentFilter !== 'todos'){
+    filtered = filtered.filter(p => p.estado === currentFilter);
+  }
+  if(currentSearch){
+    filtered = filtered.filter(p => {
+      const str = [p.refCode, p.cliente?.nombre, p.cliente?.empresa, p.templateNombre].join(' ').toLowerCase();
+      return str.includes(currentSearch);
+    });
+  }
+
+  if(!filtered.length){
+    container.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div>No hay pedidos para este filtro.</div></div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => buildCard(p)).join('');
+}
+
+/* ── BUILD CARD ── */
+function buildCard(p){
+  const fecha = new Date(p.creadoEn).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const est = p.estado || 'pendiente';
+  const precioBase = p.precioBase ? 'USD ' + p.precioBase : '—';
+  const precioFinal = p.precioFinal ? 'USD ' + p.precioFinal : '—';
+  const logoLink = p.proyecto?.logoUrl ? `<a href="${p.proyecto.logoUrl}" target="_blank">Ver logo ↗</a>` : '—';
+  const dominioStr = p.cliente?.dominio || '—';
+  const fechaLimite = p.proyecto?.fechaLimite || '—';
+
+  const whatsappMsg = encodeURIComponent(
+    `Hola ${p.cliente?.nombre?.split(' ')[0] || ''}! 👋 Te escribo desde joeDEV por tu solicitud de sitio web (Ref: ${p.refCode}).\n\nRevisé tu pedido de "${p.templateNombre}" y tengo listo el presupuesto. Cuando tenés un momento te cuento los detalles!`
+  );
+  const whatsappNum = (p.cliente?.whatsapp || '').replace(/[^0-9]/g,'');
+
+  const actionsBtns = est === 'rechazado'
+    ? `<button class="btn-rechazar" disabled style="opacity:.4;cursor:default">✕ Rechazado</button>`
+    : est === 'pagado'
+    ? `<button class="btn-marcar-pagado" disabled style="opacity:.4;cursor:default">✅ Ya pagado</button>`
+    : `
+      <div class="price-input-wrap">
+        <label>Precio final (USD)</label>
+        <input class="price-input" type="number" id="price_${p.id}" placeholder="0" value="${p.precioFinal||''}" min="0"/>
+      </div>
+      <div class="link-input-wrap">
+        <label>Link de pago (MercadoPago / Stripe / etc.)</label>
+        <input class="link-input" type="url" id="link_${p.id}" placeholder="https://mpago.la/..." value="${p.linkPago||''}"/>
+      </div>
+      <button class="btn-aprobar" onclick="aprobarPedido('${p.id}')">✅ Aprobar y enviar link</button>
+      ${est === 'pendiente' ? `<button class="btn-rechazar" onclick="rechazarPedido('${p.id}')">✕ Rechazar</button>` : ''}
+      ${est === 'aprobado' ? `<button class="btn-marcar-pagado" onclick="marcarPagado('${p.id}')">💜 Marcar como pagado</button>` : ''}
+    `;
+
+  return `
+  <div class="pedido-card estado-${est}" id="card_${p.id}">
+    <div class="card-header" onclick="toggleCard('${p.id}')">
+      <span class="card-ref">${p.refCode}</span>
+      <span class="card-empresa">${p.cliente?.empresa || '—'} <span style="font-weight:400;color:var(--muted);font-size:12px">· ${p.cliente?.nombre || '—'}</span></span>
+      <span class="card-tpl">${p.templateNombre || p.template}</span>
+      <span style="font-size:13px;color:var(--teal);font-weight:700;min-width:80px;text-align:right">${precioFinal !== '—' ? precioFinal : precioBase + ' base'}</span>
+      <span class="estado-badge estado-${est}">${est}</span>
+      <span class="card-fecha">${fecha}</span>
+      <span class="card-chevron" id="chev_${p.id}">▾</span>
+    </div>
+    <div class="card-body" id="body_${p.id}">
+      <div class="detail-grid">
+
+        <div class="detail-section">
+          <div class="detail-title">👤 Cliente</div>
+          <div class="detail-row"><span class="detail-label">Nombre</span><span class="detail-val">${p.cliente?.nombre||'—'}</span></div>
+          <div class="detail-row"><span class="detail-label">Empresa</span><span class="detail-val">${p.cliente?.empresa||'—'}</span></div>
+          <div class="detail-row"><span class="detail-label">Email</span><span class="detail-val"><a href="mailto:${p.cliente?.email}">${p.cliente?.email||'—'}</a></span></div>
+          <div class="detail-row"><span class="detail-label">WhatsApp</span><span class="detail-val">${p.cliente?.whatsapp||'—'}</span></div>
+          <div class="detail-row"><span class="detail-label">Dominio</span><span class="detail-val">${dominioStr}</span></div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-title">💰 Presupuesto</div>
+          <div class="detail-row"><span class="detail-label">Template</span><span class="detail-val">${p.templateNombre}</span></div>
+          <div class="detail-row"><span class="detail-label">Precio base</span><span class="detail-val" style="color:var(--teal)">${precioBase}</span></div>
+          <div class="detail-row"><span class="detail-label">Precio final</span><span class="detail-val" style="color:var(--teal);font-weight:700">${precioFinal}</span></div>
+          <div class="detail-row"><span class="detail-label">Estado</span><span class="detail-val"><span class="estado-badge estado-${est}">${est}</span></span></div>
+          <div class="detail-row"><span class="detail-label">Pagado</span><span class="detail-val">${p.pagado ? '✅ Sí' : '❌ No'}</span></div>
+          ${p.linkPago ? `<div class="detail-row"><span class="detail-label">Link pago</span><span class="detail-val"><a href="${p.linkPago}" target="_blank">Ver link ↗</a></span></div>` : ''}
+          <div class="detail-row"><span class="detail-label">Fecha límite</span><span class="detail-val">${fechaLimite}</span></div>
+        </div>
+
+        <div class="detail-section full">
+          <div class="detail-title">📝 Proyecto</div>
+          <div class="detail-row"><span class="detail-label">Descripción</span><span class="detail-val">${p.proyecto?.descripcion||'—'}</span></div>
+          ${p.proyecto?.funciones ? `<div class="detail-row"><span class="detail-label">Funciones</span><span class="detail-val">${p.proyecto.funciones}</span></div>` : ''}
+          ${p.proyecto?.extras ? `<div class="detail-row"><span class="detail-label">Extras / Notas</span><span class="detail-val">${p.proyecto.extras}</span></div>` : ''}
+          <div class="detail-row">
+            <span class="detail-label">Colores</span>
+            <span class="detail-val">
+              <span class="color-dot" style="background:${p.proyecto?.color1||'#6c63ff'}"></span>${p.proyecto?.color1||'—'}
+              &nbsp;&nbsp;
+              <span class="color-dot" style="background:${p.proyecto?.color2||'#00d4aa'}"></span>${p.proyecto?.color2||'—'}
+              &nbsp;&nbsp;
+              <span class="color-dot" style="background:${p.proyecto?.color3||'#fff'}"></span>${p.proyecto?.color3||'—'}
+            </span>
+          </div>
+          <div class="detail-row"><span class="detail-label">Logo</span><span class="detail-val">${logoLink}</span></div>
+          <div class="detail-row"><span class="detail-label">Creado</span><span class="detail-val">${fecha}</span></div>
+          <div class="detail-row"><span class="detail-label">ID</span><span class="detail-val" style="font-size:11px;color:var(--muted)">${p.id}</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        ${whatsappNum ? `<a class="btn-whatsapp" href="https://wa.me/${whatsappNum}?text=${whatsappMsg}" target="_blank">💬 WhatsApp al cliente</a>` : ''}
+        ${actionsBtns}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ── TOGGLE ── */
+function toggleCard(id){
+  const body = document.getElementById('body_' + id);
+  const chev = document.getElementById('chev_' + id);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+/* ── ACCIONES ── */
+async function aprobarPedido(id){
+  const precio = parseFloat(document.getElementById('price_' + id)?.value);
+  const link = document.getElementById('link_' + id)?.value?.trim();
+
+  if(!precio || precio <= 0){
+    toast('⚠️ Ingresá el precio final antes de aprobar');
+    return;
+  }
+
+  try {
+    await db.ref('presupuestos_web/' + id).update({
+      estado: 'aprobado',
+      precioFinal: precio,
+      linkPago: link || null,
+      aprobadoEn: new Date().toISOString(),
+    });
+    toast('✅ Pedido aprobado! Precio: USD ' + precio);
+  } catch(e){
+    toast('❌ Error: ' + e.message);
+  }
+}
+
+async function rechazarPedido(id){
+  if(!confirm('¿Rechazar este pedido?')) return;
+  try {
+    await db.ref('presupuestos_web/' + id).update({
+      estado: 'rechazado',
+      rechazadoEn: new Date().toISOString(),
+    });
+    toast('✕ Pedido rechazado');
+  } catch(e){
+    toast('❌ Error: ' + e.message);
+  }
+}
+
+async function marcarPagado(id){
+  if(!confirm('¿Marcar este pedido como PAGADO?')) return;
+  try {
+    await db.ref('presupuestos_web/' + id).update({
+      estado: 'pagado',
+      pagado: true,
+      pagadoEn: new Date().toISOString(),
+    });
+    toast('💜 Pedido marcado como pagado!');
+  } catch(e){
+    toast('❌ Error: ' + e.message);
+  }
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ── ENTER EN LOGIN ── */
+document.getElementById('loginPass').addEventListener('keydown', e => {
+  if(e.key === 'Enter') doLogin();
+});
+</script>
+</body>
+</html>
