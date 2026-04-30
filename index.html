@@ -433,14 +433,15 @@
   /* CONTADOR DE VISITAS */
   window.addEventListener('load', function() {
     const firebaseConfig = {
-      apiKey: "AIzaSyAW1Uw51T3hOJMRO43k6HQimg7eQ4kE29o",
-      authDomain: "chatcalienteapp2.firebaseapp.com",
-      databaseURL: "https://chatcalienteapp2-default-rtdb.firebaseio.com",
-      projectId: "chatcalienteapp2",
-      storageBucket: "chatcalienteapp2.firebasestorage.app",
-      messagingSenderId: "798220681076",
-      appId: "1:798220681076:web:44847b5dca7673dd4af621"
-    };
+  apiKey: "AIzaSyBId693Vbb9YqVRYKCGe08gVzYSj60W8Bs",
+  authDomain: "joepedev-f13c0.firebaseapp.com",
+  databaseURL: "https://joepedev-f13c0-default-rtdb.firebaseio.com",
+  projectId: "joepedev-f13c0",
+  storageBucket: "joepedev-f13c0.firebasestorage.app",
+  messagingSenderId: "713399681632",
+  appId: "1:713399681632:web:652e36c0f5c0c68a2bf905",
+  measurementId: "G-XS1CDVVL4H"
+};
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db  = firebase.database();
     const ref = db.ref('visitas_web');
