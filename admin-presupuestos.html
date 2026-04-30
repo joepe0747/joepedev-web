@@ -155,28 +155,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;ali
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 <script>
 /* ── CONFIG ── */
-const ADMIN_PASS = 'gen2025$JOEPEDEV';  // ← Cambiá esto por tu contraseña real
-const WHATSAPP_ME = '5491126410070';  // ← Tu número con código de país, sin +
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBId693Vbb9YqVRYKCGe08gVzYSj60W8Bs",
-  authDomain: "joepedev-f13c0.firebaseapp.com",
-  databaseURL: "https://joepedev-f13c0-default-rtdb.firebaseio.com",
-  projectId: "joepedev-f13c0",
-  storageBucket: "joepedev-f13c0.firebasestorage.app",
-  messagingSenderId: "713399681632",
-  appId: "1:713399681632:web:652e36c0f5c0c68a2bf905",
-  measurementId: "G-XS1CDVVL4H"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const ADMIN_PASS = 'gen2025$JOEPEDEV';
+const WHATSAPP_ME = '5491126410070';
+const DB_URL = 'https://joepedev-f13c0-default-rtdb.firebaseio.com';
 
 /* ── LOGIN ── */
 function doLogin(){
@@ -209,13 +192,24 @@ function setSearch(v){
 }
 
 /* ── INIT ── */
-function initAdmin(){
-  db.ref('presupuestos_web').on('value', snap => {
-    const data = snap.val() || {};
-    allPedidos = Object.values(data).sort((a,b) => new Date(b.creadoEn) - new Date(a.creadoEn));
+async function initAdmin(){
+  await loadPedidos();
+  // Poll every 15 seconds for new data
+  setInterval(loadPedidos, 15000);
+}
+
+async function loadPedidos(){
+  try {
+    const res = await fetch(DB_URL + '/presupuestos_web.json');
+    const data = await res.json() || {};
+    // Convert object to array, attaching the Firebase key as .id
+    allPedidos = Object.entries(data).map(([key, val]) => ({...val, id: key}))
+      .sort((a,b) => new Date(b.creadoEn) - new Date(a.creadoEn));
     updateStats();
     renderList();
-  });
+  } catch(e){
+    console.error('Error loading pedidos:', e);
+  }
 }
 
 function updateStats(){
@@ -352,6 +346,16 @@ function toggleCard(id){
 }
 
 /* ── ACCIONES ── */
+async function patchPedido(id, data){
+  const res = await fetch(DB_URL + '/presupuestos_web/' + id + '.json', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if(!res.ok) throw new Error('HTTP ' + res.status);
+  await loadPedidos();
+}
+
 async function aprobarPedido(id){
   const precio = parseFloat(document.getElementById('price_' + id)?.value);
   const link = document.getElementById('link_' + id)?.value?.trim();
@@ -362,7 +366,7 @@ async function aprobarPedido(id){
   }
 
   try {
-    await db.ref('presupuestos_web/' + id).update({
+    await patchPedido(id, {
       estado: 'aprobado',
       precioFinal: precio,
       linkPago: link || null,
@@ -377,7 +381,7 @@ async function aprobarPedido(id){
 async function rechazarPedido(id){
   if(!confirm('¿Rechazar este pedido?')) return;
   try {
-    await db.ref('presupuestos_web/' + id).update({
+    await patchPedido(id, {
       estado: 'rechazado',
       rechazadoEn: new Date().toISOString(),
     });
@@ -390,7 +394,7 @@ async function rechazarPedido(id){
 async function marcarPagado(id){
   if(!confirm('¿Marcar este pedido como PAGADO?')) return;
   try {
-    await db.ref('presupuestos_web/' + id).update({
+    await patchPedido(id, {
       estado: 'pagado',
       pagado: true,
       pagadoEn: new Date().toISOString(),
